@@ -1,0 +1,362 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+% Margins
+\usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
+
+
+\title{MA1102R Pointers}
+\author{Jia Cheng}
+\date{September 2020}
+
+\begin{document}
+
+\maketitle
+
+\section{Definitions and Formula}
+\begin{align*}
+    \mathbb{N}=\{1,2,3,\dots\}
+\end{align*}
+\begin{align*}
+    \sum_{i=1}^nk^2=\frac{n(n+1)(2n+1)}{6}\\
+    \sum_{i=1}^nk^3=\frac{n^2(n+1)^2}{4}
+\end{align*}
+
+\section{Chapter 1}
+\subsection{Prove non-existence of quotient limits}
+Tutorial 1 Q4e.
+
+Evaluate the limit $\lim_{x\rightarrow -1}\frac{x^2-4x}{x^2-3x-4}$ if it exists.
+
+We first make the observation that $\lim_{x\rightarrow -1}x^2-3x-4=0$. There is no need to expand out factors here. Simply check that $\lim_{x\rightarrow -1}x^2-4x\neq 0$. This tells us the the limit $\lim_{x\rightarrow -1}\frac{x^2-4x}{x^2-3x-4}$ cannot exist.
+
+Otherwise, we would have $\lim_{x\rightarrow -1}x^2-4x=\lim_{x\rightarrow -1}\frac{x^2-4x}{x^2-3x-4}\lim_{x\rightarrow -1}x^2-3x-4=0$, which is a contradiction.\\
+
+\subsection{When we need to prove the biconditional}
+Sometimes, when we obtain values for unknowns, we have only gone in the forward direction, logically speaking. When we need to substitute back in the original expression to check the correctness of our values obtained depends on the question's phrasing.
+
+Tutorial 1 Q6.
+
+Is there a value $a$ such that $$\lim_{x\rightarrow 1}\frac{ax^2+a^2x-2}{x^3-3x+2}$$ exists? If so, find the value of $a$ and the value of the limit.
+
+Here, the question has not claimed that a value for $a$ exists. Hence, when we find candidate values for $a$, if we did not establish a biconditional, then we still need to substitute the values of $a$ back into the original expression to check if the limit indeed exists.
+\\
+
+Tutorial 3 Q7.
+
+Let 
+$$f(x)=
+\begin{cases}
+x^2  &\text{if }x\leq 2\\
+mx+b &\text{if }x>2\\
+\end{cases}
+$$
+Find the values of $m$ and $b$ that make $f$ differentiable everywhere.
+
+Here, it is already claimed that such values for $m$ and $b$ exists. So, if we go in the forward direction and only find 1 candidate pair of $m$ and $b$, then we know this pair must be what we are looking for.\\
+
+\section{Chapter 2}
+\subsection{Choosing $\delta$ and $N$ that fits to function domain}
+Tutorial 2 Q3d.
+
+Prove $\lim_{x\rightarrow 1}\frac{2x^2+3x-2}{x+2}=1$.
+
+Notice that $x\neq -2$. Hence when choosing a $\delta$, we must ensure that $-2\notin (1-\delta, 1+\delta)$, i.e., $-2\leq 1-\delta \lor 1+\delta \leq -2$. Clearly the right condition cannot be met, so $-2\leq 1-\delta \implies \delta \leq 3$.
+\\
+
+Tutorial 2 Q6b.
+
+Show using the limit definition that $\lim_{x\rightarrow  \infty}\frac{x}{2x+1}=\frac{1}{2}$.
+
+Fix some $\epsilon>0$. We want to find a suitable $N$ such that $\forall n>N,\, \mid \frac{x}{2x+1}-\frac{1}{2}\mid<\epsilon$.\\
+We must first realise the domain of $\frac{x}{2x+1}$ excludes $-\frac{1}{2}$, hence when choosing $N$, to be safe, we first restrict $N>-\frac{1}{2}$.
+
+\subsection{Multiplicative limits}
+When we want to do proving of limits of the kind $f(x)g(x)$, we must keep in mind when $f(x)$ or $g(x)$ is positive or negative.
+
+Basic Rules:
+1. If $a>0$, then $b_1<b_2 \implies ab_1<ab_2$\\
+2. If $a<0$, then $b_1<b_2 \implies ab_1>ab_2$\\
+
+In the case where $\lim_{x\rightarrow a}f(x)=\infty$, we can first restrict $\delta$ such that $f(x)>0$. This will make proving the limit of $f(x)g(x)$ more straightforward.
+
+In the opposite case where $\lim_{x\rightarrow a}f(x)=-\infty$, we can then restrict $\delta$ such that $f(x)<0$.
+
+\section{Chapter 3}
+\subsection{Use of squeeze theorem in piecewise functions}
+Tutorial 3 Q2c.
+
+$$f(x)=
+\begin{cases}
+x &\text{if }x\in \mathbb{Q}\\
+1 &\text{if }x\notin \mathbb{Q}
+\end{cases}
+$$
+
+While we can prove that $f$ is continuous at $x=1$ using $\epsilon-\delta$, we can also use the squeeze theorem.
+For $1<x$, we have $1\leq f(x)\leq x$.\\
+For $x<1$, we have $x\leq f(x)\leq 1$.\\
+Since $\lim_{x\rightarrow 1^+}1=\lim_{x\rightarrow 1^+}x=1$, we must have $\lim_{x\rightarrow 1^+}f(x)=1$.\\
+Since $\lim_{x\rightarrow 1^-}x=\lim_{x\rightarrow 1^-}1=1$, we must have $\lim_{x\rightarrow 1^-}f(x)=1$.\\
+Hence $\lim_{x\rightarrow 1}f(x)=1$.
+
+\section{Chapter 5}
+\subsection{Strategies for Inequalities}
+\subsubsection{Choosing the right function}
+Lecture Slide 46.
+
+Show for all positive $x\neq 1$, $2\sqrt{x}>3-\frac{1}{x}$.
+
+In this case, simply shifting all terms to the left, giving $f(x)=2\sqrt{x}-3+\frac{1}{x}$ would give a function whose derivative is easy to analyze.\\
+
+Lecture Slide 47.
+
+Show that for all $x\in(0,\frac{\pi}{2})$, $\pi \sin x>2x$.
+
+In this case, if we were to simply subtract x over to the left, the resulting function is actually not easy to analyse. Hence instead of subtraction, we multiply. And get $f(x)=\frac{\sin x}{x}$
+
+\subsubsection{Factorisation}
+Lecture Slide 48.
+
+Show that for all $x\in (0,\frac{\pi}{2})$, $\tan x+2\sin x>3x$.
+
+The function we get from subtracting over is $f(x)=\tan x+2\sin x-3x$ and the resulting derivative is $f'(x)=\frac{1+2\cos^3x-3\cos^2x}{\cos^2x}$.\\
+Whenever we seeing polynomials, we can try to see if they can be factorised. For polynomials of degree 2 and 3, this can be checked easily by substituting $y=\cos x$ and rewriting $1-2y^3-3y^2$. This expression can be inputted into the calculator's eqn solver mode and we can check to see if real roots exist.
+
+\subsection{First Derivative Test}
+The first deriv test is a consequence of the increasing/decreasing test, which is a consequence of the mean value theorem.
+To apply the mean value theorem on a closed interval, we require continuity at the ends of the interval (so that the extreme value theorem applies).\\
+This is why applying first deriv test on $f(c)$ on an interval $I$ containing $c$ \textbf{requires continuity of $f$ at $x=c$} in addition to differentiability of $f$ on $I$, except possibly at $c$.
+
+\subsection{Second derivative test}
+The second derivative test \textbf{only} requires 2-times differentiability at the point $x=c$. This is because we only need to know that the limit $\lim_{x\rightarrow c}\frac{f'(x)-f(c)}{x-c}$ is greater than or smaller than 0, and this limit will tell us about the nature of $f'$ in the neighborhood of $x=c$. 
+
+\subsection{Terminology}
+\subsubsection{Critical point}
+Let a function f be continuous on a closed interval $[a,b]$. Then critical points consist of all $x\in (a,b)$ where either $f'(x)=0$ or $f$ is not differentiable at $x$.
+\subsubsection{Stationary point}
+A stationary point of a function $f$ is a point where $f$ is differentiable and $f'(x)=0$. Note that a stationary point \textbf{might} be a local maxima or local minima, but it can be neither.
+
+\subsubsection{Inflection point}
+Inflection point lies between a change in concavity. i.e. The concavity must be different on both sides.
+
+\subsection{Tests}
+A remark on the various derivative tests.\\
+The first derivative test on $f(x)$ is essentially applying the increasing/decreasing test on both sides of a point $c$, i.e. $(c-\delta,c]$ and $[c, c+\delta)$.\\
+The concavity test on $f'(x)$ is essentially applying the increasing/decreasing test on an interval $I$.
+
+We should also note that while the 2nd derivative test and the concavity test both involve evaluating the 2nd derivative of $f$, their purpose and conditions are different.\\
+The 2nd derivative test is used to find $f''(x)$ at the \textbf{points} where $f'(x)=0$. If $f''(x)\neq 0$ there, it tells us about the behavior of the first derivative in the neighborhood.\\
+The concavity test evaluates $f''$ over \textbf{intervals}. As mentioned above, it is essentially applying the first derivative test on $f'$.
+
+\subsection{Is this the First Derivative Test?}
+Examine this theorem, and see how the initial conditions are different (in fact weaker) than the first derivative test.
+
+\textbf{Theorem:} Suppose $f$ is decreasing in a non-empty interval $(a,c)$ and increasing in a non-empty interval $(c,b)$, and that $f$ is continuous at $x=c$. If $f'(c)$ exists, then $f'(c)=0$.
+
+Why this differs from the first derivative test: If the initial condition was that $f'(x)<0$ on $(a,c)$, then by Mean Value Theorem, we know that $f$ is decreasing on $(a,c]$. Similarly, if $f'(x)>0$ on $(c,b)$, then $f$ is increasing on $[c,b)$.\\
+Notice that in this case, $c$ lies within both half-open intervals, so we know a bit more information here.
+
+\textbf{Proof:} Using the continuity of $f$ at $x=c$, we can in fact prove that $f$ is decreasing on $(a,c]$ and increasing on $[c,b)$.\\
+Let $z\in (a,c)$. Then as $f$ is decreasing on $(a,c)$, $\forall x\in (z,c), f(z)\geq f(x)$. Hence $f(z)\geq \lim_{x\rightarrow c}f(x)=f(c)$. This says that $f(c)\leq f(z)\, \forall z\in (a,c)$.\\
+Similarly, we can show that $f(c)\leq f(z)\, \forall z\in (c,b)$.\\
+Hence $f$ is decreasing on $(a,c]$ and increasing on $[c,b)$ and $f$ has a local minimum at $x=c$. This says that $f'(c)=0$ by Fermat's Theorem.
+
+\subsection{Optimisation problems}
+There are generally 2 situations when we want to optimise a value y = y(x).
+\subsubsection{Closed interval possible}
+The first case is much easier. Suppose x is bounded by some inequality $a\leq x\leq b$, and $y(a),y(b)$ are defined. Then in this case, we can use the closed interval method. i.e. find the endpoints, and check the critical values (stationary points where $y'(x)=0$ and possibly non-differentiable points).
+
+\subsubsection{Closed interval not possible}
+The second case is more troublesome. This may be the case if either of $y'(a),y'(b)$ is undefined, or if $x$ is unbounded. Then we need to do the increasing/decreasing test (using first derivative) to find global extrema.
+
+\subsubsection{Read the problem!}
+This is not so much about understanding the intricacies of calculus, but about not making careless mistakes when working out problem sums of this type.
+
+Be clear about what we are trying to find. Is it the \textbf{maxima} or the \textbf{minima}?
+
+Tutorial 6 Q4.
+
+Using the closed interval method on $[0,\frac{\pi}{2}]$, we arrive the following values:
+\begin{align*}
+    &\text{End points: }T(0)=2,\, T(\frac{\pi}{2})=\frac{\pi}{2}\\
+    &\text{Critical points: } T(\frac{\pi}{3})=\sqrt{3}+\frac{\pi}{6}
+\end{align*}
+Here, the question is asking for the minimum time! So the correct answer is global minimum $T(\frac{\pi}{2})=\frac{\pi}{2}$.
+The lesson to learn here is that the extrema expected by the question is not always in the interior of an interval. It can lie on the endpoints of a closed interval as well.
+
+Tutorial 6 Q7.
+
+We want to find the maximum length of pipe that can be carried around the corner such that it doesn't get stuck.\\
+A succinct way of expressing this idea is that $l\leq L(\theta)\, \forall \theta \in(0,\frac{\pi}{2})$, where $l$ is the length of the pipe and $L$ is the function describing the longest pipe that can fit at an angle at the corner.\\
+Hence, $l\leq \min\{L(\theta)\mid \theta \in (0,\frac{\pi}{2})\}$. So while we want to find the maximum length $l$ of the pipe that can fit at all angles, what we actually need to find is the global minimum of the $L$ function.
+
+
+\section{Chapter 6}
+\subsection{Lecture results}
+A commentary on some lemmas provided in lecture.
+\subsubsection{Fundamental Theorem of Calculus}
+The "part 2" of FTC shown in lecture slides is actually not the true part 2 of FTC. It is in fact a corollary of FTC Part 1, see Wikipedia.
+
+The true part 2 of FTC does not assume that the function to be integrated is continuous. Instead, only Riemann integrability is assumed.
+
+
+\subsection{Tutorial 7 Part 2 Q2}
+Two techniques are demonstrated here.\\
+First, the geometric mean is used as the tags, i.e.
+\begin{align*}
+    x_i^*=\sqrt{x_{i-1}x_i},\, x_i^*\in [x_{i-1}, x_i]
+\end{align*}
+Second, partial fractions.
+\begin{align*}
+    \frac{\Delta x}{x_ix_{i-1}}=\frac{1}{x_{i-1}}-\frac{1}{x_i}
+\end{align*}
+
+\section{Chapter 7}
+\subsection{Inverse functions}
+\subsubsection{Differentiability proof}
+A comment on the limit substitution.
+We have $y=f(x)$ and $x=f^{-1}(y)$.
+Then the intermediate limit substitution can be interpreted like this:
+\begin{align*}
+    \lim_{x\rightarrow a}\frac{x-a}{f(x)-f(a)} &= \lim_{y\rightarrow b}\frac{f^{-1}(y) - a}{f(f^{-1}(y))-f(a)} &&\text{by limit substitution} \\
+    &= \lim_{y\rightarrow b}\frac{x-a}{f(x)-f(a)} &&\text{by variable substitution}
+\end{align*}
+
+\subsection{Archimedean property of $\mathbb{R}$}
+In lecture, we need to show that there exists some real number $r$ such that 
+\begin{align*}
+    0 = \ln 1 < 1 < \ln r
+\end{align*}
+in order to use intermediate value theorem to show the existence of some element $e\in \mathbb{R}$ such that $\ln e=1$. Of course, we can also prove that the $\lim_{x\rightarrow \infty}\ln x=\infty$ and $\lim_{x\rightarrow -\infty}\ln x=-\infty$, then apply intermediate value theorem to $\ln[-M, M]$, where $M>1$, but the proof for this is much longer.
+
+Instead, the lecture implicitly uses the Archimedean property of $\mathbb{R}$, stating that there exists some $c\in \mathbb{N}\subseteq \mathbb{Q}$ such that $c>\frac{1}{\ln 2}$. Note that $\ln 2 > \ln 1=0$ as $\ln$ is strictly increasing, hence division by $\ln 2$ is mathematically valid. \\
+This then implies that $\ln r = \ln 2^c = c\ln 2>1$, where $r=2^c$, and we are done.
+
+
+
+\section{Chapter 8}
+\subsection{Inverse substitution rule}
+I did not find the explanation given in the lecture sufficiently rigorous/complete. This is my addition to understanding why this rule is mathematically correct.
+
+First, a statement of the \textbf{substitution rule}.
+Suppose $g$ is differentiable and the range of $g$ is an interval $I$. Suppose $f$ is continuous in the range of $g$, and $g'$ is also continuous.
+Then 
+\begin{align*}
+    \int f(g(x))g'(x) dx=\int f(u) du
+\end{align*}.
+
+This is a consequence of the chain rule.
+So why do we use the substitution rule? \\Since $f(g(x))g'(x)$ is continuous on the domain of $x$, we know that the definite integral exists (on the interval where $x$ belongs). Since the definite integral exists, we can define a function whose derivative is $f(g(x))g'(x)$ (Fundamental theorem of calculus, part one, corollary). In other words, an antiderivative exists. However, just because we know the existence of the antiderivative, doesn't always mean we can easily find it.\\
+Hence what the substitution rule tells us is that, if we can find the antiderivative of the RHS(right hand side), i.e. 
+\begin{align*}
+    F(x) + C = \int f(x) dx
+\end{align*}
+for some function $F$, then we know that $F(g(x))$ will be an antiderivative of $f(g(x))g'(x)$.
+
+
+Now, stating the \textbf{inverse substitution rule}:
+Let $f$ be continuous on the domain of $x$. Suppose $x=g(t)$ is 1-1, and $g'$ is continuous. Then 
+\begin{align*}
+    \int f(x)dx = \int f(g(t))g'(t)dt
+\end{align*}
+
+Proof:
+We are given that there exists a function $g$ for which $x=g(t)$. Now consider the expression
+\begin{align*}
+    \int f(g(t))g'(t)dt
+\end{align*}
+. Clearly, this fits the criteria of the substitution rule, hence we can apply the substitution rule and obtain
+\begin{align*}
+    \int f(g(t))g'(t)dt = \int f(x)dx
+\end{align*}
+Note that this is true even if $g$ is not 1-1, since we are merely applying the substitution rule here. However, the reason we want to do an inverse substitution is because we can't easily find the antiderivative $\int f(x)dx$. Instead, it is easier to find the antiderivative  $\int f(g(t))g'(t)dt$.\\
+Now, suppose we do find a function $h$ such that 
+\begin{align*}
+    h(t) + C = \int f(g(t))g'(t)dt = \int f(x)dx
+\end{align*}
+. We also know that there exists a function $h_1$ such that 
+\begin{align*}
+    h_1(x) + C = \int f(x)dx
+\end{align*}
+Note that for convenience, we set the 2 $C$ constants to be the same. Also note that \textbf{we know the precise expression} for $h(t)$, but $h_1(x)$ is merely theoretical (i.e. we only know that $h_1$ exists).
+By transitivity of $=$, we now write
+\begin{align*}
+    h(t)&=h_1(x) &&\text{cancelling the constants $C$}\\
+    h(t)&=h_1(g(t))\\
+    h(g^{-1}(x))&=h_1(g(g^{-1}(x)))=h_1(x) &&\text{since $g$ is 1-1}\\
+    h_1(x) &= h(g^{-1}(x))
+\end{align*}
+So now we have a precise expression for $h_1$ in terms of the variable $x$. Remember that while $h(t)=h_1(x)$, $h$ is a function of $t$ and we want a function of $x$, since our original goal is to find the antiderivative $\int f(x)dx$.\\
+This completes the proof.
+
+\subsection{Differential forms}
+The substitution rule says that \begin{align*}
+    \int f(u)\frac{du}{dx} dx=\int f(u) du
+\end{align*}.
+If we only examine the back part of the equality, we get $\frac{du}{dx}dx=du$. This "equality" allows us to manipulate $du,dx$ as differential forms.
+
+\subsection{Universal trig substitution}
+\subsubsection{Formula}
+\begin{align*}
+    u&=\text{tan}(x/2)\\
+    \text{sin}x&=\frac{2u}{1+u^2} \\
+    \text{cos}x&=\frac{1-u^2}{1+u^2} \\
+    \text{tan}x&=\frac{2u}{1-u^2} \\
+    dx&=\frac{2du}{1+u^2}
+\end{align*}
+
+\subsubsection{Periodic functions}
+In lecture, it is proven via t-substitution that 
+\begin{align*}
+    \int \sec x\, dx=\ln \mid \sec x+\tan x \mid + C \quad \forall x\in (-\pi,\pi)\setminus \{-\frac{\pi}{2},\frac{\pi}{2}\}
+\end{align*}
+How do we extend to the entire domain of $\sec x$?
+
+In general, suppose 
+\begin{align*}
+    \int f(x)\, dx=g(x)+C \quad \forall x\in (a,b)
+\end{align*}
+and that both of $f,g$ have a period of $k$.
+Then 
+\begin{align*}
+    \int f(x+k)\, dx&=\int f(x)\, dx \\
+    &=g(x)+C\\
+    &=g(x+k)+C\quad \forall x\in (a,b)
+\end{align*}
+
+Using this lemma, we can now claim that \begin{align*}
+    \int \sec x\, dx=\ln \mid \sec x+\tan x \mid + C \quad \forall x\in \mathbb{R}\setminus \{\frac{\pi}{2} +k\pi,k\pi \mid k\in \mathbb{Z}\}
+\end{align*}
+But $\sec x$ is defined on $\{k\pi \mid k\in \mathbb{Z}\}$. We can use continuity to show that the antiderivative applies at these points as well.\\
+Suppose we have functions $F,f$, and $F'(x)=f(x)$ for all $x\in \text{interval } I\setminus \{a\}$. Suppose $a$ is an interior point of $I$. Then,
+\begin{align*}
+    F'(a)&=\lim_{x\rightarrow a}F'(x)\\
+    &=f(x)\\
+    &=f(a)
+\end{align*} by continuity of $f$ at $x=a$.
+
+Hence, 
+\begin{align*}
+    \int \sec x\, dx=\ln \mid \sec x+\tan x \mid + C \quad \forall x\in \mathbb{R}\setminus \{\frac{\pi}{2} +k\pi \mid k\in \mathbb{Z}\}
+\end{align*}
+, which is precisely the domain of $\sec$.
+
+\subsection{Recursive formula}
+\begin{align*}
+    &\text{Let } C_n=\int \cos^nx\, dx\\
+    &\text{Then } nC_n=\cos^{n-1}x\sin x+(n-1)C_{n-2}\\
+    \\
+    &\text{Let } S_n=\int \sin^nx\, dx\\
+    &\text{Then } nS_n=-\sin^{n-1}x\cos x+(n-1)S_{n-2}
+\end{align*}
+
+
+\section{Chapter 9}
+\end{document}

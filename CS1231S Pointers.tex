@@ -1,0 +1,389 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+% Margins
+\usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
+
+
+\title{CS1231S Pointers}
+\author{Jia Cheng}
+\date{September 2020}
+
+\begin{document}
+\maketitle
+
+\section{Definitions and Useful tidbits}
+\begin{align*}
+    &\mathbb{N} = \{0,1,2,\dots\}\\
+    \text{Primes from 1-100 }: &2, 3, 5, 7, 11, 13, 17, 19, 23, 29, \\
+    &31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 
+\end{align*}
+
+\section{Predicate Logic}
+\subsection{Use of words}
+Remember to use \textbf{universal} modus ponens (as well as other argument forms) instead of modus ponens when necessary.
+
+\subsection{Uniqueness quantification}
+\begin{align}
+    &\exists! x\, P(x)\\
+    &\exists x(P(x)\land \sim \exists y(P(y)\land y\neq x))\\
+    &\exists x(P(x)\land \forall y(P(y)\rightarrow y=x))\\
+    &\exists x\, P(x)\land \forall y\forall z(P(y)\land P(z)\rightarrow y=z)\\
+    &\exists x\forall y(P(y)\leftrightarrow y=x)
+\end{align}
+Equation (4) is important because it splits the uniqueness quantification into 2 parts, existence and uniqueness.
+
+\textbf{CS1231S 2018 Midterms Q16c}
+
+Write a logical statement to mean “a cell cannot contain two digits”.
+
+A subtlety here is that we are only required to state uniqueness, not existence. This is where equation (4) above becomes useful.
+
+\subsection{Identities}
+See Wikipedia: First-order logic - Provable identities\\
+Also see prenex normal form
+\begin{align*}
+    &&\text{Negation}\\
+    \sim \forall x\, P(x)&\equiv \exists x\, \sim P(x)\\
+    \sim \exists x\, P(x)&\equiv \forall x\, \sim P(x)\\
+    &&\text{Change of order}\\
+    \forall x\forall y\, P(x, y)&\equiv \forall y\forall x\, P(x, y)\\
+    \exists x\exists y\, P(x, y)&\equiv \exists y\exists x\, P(x, y)\\
+    &&\text{Distributivity}\\
+    \forall x\, (P(x)\land Q(x))&\equiv \forall x\, P(x)\land \forall y\, Q(y)\\
+    \exists x\, (P(x)\lor Q(x))&\equiv \exists x\, P(x) \lor \exists y\, Q(y)\\
+    &&\text{Conjuction and disjunction}\\
+    P\land \exists x\, Q(x)&\equiv \exists x\, (P\land Q(x))\\
+    P\lor \forall x\, Q(x)&\equiv \forall x\, (P\lor Q(x))\\
+    &&\text{Conjunction and disjuncion}\\
+    &&\text{with additional condition that domain of x is non-empty}\\
+    P\land \forall x\, Q(x)&\equiv \forall x\, (P\land Q(x))\\
+    P\lor \exists x\, Q(x)&\equiv \exists x\, (P\lor Q(x))\\
+\end{align*}
+
+\section{Sets}
+\subsection{Set difference law}
+We know that $A-B=A\cap \overline{B}$.
+Then
+\begin{align*}
+    A\cap B&=A\cap \overline{\overline{B}} &&\text{Double complement law}\\
+    &=A-\overline{B} &&\text{Set difference law}
+\end{align*}
+
+\section{Functions}
+\subsection{Definitions}
+\subsubsection{Function equality}
+\begin{align*}
+    &\text{Suppose } f:A\rightarrow B \text{ and } g:C\rightarrow D\\
+    &\text{Then } f=g\Longleftrightarrow (A=C)\land (B=D)\land (\forall x\in A,\, f\left(x\right)=g\left(x\right))
+\end{align*}
+
+\subsubsection{Function composition}
+Let $f: A\rightarrow B$ and $g: C\rightarrow D$.\\
+For $g\circ f$ to be well-defined, we must have $B=C$.
+i.e. codomain of $f$ = domain of $g$.
+
+\subsubsection{Bijectivity}
+\begin{align*}
+    &\text{Suppose }f:A\rightarrow B\text{ is a bijection}\\
+    &\text{Then, }\forall y\in B,\exists!x\in A,\left(y=f\left(x\right)\right)
+\end{align*}
+
+\subsection{Floors and Ceilings}
+\begin{align*}
+    &n\leq x\iff n\leq \floor{x}\\
+    &n<x\iff n<\ceil{x}\\
+    &x\leq n\iff \ceil{x}\leq n\\
+    &x<n \iff \floor{x}<n
+\end{align*}
+The proof of the above is based on the below property of floor and ceiling, that is,
+\begin{align*}
+    &\floor{x}=\max \{k\in \mathbb{Z}\mid k\leq x\}\\
+    &\ceil{x}=\min \{k\in \mathbb{Z}\mid k\geq x\}
+\end{align*}
+
+As we have already proven the existence and uniqueness of $\floor{x}$, where $\floor{x}\leq x<\floor{x}+1$, we can easily use this inequality to show that if there exists $y\in \mathbb{Z}$ such that $\floor{x}<y$, then $x<\floor{x}+1\leq y$. This shows the maximality of $\floor{x}$ in the set $\{k\in \mathbb{Z}\mid k\leq x\}$.
+
+\subsection{Other Lemmas}
+
+1. For all sets $A,B$, functions $f: A\rightarrow B$, and $X,X'\subseteq A$, we have $f(X\cup X')=f(X)\cup f(X')$.
+
+Proof:\\
+Suppose $y\in f(X\cup X')$. \\Then $y=f(x)$ for some $x\in X\lor x\in X'$. \\
+If $x\in X$, then $y=f(x)\in f(X)$. \\If $x\in X'$, then $y=f(x)\in f(X')$. \\ Hence $y=f(x)\in f(X)\cup f(X').$\\
+Hence $f(X\cup X')\cup f(X)\cup f(X')$.
+
+Suppose $y\in f(X)\cup f(X')$. \\Then $y\in f(X)\lor y\in f(X')$. Let $y=f(x)$ for some $x\in A$.\\
+If $y\in f(X)$, then $x\in X$.\\
+If $y\in f(X')$, then $x\in X'$. \\Either way, $x\in X\cup X'$. \\Hence $y=f(x)\in f(X\cup X')$. \\Hence $f(X)\cup f(X')\subseteq f(X\cup X')$.\\
+
+
+2. For all sets $A,B$, \textbf{injective} functions $f: A\rightarrow B$, and $X,X'\subseteq A$, we have $f(X\cap X')=f(X)\cap f(X')$.
+
+Proof: \\
+Suppose $y\in f(X\cap X')$. \\Then $y=f(x)$ for some $x\in X\cap X'$. \\Then $x\in X\land x\in X'$.\\
+Then $y=f(x)\in f(X)\land y=f(x)\in f(X')$.\\
+Hence $y\in f(X)\cap f(X')$.\\
+Hence $f(X\cap X')\subseteq f(X)\cap f(X')$.
+
+Suppose $y\in f(X)\cap f(X')$. \\Then $y=f(x_1)$ for some $x_1\in X$ and $y=f(x_2)$ for some $x_2\in X'$.\\ By injectivity of $f$, we know that $x_1=x_2=x$ for some $x\in X\cap X'$.\\
+Hence $y=f(x)\in f(X\cap X')$.\\
+Hence $f(X)\cap f(X')\subseteq f(X\cap X')$.
+
+3. For all functions $f:A\rightarrow B$, $X\subseteq A,\, Y\subseteq B$, we have:
+\begin{align*}
+    &X\subseteq f^{-1}(f(X))\\
+    &f(f^{-1}(Y))\subseteq Y
+\end{align*}
+If $f$ is injective, then we also have $f^{-1}(f(X))\subseteq X$, and as a consequence, $X = f^{-1}(f(X))$.\\
+If $f$ is surjective, then we also have $Y\subseteq f(f^{-1}(Y))$, and as a consequence, $f(f^{-1}(Y)) = Y$.
+
+\subsection{Mistakes}
+\textbf{Midterm 2019 Q9}
+
+For all functions $f: \mathbb{R}\rightarrow \mathbb{R}$, $f$ is surjective if and only if $f^{-1}(X)\neq \emptyset$ for all $X\in \mathcal{P}(\mathbb{R})$.
+
+While this seems to be correct, note that the empty set $\emptyset \in \mathcal{P}(\mathbb{R})$, and we would obviously have $f(\emptyset)=\emptyset$.
+
+\section{Mathematical induction}
+\subsection{Strong induction}
+Prove property $P(n)$ for $n\in \mathbb{Z}_{\geq m}$
+
+Base cases: $P(m),P(m+1),\dots,P(m+\lambda)$
+
+2 ways to write induction hypothesis\\
+Suppose $P(m),\dots,P(k+\lambda)$ for some $k\in \mathbb{Z}_{\geq m}$. Then we wish to prove $P(k+\lambda+1)$ true.\\
+Suppose $P(m),\dots,P(k)$ for some $k\in \mathbb{Z}_{\geq m+\lambda}$. Then we wish to prove $P(k+1)$ true..
+
+\subsection{Well ordering principle}
+1. Extend the well ordering principle to any lower-bounded set of integers.
+
+Let $S$ be a non-empty set of integers bounded below by $\alpha$, i.e. $\alpha\leq x\forall x\in S$.
+Define the cartesian sum of 2 sets $S_1,S_2$ as $S_1+S_2=\{x+y\mid x\in S_1,\, y\in S_2\}$.\\
+Consider $S-\alpha=S+\{-\alpha \}=\{x-\alpha  \mid x\in S\}$. Then it is clear that $S-\alpha \subseteq \mathbb{Z}_{\geq 0}$ and that this set is non-empty.\\
+By the well-ordering principle, there exists some element $y_0\in S-\alpha$ such that $y_0\leq y\forall y\in S-\alpha$. By definition of $S-\alpha$, $y_0=x_0-\alpha$ for some $x_0\in S$. We claim that this $x_0$ is the minimal element of $S$.\\
+To prove this, suppose $x$ is any element of $S$. Then $x-\alpha \in S-\alpha$, hence $x_0-\alpha \leq x-\alpha$, which implies $x_0\leq x$. And we are done.
+
+2. A symmetrical statement of the well-ordering principle. An upper bounded set of integers has a maximal element.
+
+3. Using 1 and 2, we have the following theorem: For any set of integers bounded from both sides, there exists a minimum and maximum element.
+
+We will the above to prove the following statement: For any positive integer $x$, there exists $\lambda \in \mathbb{Z}_{\geq 0}$ such that $2^\lambda \leq x\leq 2^{\lambda+1}$.\\
+Let $S_1=\{\lambda \in \mathbb{Z}_{\geq 0} \mid 2^\lambda \leq x\},S_2=\{\lambda \in \mathbb{Z}_{\geq 0} \mid 2^\lambda > x\}$.\\
+It is trivial to see that $2^0\leq x \leq 2^x$. This implies that $S_1$ is bounded above by $x$ and $S_2$ is bounded below by 0.\\
+Hence there exists a maximal element $\lambda_1\in S_1$ and a minimal element $\lambda_2\in S_2$. And we have $2^{\lambda_1}\leq x < 2^{\lambda_2}$. It now suffices to show that $\lambda_2=\lambda_1+1$.\\
+This can be easily proven by contradiction. Suppose not, then $\lambda_2\geq \lambda_1+2$. Let $\lambda_3=\lambda_1+1$. We must either have $2^{\lambda_3}\leq x$ or $x<2^{\lambda_3}$. In the first case, this contradicts the claim that $\lambda_1$ is the maximal element of $S_1$. In the second case, this contradicts the claim that $\lambda_2$ is the minimal element of $S_2$.
+
+Now, we axiomatise the rational numbers as an ordered field. We now refer to the set of rationals as $\mathbb{Q}$.
+
+4. Prove that the floor relation is a well defined function for any $\frac{p}{q}\in \mathbb{Q}$. This can be thought of as the archimedean property for rationals.\\
+Proof outline:\\
+i. Prove that each rational number $\frac{p}{q}$ is bounded above and below by \textbf{integers}. For e.g. $\frac{\mid p\mid}{\mid q\mid}<\mid p\mid+1$
+ii. Use well ordering principle as above, arrive at the desired conclusion.
+
+5. How about the real numbers? With our axiomatic understanding that $\mathbb{Q}$ is an ordered field, we proceed to construct the real numbers $R$ with Dedekind cuts. With this construction, we \textbf{prove} that $R$ is an ordered field and obeys the axiomatic properties of an ordered field as well. Now, we refer to the sets of real numbers as $\mathbb{R}$.
+
+6. Dedekind's construction of $\mathbb{R}$ also allows us to prove the lowest upper bound property of $\mathbb{R}$. With the lub property, we are now ready to prove the Archimedean property for $\mathbb{R}$. As a corollary of the archimedean property, we show that the floor function is well-defined on $\mathbb{R}$.
+
+\section{Number Theory}
+\subsection{Main results}
+A list of the more useful lemmas and theorems.
+\subsubsection{Proposition 8.1.10}
+Let $d, n\in \mathbb{Z}$. If $d\mid n$ and $n\neq 0$, then $\mid d \mid \leq \mid n \mid$.
+
+\subsubsection{Lemma 8.1.14; Closure Lemma}
+Given integers $a,b,m,n,d$. If $d\mid m \land d\mid n$, then $d\mid (am+bn)$. 
+
+\subsubsection{Proposition 8.1.12 (transitivity of divisibility)}
+
+\subsubsection{Remark 8.2.2}
+1 is not prime.
+For $n\in \mathbb{Z}_{\geq 2}$, $n$ is either prime or composite.
+
+\subsubsection{Lemma 8.2.4}
+An integer $n$ is composite if and only if $n$ has a divisor $d$ such that $1 < d < n$.
+
+\subsubsection{Lemma 8.2.5 (Prime Divisor Lemma)} 
+Let $n \in \mathbb{Z}_{\geq 2}$. Then n has a
+prime divisor.
+
+
+\subsubsection{Tutorial 7 Q6}
+Let $a,b\in \mathbb{Z}$ with $a\neq 0,b\neq 0$. Then an integer $n$ is a linear combination of $a,b$ if and only if $\gcd(a,b)\mid n$.
+
+This lemma can be used to prove the following result:\\
+Consider the congruence equation $ax\equiv b\,(\mod m)$. Then there exists solutions for $x$ if and only if $\gcd(a,m)\mid b$.
+
+Now suppose we have the congruence equation $ax\equiv b\,(\mod m)$ and $\gcd(a,m)\mid b$ such that the equation is consistent. Then a general way to find solutions for x would be the following:
+
+\begin{align*}
+    ax\equiv b\,(\mod m) \iff \frac{a}{d}x\equiv \frac{b}{d}\, (\mod \frac{m}{d})
+\end{align*}
+Since $\gcd(\frac{a}{d},\frac{m}{d})=1$, we can use multiplicative inverses modulo $\frac{m}{d}$ to find values for $x$.
+
+
+\section{Relations}
+\subsection{Main results}
+\subsubsection{Proposition 9.2.13}
+Let $R$ be an equivalence relation on a set $A$. Then the following are equivalent $\forall x,y\in A$:
+\begin{align*}
+    &x\, R\, y\\
+    &[x]_\text{\tiny R} = [y]_\text{\tiny R}\\
+    &[x]_\text{\tiny R}\cap [y]_\text{\tiny R}\neq \emptyset
+\end{align*}
+
+\subsubsection{Definition 9.3.1}
+A partition $P$ of a set $A$ has 2 parts to its definition, namely existence and uniqueness.\\ 
+For each element $x\in A$, there \textbf{exists} a \textbf{unique} element $S\in P$ such that $x\in S$.
+
+\subsubsection{Theorem 9.3.4}
+If $R$ is an equivalence relation on a set $A$, then $A/R$ is a partition of $A$.
+
+\subsubsection{Theorem 9.3.5}
+For a partition $P$ of set $A$, there exists an equivalence relation $R$ on $A$ such that $A/R=P$
+
+\section{Permutations and combinations}
+\subsection{Proving equality of counting methods}
+We will use an example to demonstrate this.
+\subsubsection{Tutorial 9 Qn 7a}
+In how many ways can 8 boys and 4 girls sit around a circular table, so that no two girls sit together?
+
+First we conjecture the following method of counting by viewing this as a 2-step process:\\
+Step 1: Seat the 8 boys in a circular permutation.\\
+Step 2: Insert the 4 girls in between the 8 boys.
+\begin{align*}
+    n_1=(8-1)!\\
+    n_2=P(8,4)\\
+    \text{By Product Rule, } n_1n_2=\frac{7!8!}{4!}
+\end{align*}
+
+Why is this 2-step process the correct way of arranging 8 boys and 4 girls together such that no girls are adjacent?
+To prove this, we can follow the following steps:\\
+1. Prove that our conjectured method of counting has no double-counting, i.e. it forms a set without repetition.
+Consider 2 outputs O1, O2 that are produced by the 2-step process.\\
+Case 1: Suppose O1, O2 were the same after Step 1.\\
+Then, O1, O2 must differ in the Step 2, such that the seating of the girls is different. Then, clearly O1 and O2 are distinct ways of arranging seats.\\
+Case 2: Suppose O1, O2 differ in their Step 1 of construction.\\
+Then regardless of how the girls are removed, the boys are ordered differently. Hence O1$\neq$O2.\\
+Now, we have proven that no double counting takes place. We now prove that this set $S_1$ of arrangements produced is precisely the set $S_2$ of all valid arrangements.\\
+$(S_1\subseteq S_2):$
+Suppose $x\in S_1$. Then obviously, $x$ is a valid arrangement. Hence, $x\in S_2$.
+
+$(S_2\subseteq S_1):$
+Suppose $x\in S_2$. Then, if we temporarily remove the girls, we get a circular permutation of the 8 boys. This can be produced by Step 1 of our counting method. Now, we consider the girls. The 4 girls are inserted between the 8 boys, so this can also be produced by Step 2 of our counting method. Hence, $x\in S_1$.
+
+\subsubsection{In Summary}
+The method described above can be clearly stated (and generalised slightly) as follows:
+
+\textbf{Double counting}
+Suppose we have 1 way of counting that forms a set A, and we want to show that the 2nd way of counting is counting the same quantity, 
+\begin{enumerate} 
+    \item Show that the 2nd way of counting does not over-count, i.e. the 2nd way of counting produces a set B. Now we want to show either $A$ has a 1-1 correspondence to $B$ or $A=B$.
+    \item Method 1: Establish a bijection between $A$ and $B$
+    \begin{enumerate}
+        \item Show that each element in $A$ corresponding to an element in $B$ (i.e. define a mapping from $A\rightarrow B$.
+        \item Show that this mapping is injective and surjective.
+    \end{enumerate}
+    \item Method 2: Show set equality directly (Note that this is a special case of method 1. Here, the mapping is the identity map.)
+    \begin{enumerate}
+        \item Show $x\in A\implies x\in B$ and $x\in B\implies x\in A$
+    \end{enumerate}
+\end{enumerate}
+
+
+\subsection{Other problems}
+\subsubsection{}
+Given $n_1$ distinct items of type 1, $n_2$ distinct items of type 2, ..., $n_j$ distinct items of type j.
+\begin{enumerate}
+    \item How many ways are there to select $k_1$ items of type 1, ..., $k_j$ items of type j to form an unordered set? Note that order of choice does not matter.
+    \begin{itemize}
+        \item \begin{align*}
+            C(n_1, k_1)  C(n_2, k_2) \dots  C(n_j, k_j)
+        \end{align*}
+    \end{itemize}
+    \item How many ways are there to select $k_1$ items of type 1, ..., $k_j$ items of type j to form an ordered tuple?
+    \begin{itemize}
+        \item Think of this as a 2 step process:
+        \item First, we find the number of unordered sets we can make (i.e. using the counting method in (1). Note that since each of these unordered sets are different, any two ordered tuples/arrangements each originating from a different set must also be different. This says that unordered sets are "disjoint" when we permute them subsequently in the next step.
+        \item Now, each set has $K=\sum_{i=1}^j k_i$ distinct elements. Hence, there are $K!$ permutations of each.
+        \item Hence, number of ways = $C(n_1, k_1)  C(n_2, k_2) \dots  C(n_j, k_j)K!$
+    \end{itemize}
+    \item What is the probability of a choice (unordered) of items from all $N=\sum_{i=1}^j n_i$ items having $k_1$ items of type 1, ..., $k_j$ items of type j?
+    \begin{itemize}
+        \item \begin{align*}
+            \frac{C(n_1, k_1)  C(n_2, k_2) \dots  C(n_j, k_j)}{C(N, K)}
+        \end{align*}
+        \item Alternatively, we can consider this:
+        \item The probability that the first $k_1$ selections are of type 1, the next $k_2$ selections are of type 2, ... , last $k_j$ selections are of type j is $\frac{P(n_1,k_1)P(n_2,k_2)\dots P(n_j,k_j)}{P(N,K)}$
+        \item In fact, we can define \begin{align*}
+            E_{i_1,i_2,\dots,i_K},\, 1\leq i_1,i_2,\dots,i_K\leq j
+        \end{align*} as the event where when choosing $K$ items, the first item is of type $i_1$, second item is of type $i_2$, and so on. Then by writing out the fractions, and compressing the numerator and denominator, we have $P(E_{i_1,i_2,\dots,i_K})=\frac{P(n_1,k_1)P(n_2,k_2)\dots P(n_j,k_j)}{P(N,K)}$ for all choices of $i_1,i_2,\dots,i_K$
+        \item We now need to find all possible permutations of $1\leq i_1,i_2,\dots,i_K\leq j$, where there are $k_1$ 1's, $k_2$ 2's, and so on. Here, we need to view objects of the same type as indistinguishable. There are $\frac{K!}{k_1!k_2!\dots k_j!}$ ways.
+        \item Multiplying, we get \begin{align*}
+            \frac{P(n_1,k_1)P(n_2,k_2)\dots P(n_j,k_j)}{P(N,K)}\cdot \frac{K!}{k_1!k_2!\dots k_j!}=\frac{C(n_1, k_1)  C(n_2, k_2) \dots  C(n_j, k_j)}{C(N, K)}
+        \end{align*}
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Handshake Theorem}
+Let $G(V,E)$ be a graph. The sum of degrees of all vertices of $G$ equals twice the number of edges in $G$. Specifically, if the vertices of $G$ are $v_1,v_2,\dots ,v_n$, where $n\geq 0$, then
+\begin{align*}
+    \text{Total degree of } G=2*|E|
+\end{align*}
+Proof by double counting
+\begin{enumerate}
+    \item Consider the set $S$ of tuples $(v_i,e_j)$, which lists out every pair of vertex $v$ and edge $e$ in the graph that is connected.
+    \item Consider the LHS, to get the total degree of $G$, we sum deg($v_1$)+...+deg($v_{|V|}$). By doing this, we are partitioning the set $S$ described in step 1 into $|V|$ subsets (note that some of these can be empty) and applying the addition principle.
+    \item Consider the RHS, here we partition $S$ into $|E|$ non-empty sets. Each set must contain precisely 2 elements, $(v_{i1},e_j),(v_{i2},e_j)$ since an edge connects precisely 2 vertices. Hence, applying addition principle again, $|S|=\sum_{1\leq i\leq |E|}2=2*|E|$.
+    \item By the double counting argument, we have total degree of $G=2*|E|$.
+\end{enumerate}
+
+\subsection{Pigeonhole Principle}
+\subsubsection{Links to explore}
+\begin{itemize}
+    \item Cut the Knot
+    \item CS Cornell CS280 PP problems
+\end{itemize}
+
+\subsubsection{Covering problem}
+Given a road of length $l$, and that each router has a maximum network radius of $d$, what is the minimum number of routers needed to cover the whole road? (Think of this as forming the smallest possible surjection from the set of routers to the set of road segments)
+\begin{enumerate}
+    \item Divide the road into $\lfloor \frac{l}{2d} \rfloor$ segments of size $2d$, with $\lceil \frac{l}{2d} \rceil - \lfloor \frac{l}{2d} \rfloor$ leftover segments. Altogether, there are $\lceil \frac{l}{2d} \rceil$ segments of maximum length $2d$.
+    \item We claim that the minimum number of routers is $\lceil \frac{l}{2d} \rceil$.
+    \item To show that this number of routers leads to a viable covering, we simply place one router in the center of each segment.
+    \item Now, suppose that we have fewer routers than $\lceil \frac{l}{2d} \rceil$. Then there must be a segment without a router.
+    \item (Justification by PP) Let the pigeons be the segments, routers be the pigeonholes, then as number of pigeons exceed number of pigeonhole, there exist some pigeonholes with $>= 2$ pigeons, i.e. some router has at least 2 segments mapped to it. Then one of these segments does not have a router. 
+    In other words, it is not possible to form a surjection from the router to the segments.
+    \item Alternatively, use the contrapositive of PP. For there to be a surjection from the router to the segments, each segment must have at least 1 router that maps to it. By the contrapositive of PP, the number of routers must be greater or equal to the number of routers.
+    \item Stand in the center of that segment without a router. Then there will be no connection there and hence this is an invalid placing of routers.
+\end{enumerate}
+
+\subsubsection{Packing problem}
+Given $n$ chairs in a row and that 2 people must sit minimally $k$ distance apart, what is the maximum number of people that can sit down? (Think of this as forming the largest possible injection from the set of people to the set of chairs) 
+\begin{enumerate}
+    \item Divide the $n$ chairs into $\lfloor \frac{n}{k+1} \rfloor$ segments of size $k+1$, with $\lceil \frac{n}{k+1} \rceil - \lfloor \frac{n}{k+1} \rfloor$ leftover segments. Altogether, there are $\lceil \frac{n}{k+1} \rceil$ segments of maximum size $k+1$.
+\end{enumerate}
+\subsubsection{Set duplication}
+
+\section{Graphs}
+\subsection{Hamiltonian graphs}
+A relatively easy way to check for non-existence of a Hamiltonian cycle,
+Consider the graph B in page 49 of the lecture slides.
+\begin{itemize}
+    \item We first suppose graph B has a Hamiltonian cycle (to obtain a contradiction).
+    \item Then since it is a cycle, it doesn't matter where we start. We should be able to obtain the same Hamiltonian cycle starting from any point in the graph. 
+    \item Consider the bottom vertex of degree 2. Since we must enter and exit this vertex, any Hamiltonian cycle must include both edges connected to this vertex.
+    \item Then consider the vertex right above the bottom vertex. This vertex also is of degree 2. Hence, both edges connected to it must be included in the Hamiltonian cycle.
+    \item The trick: Notice that the 4 edges we have included in the Hamiltonian cycle form a cycle amongst themselves. This is not possible since a Hamiltonian cycle is a simple cycle (with no vertex repetition), such that any proper subset of the Hamiltonian cycle cannot be a cycle.
+\end{itemize}
+
+\end{document}
