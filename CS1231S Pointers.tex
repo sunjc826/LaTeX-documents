@@ -386,4 +386,15 @@ Consider the graph B in page 49 of the lecture slides.
     \item The trick: Notice that the 4 edges we have included in the Hamiltonian cycle form a cycle amongst themselves. This is not possible since a Hamiltonian cycle is a simple cycle (with no vertex repetition), such that any proper subset of the Hamiltonian cycle cannot be a cycle.
 \end{itemize}
 
+\subsection{Definitions}
+A few things to note:
+\begin{enumerate}
+	\item \begin{itemize}
+		\item The existence of a walk from vertex u to vertex v implies the existence of a trail and a path from u to v. 
+		\item However, the existence of a closed walk starting and ending at vertex v does not necessarily imply a closed circuit starting and ending at vertex v. Because for e.g. $v_1 \rightarrow v_2 \rightarrow v_1$ using the same edge is a closed walk, but not a circuit.
+		\item However, note that a closed walk of \textbf{odd} length will contain a circuit. Since we obviously can't have the trivial case $v_1 \rightarrow v_2 \rightarrow v_1$ as shown above.
+	\end{itemize}
+\end{enumerate}
+
+
 \end{document}

@@ -134,6 +134,34 @@ The first deriv test is a consequence of the increasing/decreasing test, which i
 To apply the mean value theorem on a closed interval, we require continuity at the ends of the interval (so that the extreme value theorem applies).\\
 This is why applying first deriv test on $f(c)$ on an interval $I$ containing $c$ \textbf{requires continuity of $f$ at $x=c$} in addition to differentiability of $f$ on $I$, except possibly at $c$.
 
+\subsubsection{Intermediate Value Theorem for derivatives}
+Here, we introduce a theorem that will be used in the Test 2 Q1 example below.\\
+
+
+
+\subsubsection{Test 2 Q1}
+For the function $f(x)=x^{22/7}-11x^{8/7}$,
+find the open intervals on which it is increasing.
+
+\begin{enumerate}
+	\item Differentiate $f$ to get $f'(x)=\frac{22}{7}x^{15/7}-\frac{88}{7}x^{1/7}$
+	\item Find roots of $f'$: $-2, 0, 2$
+	\item First derivative Test:
+	\begin{enumerate}
+		\item There is no need to do $f'(x)<0$ if and only ... or $f'(x)>0$ if and only if ...
+		\item Due to the \textbf{intermediate value theorem for derivatives}, for any open interval for which $f'(x)\neq 0$, like $(-\infty, -2), (-2, 0), (0, 2), (2, \infty)$, $f'$ has the same polarity on each of these interval.
+		\item Hence, it suffices to substitute values to find the polarity of $f'$ on these intervals.
+		\item For example,
+		\begin{itemize}
+			\item $f'(-3) < 0$, so $f'(x)<0\, \forall x\in(-\infty, -2)$
+			\item $f'(-1) > 0$, so $f'(x)>0\, \forall x\in(-2, 0)$
+			\item $f'(1) < 0$, so $f'(x)<0\, \forall x\in(0, 2)$
+			\item $f'(3) > 0$, so $f'(x)>0\, \forall x\in(2, \infty)$
+		\end{itemize}
+	\end{enumerate}
+\end{enumerate}
+
+
 \subsection{Second derivative test}
 The second derivative test \textbf{only} requires 2-times differentiability at the point $x=c$. This is because we only need to know that the limit $\lim_{x\rightarrow c}\frac{f'(x)-f(c)}{x-c}$ is greater than or smaller than 0, and this limit will tell us about the nature of $f'$ in the neighborhood of $x=c$. 
 
