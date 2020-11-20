@@ -251,6 +251,13 @@ If $R$ is an equivalence relation on a set $A$, then $A/R$ is a partition of $A$
 \subsubsection{Theorem 9.3.5}
 For a partition $P$ of set $A$, there exists an equivalence relation $R$ on $A$ such that $A/R=P$
 
+\subsubsection{Characteristics}
+\begin{itemize}
+	\item Equivalence relations are reflexive, symmetric and transitive.
+	\item Partial orders are reflexive, anti-symmetric and transitive.
+	\item Total orders are partial orders and any 2 elements, not necessarily distinct, are comparable.
+\end{itemize}
+
 \section{Permutations and combinations}
 \subsection{Proving equality of counting methods}
 We will use an example to demonstrate this.
@@ -299,6 +306,28 @@ Suppose we have 1 way of counting that forms a set A, and we want to show that t
     \end{enumerate}
 \end{enumerate}
 
+\subsection{Random variables}
+From math.stackexchange\\
+Given a universal sample space $\Omega=\{\omega_i, 1\leq i\leq n\}$, where $\omega_i$ are the events.\\
+Define a function
+\begin{align*}
+	X: &\Omega \rightarrow \mathbb{R}\\
+	&\omega_i \mapsto X(\omega_i)
+\end{align*}
+$X(\omega_i)$ is value of the random variable $X$ at the event $\omega_i \in \Omega$.
+\subsection{Linearity of expectation}
+Given random variables $X,Y$ which may be dependent, $E(X+Y)=E(X)+E(Y)$
+
+\subsection{Law of Total/Iterated Expectation}
+From Wikipedia\\
+If $X$ is a random variable whose expected value $E(X)$ is defined, and $Y$ is any random variable on the same probability space, then 
+\begin{align*}
+	E(X)=E(E(X|Y))
+\end{align*}
+In one special case, if $\{A_i\}$ is a finite or countable partition of the sample space, then 
+\begin{align*}
+	E(X)=\sum_iE(X|A_i)P(A_i)
+\end{align*}
 
 \subsection{Other problems}
 \subsubsection{}
@@ -345,6 +374,50 @@ Proof by double counting
     \item Consider the LHS, to get the total degree of $G$, we sum deg($v_1$)+...+deg($v_{|V|}$). By doing this, we are partitioning the set $S$ described in step 1 into $|V|$ subsets (note that some of these can be empty) and applying the addition principle.
     \item Consider the RHS, here we partition $S$ into $|E|$ non-empty sets. Each set must contain precisely 2 elements, $(v_{i1},e_j),(v_{i2},e_j)$ since an edge connects precisely 2 vertices. Hence, applying addition principle again, $|S|=\sum_{1\leq i\leq |E|}2=2*|E|$.
     \item By the double counting argument, we have total degree of $G=2*|E|$.
+\end{enumerate}
+
+\subsubsection{Functions}
+Consider 2 sets $X$ and $Y$, where $|X|=m$, $|Y|=n$. 
+\begin{itemize}
+	\item Number of injective functions $f: X\rightarrow Y$
+	\begin{itemize}
+		\item Consider the following method of counting:
+		\item List out the elements in domain $X$ as $x_1,x_2,\dots,x_m$
+		\item There are $n$ choices of image for $x_1$, $n-1$, ...
+		\item Hence, by product rule, there are $n(n-1)\dots(n-m+1)=nPm$ such functions.
+		\item Note that if $m>n$, there are $0$ injective functions by pigeonhole principle.
+	\end{itemize}
+	\item Number of surjective functions $f: X\rightarrow Y$
+	\begin{itemize}
+		\item List out the elements in domain $X$ as $x_1,x_2,\dots,x_m$
+		\item Define $X_i$ as the set of functions from $X\rightarrow Y$ that have $x_i$ in their image
+		\item We want to find \begin{align*}
+			|\cap_{1\leq i\leq n}X_i|
+		\end{align*}
+		\item By addition principle, \begin{align*}
+			|\cap_{1\leq i\leq n}X_i| = |S| - |\cup_{1\leq i\leq n}\overline{X_i}|
+		\end{align*}
+		where $|S|=n^m$
+		\item Using PIE: \begin{align*}
+			|\cup_{1\leq i\leq n}\overline{X_i}|&=\sum_{1\leq i\leq n} |\overline{X_i}| - \sum_{1\leq i < j\leq n} |\overline{X_i \cap X_j}|+\dots\\
+			&=\sum_{1\leq i\leq n}(n-1)^m-\sum_{1\leq i < j\leq n}(n-2)^m+\dots\\
+			&=\binom{n}{1}(n-1)^m-\binom{n}{2}(n-2)^m+\binom{n}{3}(n-3)^m-\dots\\
+			&=\sum_{i=1}^{n}(-1)^{i-1}\binom{n}{i}(n-i)^m
+		\end{align*}
+		\item Hence, \begin{align*}
+			|\cap_{1\leq i\leq n}X_i|&=n^m-\sum_{i=1}^{n}(-1)^{i-1}\binom{n}{i}(n-i)^m\\
+			&=n^m+\sum_{i=1}^{n}(-1)^{i}\binom{n}{i}(n-i)^m\\
+			&=\sum_{i=0}^{n}(-1)^{i}\binom{n}{i}(n-i)^m
+		\end{align*}
+	\end{itemize}
+\end{itemize}
+
+
+\subsubsection{Special numbers}
+\begin{enumerate}
+	\item Binomial coefficients
+	\item Stirling numbers of the first kind
+	\item Stirling numbers of the second kind
 \end{enumerate}
 
 \subsection{Pigeonhole Principle}
@@ -394,6 +467,20 @@ A few things to note:
 		\item However, the existence of a closed walk starting and ending at vertex v does not necessarily imply a closed circuit starting and ending at vertex v. Because for e.g. $v_1 \rightarrow v_2 \rightarrow v_1$ using the same edge is a closed walk, but not a circuit.
 		\item However, note that a closed walk of \textbf{odd} length will contain a circuit. Since we obviously can't have the trivial case $v_1 \rightarrow v_2 \rightarrow v_1$ as shown above.
 	\end{itemize}
+\end{enumerate}
+
+\subsection{Theorems}
+\begin{enumerate}
+	\item Euler's formula for connected planar simple graphs
+	\begin{align*}
+		f = e - v + 2
+	\end{align*}
+	\begin{itemize}
+		\item A particular case of this is trees, where $e=v-1$ and $f=1$
+		\item We know trees are connected and simple graphs. To prove that they are planar, we use induction:
+		\item 
+	\end{itemize}
+	\item Number of spanning trees in a complete graph $K_n=n^{n-2}$
 \end{enumerate}
 
 

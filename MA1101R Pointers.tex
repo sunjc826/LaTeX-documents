@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+% Margins
+\usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
+
+
+\title{MA1101R Pointers}
+\author{Jia Cheng}
+\date{September 2020}
+
+\begin{document}
+
+\maketitle
+
+\section{Assumptions}
+Unless otherwise stated:
+\begin{itemize}
+	\item For clarity, we shall assume all Euclidean spaces to be $\mathbb{R}^n$.
+	\item All vectors will be treated as column vectors.
+\end{itemize}
+
+
+\section{Linear Systems}
+
+\section{Matrices}
+\subsection{Common proof ideas}
+\begin{itemize}
+	\item Basic trace properties
+	\begin{enumerate}
+		\item $tr(A + B) = tr(A) + tr(B)$
+		\item $tr(cA) = ctr(A)$
+		\item $tr(AB) = tr(BA)$
+		\item Cyclic property (Generalisation of property 3)\\
+		$tr(ABCD) = tr(BCDA) = tr(CDAB) = tr(DABC)$
+	\end{enumerate}
+\end{itemize}
+
+\section{Linear independence and Dimension}
+
+\section{Row, column, null spaces}
+
+\section{Orthogonality}
+\subsection{Things to note}
+\begin{itemize}
+	\item Orthogonal sets can contain the zero vector. An orthogonal set that has no zero vector is linearly independent.
+	\item An orthonormal set is always linearly independent since the norm of $\mathbf{0}$ is $0$.
+\end{itemize}
+
+\subsection{Common proof ideas}
+\begin{itemize}
+	\item A subspace has an orthogonal/orthonormal basis.
+	\item Suppose $W$ is a subspace and $W^{\perp}$ is its orthogonal complement. Then the union of the bases of $W$, $W^\perp$ is a basis for $\mathbb{R}^n$. To see this, take their orthogonal bases.
+	\item The columns and rows of an orthogonal matrix form orthonormal sets.
+\end{itemize}
+
+\section{Diagonalisation}
+\subsection{Things to note}
+\begin{itemize}
+	\item Eigenvectors are non-zero vectors, but the zero vector is an element of every eigenspace.
+	\begin{itemize}
+		\item Hence, suppose we given that $Ax=\lambda \mathbf{x}$. For $\mathbf{x}$ to be an eigenvector of $A$, we must first show that $\mathbf{x}\neq \mathbf{0}$
+		\item To show that $k\mathbf{x}\neq \mathbf{0}$, we need 2 conditions: $k\neq 0$ and $\mathbf{x}\neq \mathbf{0}$.
+	\end{itemize}
+	\item The eigenspace $E_0$ of matrix $A$ associated with eigenvalue $0$, is also the nullspace of $A$.
+\end{itemize}
+\subsection{Common proof ideas}
+\begin{itemize}
+	\item A diagonalisable matrix $A$ has $n$ linearly independent eigenvectors that \textbf{form a basis} for $\mathbb{R}^n$.
+	\item A diagonalisable matrix $A$ can be written as the product $PDP^{-1}$.
+	\item A symmetric matrix is orthogonally diagonalisable. In particular, it is diagonalisable.
+	\item Powers of matrices. If a matrix $A$ is diagonalisable, and $v_i$ is the eigenvector associated with eigenvalue $\lambda_i$, then $A\mathbf{v}_i=\lambda \mathbf{v}_i$
+	\item Trace of a diagonal matrix:
+	\begin{align*}
+		tr(D) &= \sum_i\lambda_i\\
+		&= \sum_{\lambda}\lambda\, \dim(E_\lambda)
+	\end{align*}
+	\item The intersection of distinct eigenspaces only contains the zero vector. i.e. $E_i\cap E_j=\{\mathbf{0}\},i\neq j$.\\
+	A consequence of this allows us to write:
+	\begin{align*}
+		\dim(E_i + E_j)=\dim(E_i)+\dim(E_j)-\dim(E_i\cap E_j)=\dim(E_i)+\dim(E_j)
+	\end{align*}
+\end{itemize}	
+	
+\section{Linear transformations}
+
+
+
+\end{document}
