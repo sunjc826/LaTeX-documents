@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+% Margins
+\usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
+
+
+\title{MA2104 (Multivariable Calculus) Pointers}
+\author{Jia Cheng}
+\date{September 2020}
+
+\begin{document}
+
+\maketitle
+
+\section{Definitions and Formula}
+
+
+\section{Vectors, Lines and Planes}
+\subsection{The dot product}
+Here, I reference MA1101R's textbook, (Linear Algebra, Concepts and Techniques in Euclidean Space).
+Theorems in geometry and trigonometry gives rise to the equalities
+\begin{align*}
+	\cos(\theta) &= \frac{x_1y_1+x_2y_2}{|\mathbf{x}||\mathbf{y}|} &&\text{in } \mathbb{R}^2\\
+	\cos(\theta) &= \frac{x_1y_1+x_2y_2+x_3y_3}{|\mathbf{x}||\mathbf{y}|} &&\text{in } \mathbb{R}^3
+\end{align*} 
+Hence, we define the dot product in $\mathbb{R}^2$ and $\mathbb{R}^3$. Now, we extend this definition to $\mathbb{R}^n$, such that $\mathbf{x}\cdot \mathbf{y} = \sum_{1\leq i\leq n}x_iy_i$. We also extend the definition of angle to $\mathbb{R}^n$, such that 
+\begin{align*}
+	\cos(\theta) &= \frac{\mathbf{x}\cdot \mathbf{y}}{|\mathbf{x}||\mathbf{y}|}
+\end{align*}
+By the Cauchy Schwarz inequality, it turns out that such a generalisation is consistent, as $\frac{\mathbf{x}\cdot \mathbf{y}}{|\mathbf{x}||\mathbf{y}|}$ is always bounded between $-1$ and $1$.
+
+Note that the angle $\theta$ between vectors is by definition the smaller angle, i.e. $0\leq \theta \leq \pi$.
+
+
+\end{document}
+
+

@@ -4,11 +4,33 @@
 \usepackage{amsmath,amssymb}
 \usepackage{parskip}
 \usepackage{graphicx}
+\usepackage {tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{tabularx,booktabs}
+\usepackage{algorithmic}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\usepackage[shortlabels]{enumitem}
+\usepackage{slashed}
+
+\usetikzlibrary {positioning}
+%\usepackage {xcolor}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
 \usepackage{mathtools}
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
-\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
 
 % Margins
 \usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
@@ -71,6 +93,21 @@ Also see prenex normal form
 \end{align*}
 
 \section{Sets}
+\subsection{Set membership}
+Given a set $S=\{x\in U| P(x)\}$ for some predicate $P(x)$.
+\begin{align*}
+	\forall x\in U, (x\in S \iff P(x)) 
+\end{align*}
+Hence to prove set equality between $S$ and another set $T$, we can try to show 
+\begin{align*}
+	\forall x\in U, (x\in T \iff P(x))
+\end{align*}
+
+Furthermore, given 2 sets $S=\{x\in U| P(x)\}$ and $T=\{x\in U| Q(x)\}$ for some predicates $P(x),Q(x)$, it suffices to show that 
+\begin{align*}
+	\forall x\in U, (P(x)\iff Q(x))
+\end{align*}
+
 \subsection{Set difference law}
 We know that $A-B=A\cap \overline{B}$.
 Then
@@ -97,6 +134,16 @@ i.e. codomain of $f$ = domain of $g$.
     &\text{Suppose }f:A\rightarrow B\text{ is a bijection}\\
     &\text{Then, }\forall y\in B,\exists!x\in A,\left(y=f\left(x\right)\right)
 \end{align*}
+
+\subsubsection{Checking for bijectivity}
+Given a function $f: A\rightarrow B$, there are 2 ways to check if $f$ is bijective.
+\begin{enumerate}
+	\item Show separately that $f$ is injective and surjective.
+	\item Define a function $g: B\rightarrow A$, and show that $g=f^{-1}$, i.e.
+	\begin{align*}
+		\forall x\in A, \forall y\in B, (y=f(x)\iff x=g(y))
+	\end{align*}
+\end{enumerate}
 
 \subsection{Floors and Ceilings}
 \begin{align*}
@@ -216,6 +263,10 @@ An integer $n$ is composite if and only if $n$ has a divisor $d$ such that $1 < 
 Let $n \in \mathbb{Z}_{\geq 2}$. Then n has a
 prime divisor.
 
+\subsubsection{Proposition 8.2.6}
+Let $n$ be a composite positive integer. Then $n$ has a prime divisor $p\leq \sqrt{n}$.
+
+\subsection{Other results}
 
 \subsubsection{Tutorial 7 Q6}
 Let $a,b\in \mathbb{Z}$ with $a\neq 0,b\neq 0$. Then an integer $n$ is a linear combination of $a,b$ if and only if $\gcd(a,b)\mid n$.
@@ -230,6 +281,44 @@ Now suppose we have the congruence equation $ax\equiv b\,(\mod m)$ and $\gcd(a,m
 \end{align*}
 Since $\gcd(\frac{a}{d},\frac{m}{d})=1$, we can use multiplicative inverses modulo $\frac{m}{d}$ to find values for $x$.
 
+
+\subsubsection{Multiplication related properties}
+Almost of the proofs for the following properties use Bezout's lemma.
+\begin{itemize}
+	\item \textbf{Tutorial 7 Q2}\\
+	Let $a,b\in \mathbb{Z}$. Suppose $a|c$ and $b|c$ and $\gcd(a,b)=1$. Then $ab|c$.
+	\item 
+	Suppose $\gcd(a,b)=1$ and $\gcd(a,c)=1$. Then $\gcd(a,bc)=1$.\\
+	This lemma is useful for proving the Chinese Remainder Theorem, showing that $\gcd(n_1, n_2n_3\dots n_k)=1$.
+\end{itemize}
+
+\subsubsection{Chinese Remainder Theorem}
+See the article by Brilliant.
+
+
+\subsubsection{Number of trailing zeroes in factorial}
+First, let's solve the problem of finding the number of occurrences of a particular prime $p$ in $n!$.
+Suppose the base $p$ representation of $n$ is $(c_kc_{k-1}\dots c_0)$.
+Then, number of occurrences = 
+\begin{align*}
+	\sum_{k=1}^{\infty}\lfloor \frac{n}{p^k} \rfloor
+	&=\sum_{1\leq j\leq k}\sum_{j\leq i\leq k}c_ip^{i-j}\\
+	&=\sum_{1\leq j\leq i\leq k}c_ip^{i-j}\\
+	&=\sum_{1\leq i\leq k}\sum_{1\leq j\leq i}c_ip^{i-j}\\
+	&=\sum_{1\leq i\leq k}c_ip^i\sum_{1\leq j\leq i}\frac{1}{p^i}\\
+	&=\frac{\sum_{1\leq i\leq k} c_i(p^i-1)}{p-1}\\
+	&=\frac{\sum_{1\leq i\leq k} c_ip^i -\sum_{1\leq i\leq k}c_i}{p-1}\\
+	&=\frac{\sum_{0\leq i\leq k} c_ip^i -\sum_{0\leq i\leq k}c_i}{p-1}\\
+	&=\frac{n-(\text{sum of digits in base-p representation of n})}{p-1}
+\end{align*}
+
+
+\subsubsection{Manipulations involving modulo arithmetic}
+\begin{itemize}
+	\item Let $n=qd+r$. Then $n^k\equiv r^k (\mod d)$
+	\item It is often useful to consider $(\mod 3)$. E.g. If a prime $p>3$, then $p\equiv \pm 1 (\mod 3)$.\\
+	 We must also remind ourselves that in general, $n$ can still be a prime even if $n\equiv 0 (\mod p)$. This is when $n=p$. Hence the importance of the condition $n>p$.
+\end{itemize}
 
 \section{Relations}
 \subsection{Main results}
@@ -257,6 +346,91 @@ For a partition $P$ of set $A$, there exists an equivalence relation $R$ on $A$ 
 	\item Partial orders are reflexive, anti-symmetric and transitive.
 	\item Total orders are partial orders and any 2 elements, not necessarily distinct, are comparable.
 \end{itemize}
+
+\subsection{Converse relation}
+Usually called inverse relation in CS1231S.
+\begin{itemize}
+	\item Given a relation $R:X\rightarrow Y$, and a predicate $P(x,y)$ such that $xRy\iff P(x,y)$.\\
+	Then its inverse relation $R^{-1}:Y\rightarrow X$ is given by the following: 
+	\begin{align*}
+		xR^{-1}y \iff yRx \iff P(y, x)
+	\end{align*}
+	\item Properties: (From Wikipedia)
+	\begin{itemize}
+		\item If $R$ is  \textbf{reflexive, symmetric, antisymmetric, transitive, a partial order, total order, or an equivalence relation}, then $R^{-1}$ is too.
+		\item A function is invertible if and only if its inverse relation is a function.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Complement relation}
+\begin{itemize}
+	\item Given a relation $R:X\rightarrow Y$, and a predicate $P(x,y)$ such that $xRy\iff P(x,y)$.\\
+	Then its complement relation $R^c:X\rightarrow Y$ is given by the following: 
+	\begin{align*}
+		xR^cy \iff x\slashed{R}y
+	\end{align*}
+\end{itemize}
+
+\subsection{Linearisation}
+Given a partial order $\preceq$ on set $A$, its linearisation is a total order $\preceq^*$ on $A$ such that 
+\begin{align*}
+	\forall x,y\in A, (x\preceq y \implies x\preceq^* y)
+\end{align*}
+
+For the positive integers, $\leq$ is a linearisation of $|$(divides), since $\forall x,y\in \mathbb{Z}^+, x|y \implies x\leq y$. \\
+Note that if we consider the non-negative integers, this is not true. $0$ is the largest element w.r.t $|$, but the smallest element w.r.t $\leq$.
+
+\subsection{Other tips}
+\subsubsection{Check if relation is function}
+Given a relation 
+\begin{align*}
+	R:\mathbb{R}\rightarrow \mathbb{R}, \forall x,y\in \mathbb{R}, (xRy \iff x=\sin(y))
+\end{align*}
+Is $R$ or $R^{-1}$ a function?
+\begin{itemize}
+	\item We first look at $R$. Recall that when dealing with functions, we usually write them in the form $y=f(x)$, i.e. we bring $y$ to the LHS for clarity, to show that $y$ is the dependent variable. Hence, we write $\sin(y)=x$.\\
+	Now it is clear that $x$ ranges from $-1$ to $1$, which is a strict subset of the domain $\mathbb{R}$. So $R$ cannot be a function.
+	\item For $R^{-1}$, we first write 
+	\begin{align*}
+		\forall x,y\in \mathbb{R}, xR^{-1}y \iff yRx \iff y=sin(x)
+	\end{align*}		
+	Clearly, $\sin$ is a function, so $R^{-1}$ is also a function.
+\end{itemize}
+
+
+\subsubsection{Mistakes}
+\begin{itemize}
+	\item When writing out the ordered pairs comprising a partial order, don't forget the reflexivity. For e.g., on a Hasse diagram, there are no self loops, but we must remember that \textbf{partial orders are reflexive}, so for each element $a$ on the diagram, $(a,a)\in \preceq$.
+	\item When examining functions and relations, we must keep in mind the \textbf{domain} and \textbf{codomain}!
+\end{itemize}
+
+\subsubsection{Coming up with examples}
+\begin{itemize}
+	\item Whenever we want to define a relation, we also need to define the relevant sets.
+	\item Notice how the descriptors: reflexive, symmetric, antisymmetric, transitive etc. all use universal quantifiers. Hence, if we want a relation that is reflexive and symmetric and ... (i.e. meeting all the criteria), simply define $S=\emptyset$ and $R=\emptyset$ and let $R:S\rightarrow S$.
+	\item Special cases:
+	\begin{enumerate}
+		\item Empty set, empty relation. Then as previously mentioned, all universal descriptors are true.
+		\item Non empty set, empty relation. 
+		\begin{itemize}
+			\item Not reflexive
+			\item Symmetric
+			\item Antisymmetric
+			\item Transitive
+		\end{itemize}
+		Notice how all the universal conditional statements are vacuously true.
+	\end{enumerate}
+\end{itemize}
+
+\subsubsection{Set operations}
+\begin{itemize}
+	\item Union of reflexive relations is reflexive
+	\item Union of symmetric relations is symmetric
+	\item Union of transitive relations is \textbf{not} always transitive
+	\item Union of antisymmetric relations is \textbf{not} always antisymmetric
+	\item Intersection of reflexive, symmetric, transitive, antisymmetric relations are always reflexive, symmetric, transitive, antisymmetric respectively.
+\end{itemize}
+
 
 \section{Permutations and combinations}
 \subsection{Proving equality of counting methods}
@@ -379,12 +553,16 @@ Proof by double counting
 \subsubsection{Functions}
 Consider 2 sets $X$ and $Y$, where $|X|=m$, $|Y|=n$. 
 \begin{itemize}
+	\item Number of function $f:X\rightarrow Y$
+	\begin{itemize}
+		\item $n^m$
+	\end{itemize}
 	\item Number of injective functions $f: X\rightarrow Y$
 	\begin{itemize}
 		\item Consider the following method of counting:
 		\item List out the elements in domain $X$ as $x_1,x_2,\dots,x_m$
-		\item There are $n$ choices of image for $x_1$, $n-1$, ...
-		\item Hence, by product rule, there are $n(n-1)\dots(n-m+1)=nPm$ such functions.
+		\item There are $n$ choices of image for $x_1$, $n-1$ choices for $x_2$, ...
+		\item Hence, by product rule, there are $n(n-1)\dots(n-m+1)=nPm$ such functions if $m\leq n$.
 		\item Note that if $m>n$, there are $0$ injective functions by pigeonhole principle.
 	\end{itemize}
 	\item Number of surjective functions $f: X\rightarrow Y$
@@ -407,8 +585,15 @@ Consider 2 sets $X$ and $Y$, where $|X|=m$, $|Y|=n$.
 		\item Hence, \begin{align*}
 			|\cap_{1\leq i\leq n}X_i|&=n^m-\sum_{i=1}^{n}(-1)^{i-1}\binom{n}{i}(n-i)^m\\
 			&=n^m+\sum_{i=1}^{n}(-1)^{i}\binom{n}{i}(n-i)^m\\
-			&=\sum_{i=0}^{n}(-1)^{i}\binom{n}{i}(n-i)^m
+			&=\sum_{i=0}^{n}(-1)^{i}\binom{n}{i}(n-i)^m\\
+			&=m!S(n,m)
 		\end{align*}
+	\end{itemize}
+	\item Number of bijective functions:
+	\begin{itemize}
+		\item We can prove by pigeonhole principle that there exists bijection between $X$ and $Y$ if and only if $m=n$.
+		\item If $m=n$, then any mapping $f:X\rightarrow Y$ is injective $\iff$ $f$ is bijective.
+		\item Hence, it suffices to count the number of injective functions, which is $nPn=n!$
 	\end{itemize}
 \end{itemize}
 
@@ -416,9 +601,73 @@ Consider 2 sets $X$ and $Y$, where $|X|=m$, $|Y|=n$.
 \subsubsection{Special numbers}
 \begin{enumerate}
 	\item Binomial coefficients
+	\begin{itemize}
+		\item Pascal's identity:
+		\begin{align*}
+			\binom{n}{k}=\binom{n-1}{k}+\binom{n-1}{k-1}
+		\end{align*}
+		\item Combinatorial proof: Let $S$ be the set of all k-combinations (i.e. subsets of size $k$) from a pool of $n$ distinct elements. Partition $S$ into 2 components, $A$ and $B$, where the k-combinations in $A$ have a particular element $x_0$ and the k-combinations in $B$ do not. By addition principle, $|S|=|A|+|B|$.
+	\end{itemize}
 	\item Stirling numbers of the first kind
+	
 	\item Stirling numbers of the second kind
+	\begin{itemize}
+		\item $S(n, k)$ is the number of ways of putting $n$ labelled items into $k$ unlabelled boxes. 
+		\item Note that $k!S(n,k)$ is the number of surjective functions from $n$ elements in the domain to $k$ elements in the codomain. This is as if we are labelling the boxes and permuting the labels.
+		\item Recurrence relation:
+		\begin{align*}
+			S(n, k) = kS(n-1, k) + S(n-1, k-1)
+		\end{align*}
+		\item Other identities:
+		\begin{align*}
+			S(n, n-1) = \binom{n}{2}\\
+			S(n, 2) = \frac{1}{2}(2^n-2)=2^{n-1}-1
+		\end{align*}
+	\end{itemize}		
 \end{enumerate}
+
+\subsubsection{Circular permutations}
+Seating around an \textbf{unnumbered} round table.\\
+In general, this is not an easy problem.\\
+In general, if we have $m$ object of $k$ types, $r_i$ items of the $i$-th type for $1\leq i\leq k$, we cannot use the linear permutation formula to say that there are $\frac{(m-1)!}{r_1!r_2!\dots r_k!}$ permutations.\\
+One reason for this: When we consider objects of the same type to be distinct (temporarily, i.e. we divide later one), permuting the object of 1 type can change the relative positioning with respect to objects of other types.
+
+An example of a difficult problem: 
+\href{https://math.stackexchange.com/questions/710090/how-many-ways-to-make-a-bracelet-with-n-white-balls-and-m-black-balls?noredirect=1&lq=1}{Bracelet with n white balls and m black balls}\\
+Even with just 2 types of indistinguishable objects, this problem is already far beyond our abilities(at this point).
+
+However, there are certain simple cases in which we can use the product rule (in a relatively simple manner).
+Consider the following examples:
+\begin{itemize}
+	\item Seating $k$ people around a table with $n$ seats. Here, the people are clearly all distinct. There is only 1 type of indistinguishable object: the $n-k$ empty chairs.
+	\begin{itemize}
+		\item Edge case: If $k=0$, there is only 1 way.
+		\item If $1\leq k\leq n$, then there are $\frac{(n-1)!}{(n-k)!}$ ways. Notice that $(n-k)$ is the number of empty seats.
+	\end{itemize}
+\end{itemize}
+
+\subsubsection{Order of choice}
+CS1231S Quiz
+How many (3) - digits even integer can you create if the digits are picked from ({0,2,4,5,7,8}) and no repetitions are allowed?\\
+Strategy:
+\begin{enumerate}
+	\item Split into 2 cases: 
+	\item Case 1: With $0$ in 1's place.\\
+	There are then 4P2 choices for the other 2 digits.
+	\item Case 2: With no $0$ in 1's place.\\
+	There are $3$ choices(2,4,8) for the even digit in the 1's place.\\
+	Then, we choose the digit in the hundredth place. This cannot be $0$, so there are $4$ choices.\\
+	Finally, choose the digit in the tenth place. There are 4 choices, since $0$ can be in the tenth place.
+\end{enumerate}
+This can easily be generalised to more digits.
+
+\subsubsection{Counting divisors}
+Given two integers $a$ and $b$, where $a\leq b$, how many divisors of $k$ are there in $[a,b]$?
+\begin{align*}
+	\lceil \frac{a}{k} \rceil \dots \lfloor \frac{b}{k} \rfloor
+\end{align*}
+Hence, $max(0, \lfloor \frac{b}{k} \rfloor - \lceil \frac{a}{k} \rceil + 1)$ divisors
+
 
 \subsection{Pigeonhole Principle}
 \subsubsection{Links to explore}
@@ -448,16 +697,6 @@ Given $n$ chairs in a row and that 2 people must sit minimally $k$ distance apar
 \subsubsection{Set duplication}
 
 \section{Graphs}
-\subsection{Hamiltonian graphs}
-A relatively easy way to check for non-existence of a Hamiltonian cycle,
-Consider the graph B in page 49 of the lecture slides.
-\begin{itemize}
-    \item We first suppose graph B has a Hamiltonian cycle (to obtain a contradiction).
-    \item Then since it is a cycle, it doesn't matter where we start. We should be able to obtain the same Hamiltonian cycle starting from any point in the graph. 
-    \item Consider the bottom vertex of degree 2. Since we must enter and exit this vertex, any Hamiltonian cycle must include both edges connected to this vertex.
-    \item Then consider the vertex right above the bottom vertex. This vertex also is of degree 2. Hence, both edges connected to it must be included in the Hamiltonian cycle.
-    \item The trick: Notice that the 4 edges we have included in the Hamiltonian cycle form a cycle amongst themselves. This is not possible since a Hamiltonian cycle is a simple cycle (with no vertex repetition), such that any proper subset of the Hamiltonian cycle cannot be a cycle.
-\end{itemize}
 
 \subsection{Definitions}
 A few things to note:
@@ -483,5 +722,31 @@ A few things to note:
 	\item Number of spanning trees in a complete graph $K_n=n^{n-2}$
 \end{enumerate}
 
+\subsection{Hamiltonian graphs}
+A relatively easy way to check for non-existence of a Hamiltonian cycle,
+Consider the graph B in page 49 of the lecture slides.
+\begin{itemize}
+    \item We first suppose graph B has a Hamiltonian cycle (to obtain a contradiction).
+    \item Then since it is a cycle, it doesn't matter where we start. We should be able to obtain the same Hamiltonian cycle starting from any point in the graph. 
+    \item Consider the bottom vertex of degree 2. Since we must enter and exit this vertex, any Hamiltonian cycle must include both edges connected to this vertex.
+    \item Then consider the vertex right above the bottom vertex. This vertex also is of degree 2. Hence, both edges connected to it must be included in the Hamiltonian cycle.
+    \item The trick: Notice that the 4 edges we have included in the Hamiltonian cycle form a cycle amongst themselves. This is not possible since a Hamiltonian cycle is a simple cycle (with no vertex repetition), such that any proper subset of the Hamiltonian cycle cannot be a cycle.
+\end{itemize}
 
+\subsection{Binary Tree Construction}
+\subsubsection{From preorder and inorder}
+\begin{itemize}
+	\item Let $T$ be a binary tree. Suppose we are given a preorder traversal sequence $A$ and an inorder traversal sequence $B$.
+	\item We can always construct $T$ by starting from the start of sequence $A$.
+	\item Why? The first element of $A$ must be the root, since the root is where we start our preorder traversal, so there is no ambiguity in its location.\\ 
+	Due to the nature of preorder traversal, parent vertices are always reached and recorded before child vertices, hence at any point in the construction, the current element $e$ in sequence $A$ must be adjacent to one of the vertices in the partially constructed tree because $e$'s parent must have been reached and included in the partial tree already.
+\end{itemize}
+\subsubsection{From postorder and inorder}
+\begin{itemize}
+	\item Let $T$ be a binary tree. Suppose we are given a postorder traversal sequence $A$ and an inorder traversal sequence $B$.
+	\item We can always construct $T$ by starting from the end of sequence $A$ and going backwards.
+	\item Why does this work? Consider postorder traversal. The last element of $A$ must be the root, so there is no ambiguity in its location. Any other element of $A$ is not the root, and hence must have a parent.\\
+	The nature of postorder traversal is that parent vertices are always recorded after child vertices, hence when the current element $e$ of $A$ is reached, (as we started from the back of $A$) the parent of $e$ must be included in the partial tree already.
+\end{itemize}
+In both cases (9.4.1 and 9.4.2), at each stage of the construction, the partial tree partitions the space into disjoint intervals. The presence of the inorder traversal means that there is no ambiguity as to where to place the next element $e$.
 \end{document}

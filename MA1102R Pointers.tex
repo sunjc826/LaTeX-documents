@@ -20,13 +20,32 @@
 \maketitle
 
 \section{Definitions and Formula}
+\subsection{Sets}
 \begin{align*}
     \mathbb{N}=\{1,2,3,\dots\}
 \end{align*}
+
+\subsection{Summation formula}
 \begin{align*}
-    \sum_{i=1}^nk^2=\frac{n(n+1)(2n+1)}{6}\\
-    \sum_{i=1}^nk^3=\frac{n^2(n+1)^2}{4}
+    \sum_{i=1}^nk^2&=\frac{n(n+1)(2n+1)}{6}\\
+    \sum_{i=1}^nk^3&=\frac{n^2(n+1)^2}{4}
 \end{align*}
+
+\subsection{Manipulating absolute values}
+\begin{align*}
+	x^2&=|x|^2\\
+	\frac{x^2}{|x|}&=\frac{|x|^2}{|x|}=|x|
+\end{align*}
+
+\subsection{Common trigonometric bounds}
+\begin{itemize}
+	\item \begin{align*}
+		\forall x\in \mathbb{R}, |\sin(x)| \leq |x|
+	\end{align*}
+	\item \begin{align*}
+		\forall x\in \mathbb{R}, |\cos(x)| \leq 1
+	\end{align*}
+\end{itemize}
 
 \section{Chapter 1}
 \subsection{Prove non-existence of quotient limits}
@@ -226,6 +245,20 @@ A succinct way of expressing this idea is that $l\leq L(\theta)\, \forall \theta
 Hence, $l\leq \min\{L(\theta)\mid \theta \in (0,\frac{\pi}{2})\}$. So while we want to find the maximum length $l$ of the pipe that can fit at all angles, what we actually need to find is the global minimum of the $L$ function.
 
 
+\subsection{Number of roots}
+Given a function $f$, we want to prove that $f$ has exactly $n$ roots. (For simplicity here, we let $n=3$.)\\
+There are several approaches to this.
+\begin{itemize}
+	\item To show $f$ has at least 3 roots, we can apply Intermediate Value Theorem on 3 closed intervals.
+	\item Sometimes, it may be difficult to find the intervals over which to apply IVT. We can then consider looking for symmetries, e.g. odd/even functions.
+	\begin{itemize}
+		\item An example of this comes from the 2017/2018 Sem 2 Paper: $f(x)=x-2\tanh(x)$\\
+		$f$ is odd, suggesting that we only need to look in the non-negative real numbers for roots.
+	\end{itemize}
+	\item To show $f$ has at most 3 roots, we can consider $f', f'',f'''$.\\
+	We can try to show that $f'$ has 2 roots, or $f''$ has 1 root, or $f'''$ has 0 roots. \textbf{Do whichever is more obvious.}
+\end{itemize}
+
 \section{Chapter 6}
 \subsection{Lecture results}
 A commentary on some lemmas provided in lecture.
@@ -387,4 +420,59 @@ Hence,
 
 
 \section{Chapter 9}
+
+
+\section{Other theorems}
+\subsection{Cauchy property}
+A particularly useful property from analysis is the Cauchy property of convergent sequences/functions.\\
+On the real line, this can be proven as follows:
+
+\begin{enumerate}
+	\item Given a function on $\mathbb{R}^+$, suppose $\lim_{x\rightarrow \infty}=L\in \mathbb{R}$. Fix $\epsilon > 0$.
+	\item By convergence, $\exists N>0, x>N \implies L-\frac{\epsilon}{2} < f(x) < L+\frac{\epsilon}{2}$.
+	\item Let $x_1,x_2>N$. Then $L-\frac{\epsilon}{2} < f(x_1), f(x_2) < L+\frac{\epsilon}{2}$.
+	\item Hence, $|f(x_1)-f(x_2)|<(L+\frac{\epsilon}{2})-(L-\frac{\epsilon}{2})=\epsilon$
+	\item To summarise the previous result, we have,
+	\begin{align*}
+		\forall \epsilon>0, \exists N>0, s.t.\, x_1,x_2>N \implies |f(x_1)-f(x_2)|<\epsilon
+	\end{align*}
+\end{enumerate}
+
+This also works for $\lim_{x\rightarrow a}$ instead of $\infty$.
+
+We see an application of this in the 2019 Sem 2 paper Qn 8.
+\begin{enumerate}
+	\item Suppose $\int_0^\infty f(t)\, dt=L$
+	\item Define $F(x)=\int_0^xf(t)\, dt$.
+	\item Then by the Cauchy property, for any arbitrary $\epsilon >0$, there exists $N>0$ such that $N<x_1\leq x_2$ implies $|F(x_2)-F(x_1)|<\epsilon$, i.e.
+	\begin{align*}
+		|\int_{x_1}^{x_2}f(t)\, dt|<\epsilon
+	\end{align*}
+\end{enumerate}
+
+\subsection{Uniqueness of representations}
+Every line has a unique slope-intercept form.\\
+This fact can be used to construct simultaneous equations.
+\begin{align*}
+	y-y_0 = m(x-x_0)
+\end{align*}
+is generally a superior representation over $y=mx+c$, because we only need to deal with one unknown, $m$, instead of 2 unknowns, $m$ and $c$.
+
+\subsection{Taylor's theorem}
+Consider the function
+\begin{align*}
+	g(x) = f(x) - (f(a) + f'(a)(x-a) + f''(a)\frac{(x-a)^2}{2!} + \dots + f^{(k-1)}(a)\frac{(x-a)^{k-1}}{(k-1)!} + M\frac{(x-a)^{k}}{k!})
+\end{align*}
+where $M$ is defined as the real number where $g(b)=0$. Clearly $M$ is well-defined, and $g$ is a function.\\
+The next key observations are the following:
+\begin{enumerate}
+	\item $g(a) = g(b) = 0$
+	\item $g'(a)=g''(a)=\dots =g^{(k-1)}(a)=0$
+	\item $g^{(k)}(x)=f^{(k)}(x)-M$
+\end{enumerate}
+Because of these properties, we can repeatedly apply Rolle's Theorem and obtain a series of numbers $a<c_k<c_{k-1}<\dots <c_2<c_1<b$ such that $g'(c_1)=g''(c_2)=\dots g^{(k)}(c_{k})=0$\\
+Property 3 allows us to show that $M=f^{(k)}(c_k)$.
+
 \end{document}
+
+
