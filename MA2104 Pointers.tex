@@ -69,6 +69,30 @@ The algebra goes:
 
 
 \section{Functions of Two Variables, Quadric Surfaces, Limits and Continuity}
+
+\subsection{Point Set Topology}
+Definitions given in lecture are that of open, closed, interior points, (open) ball, boundary points.
+Define limit points as in Baby Rudin chapter 2.
+Define the following:
+\begin{itemize}
+	\item Metric space S, Region $R\subseteq S$ 
+	\item $B(p, r) = \{q\in S : d(p,q)<r\}$ 
+	\item $bd(R) = \{p\in S : \forall r\in \mathbb{R}^+, B(p,r) \cap R\neq \emptyset \land B(p,r)\cap R^c\neq \emptyset \}$ (boundary of region R)
+	\item $int(R) = \{p\in R : \exists r\in \mathbb{R}^+, B(p,r) \subseteq R\}$ (interior of R)
+	\item $lim(R) = \{p\in S :  \forall r\in \mathbb{R}^+, B(p,r) \cap R\neq \emptyset\}$ (limit points of R)
+\end{itemize}
+
+\subsubsection{Closed set}
+The following are equivalent:\\
+\begin{itemize}
+	\item A region R in a metric space is closed
+	\item $bd(R)\subseteq R$
+	\item $lim(R)\subseteq R$
+\end{itemize}
+Note that $bd(R)\subseteq lim(R)$, since the predicate governing $bd$ is more restrictive than the predicate governing $lim$.
+
+Let $p \in lim(R)\setminus bd(R)$. Then trivially $p$ itself must be a point in R, otherwise $p\in B(p, r)\cap R^c$ for any $r\in R^+$, a contradiction.
+
 \subsection{Surfaces}
 A surface is described by a predicate. For e.g. a surface in 3D can be described by the predicate $P(x,y,z)="x+y+2z=k"$. The surface itself is then the set $\{(x,y,z):P(x,y,z)\}$.
 
