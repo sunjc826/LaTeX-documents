@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+% Margins
+\usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
+
+
+\title{MA2101 (Linear Algebra 2)}
+\author{Jia Cheng}
+\date{January 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Definitions and Formula}
+
+
+\section{General}
+Reference Book: Axler's Linear Algebra Done Right
+
+\subsection{Well-defined functions}
+I am inspired to discuss this by the section on quotient spaces.\\
+For a vector space $V$, subspace $U$ of $V$, define $V/U=\{v+U : v\in V\}$.\\
+Define vector addition on $V/U$ by $(v + U) + (w + U) = ((v+w) + U)$.
+Define scalar multiplication on $V/U$ by $\lambda(v+U)=((\lambda v)+U)$.
+
+One of the steps in proving that our newly defined $+$ is a binary operation on $V/U$, is to show that it is well-defined. That is, for each distinct element in the domain ($V/U$), there exists a unique image in the codomain.
+
+For sets like integers, the representation of any element in the domain is unique, so we usually don't have to worry about well-definition of functions. However, in the case of quotient spaces, $v-v' \in U$ implies $(v+U)=(v'+U)$, even though we can have $v\neq w$. It is because of these multiple representations that we have to worry about "well-defined-ness". We need to make sure when $(v+U)=(v'+U),(w+U)=(w'+U)$, we have $(v+U)+(w+U)=(v'+U)+(w'+U)$.
+
+\subsection{Matrices vs Linear Maps}
+Other than determinants and the section on eigenvectors, MA1101R (Linear Algebra 1) is sufficiently rigorous.
+The key difference between MA1101R and Axler's Linear Algebra is the approach taken to building up the theory.
+
+\end{document}
+
+
