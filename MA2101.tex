@@ -4,7 +4,7 @@
 \usepackage{amsmath,amssymb}
 \usepackage{parskip}
 \usepackage{graphicx}
-
+\usepackage{hyperref}
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 
 % Margins
@@ -38,6 +38,16 @@ For sets like integers, the representation of any element in the domain is uniqu
 \subsection{Matrices vs Linear Maps}
 Other than determinants and the section on eigenvectors, MA1101R (Linear Algebra 1) is sufficiently rigorous.
 The key difference between MA1101R and Axler's Linear Algebra is the approach taken to building up the theory.
+
+An advantage of thinking in terms of linear maps rather than matrices is that linear maps are independent of our choice of bases. The same matrix can do very different things if we decide to change up the bases, but the same linear map remains invariant.
+
+This is especially useful in abstract vector spaces. A generic vector space $V$ does not have a canonical basis (unlike the standard basis in $\mathbb{R}^n$ or polynomials $P(\mathbb{R})$. We can play around with linear maps without having the need to state a basis. (whereas we do if we want to write things in matrix form, or in simultaneous equation form)
+
+An example of the usefulness of this is seen here: \url{https://math.stackexchange.com/questions/3749/why-do-we-care-about-dual-spaces}.
+Linear functionals (linear maps that have the field as the codomain) allow the definition of a hyperplane without the need for a basis.
+
+To quote Matt E, the author of the post:\\
+So this gives a reasonable justification for introducing the elements of the dual space to $V$; they generalize the notion of linear equation in several variables from the case of $\mathbb{R}^n$ to the case of an arbitrary vector space.
 
 \end{document}
 

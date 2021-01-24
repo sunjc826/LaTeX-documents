@@ -52,6 +52,8 @@ The above process may lead to mistakes if the equivalence classes are not actual
 
 This is especially relevant when it comes to conditional probability, as we will discuss below.
 
+
+
 \subsection{Conditional Probability}
 Consider example 2e in the textbook.
 Suppose that an urn contains 8 red balls and 4 white balls. We draw 2 balls from the urn without replacement. \\
@@ -113,6 +115,44 @@ Ans: $1-10000\alpha$. Since the event $E$ that the guilty is a member of the ex-
 It would be wrong to multiply together $(1-\alpha)^{10000}$ since the event that person i is not guilty is not independent from the event that person j is not guilty.
 
 
+\subsection{Principle of Inclusion Exclusion}
+The upper and lower bounds of $P(\cup_{i=1}^n E_i)$ are an excellent exercise in manipulating summation indices.
+
+\textbf{Notation}: Given 2 sets $E$, $F$, define $EF=E\cap F$.
+
+\begin{align*}
+	P(\cup_{i=1}^n E_i) = \sum_{1\leq j\leq n}(-1)^{j+1}\sum_{1\leq i_1 < \dots < i_j \leq n}P(E_{i_1}\dots E_{i_j})
+\end{align*}
+
+Claim:
+For odd $k$,
+\begin{align*}
+	P(\cup_{i=1}^n E_i) \leq \sum_{1\leq j\leq k}(-1)^{j+1}\sum_{1\leq i_1 < \dots < i_j \leq n}P(E_{i_1}\dots E_{i_j})
+\end{align*}
+For even $k$,
+\begin{align*}
+	P(\cup_{i=1}^n E_i) \geq \sum_{1\leq j\leq k}(-1)^{j+1}\sum_{1\leq i_1 < \dots < i_j \leq n}P(E_{i_1}\dots E_{i_j})
+\end{align*}
+
+Here, we shall go from the odd $k$ to even $k+1$.
+We first note that 
+\begin{align*}
+	P(\cup_{i=1}^n E_i) = \sum_{1\leq i\leq n}P(E_i) - \sum_{1\leq i\leq n}P(\cup_{1\leq j < i}E_jE_i)
+\end{align*} 
+
+Fix some $1\leq i\leq n$.Applying the inequality for odd $k$, we have
+\begin{align*}
+	P(\cup_{1\leq j < i}E_jE_i) &\leq \sum_{1\leq j\leq k}(-1)^{j+1}\sum_{1\leq i_1 < \dots < i_j \leq n} P(E_{i_1}E_iE_{i_2}E_i\dots E_{i_j}E_i)\\
+	&= \sum_{1\leq j\leq k}(-1)^{j+1}\sum_{1\leq i_1 < \dots < i_j \leq n} P(E_{i_1}E_{i_2}\dots E_{i_j}E_i)
+\end{align*}
+Hence,
+\begin{align*}
+	P(\cup_{i=1}^n E_i) &\geq \sum_{1\leq i\leq n}P(E_i) - \sum_{1\leq i\leq n}\sum_{1\leq j\leq k}(-1)^{j+1}\sum_{1\leq i_1 < \dots < i_j \leq n} P(E_{i_1}E_{i_2}\dots E_{i_j}E_i)\\
+	&= \sum_{1\leq i\leq n}P(E_i) - \sum_{1\leq j\leq k}(-1)^{j+1}\sum_{1\leq i_1 < \dots < i_j < i_{j+1} \leq n} P(E_{i_1}E_{i_2}\dots E_{i_j}E_{i_{j+1}})\\
+	&= \sum_{1\leq j\leq k+1}(-1)^{j+1}\sum_{1\leq i_1 < \dots < i_{j+1} \leq n} P(E_{i_1}E_{i_2}\dots E_{i_{j+1}})
+\end{align*} 
+
+Going from even $k$ to odd $k+1$ is similar.
 \end{document}
 
 
