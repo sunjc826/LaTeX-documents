@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+% Margins
+\usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
+
+
+\title{MA2108S (Mathematical Analysis I) Pointers}
+\author{Jia Cheng}
+\date{January 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Definitions and Formula}
+
+\section{Point Set Topology}
+\subsection{Definitions}
+\begin{itemize}
+	\item Metric Space $M$
+	\item Open ball $B(p,r)=\{q\in M : d(p,q) < r \}$
+	\item Boundary of S: $bd(S)=\{p\in S : \forall r > 0, \exists q\in S, \exists q'\in S^c, q,q'\in B(p,r) \}$
+	\item Limit points of S: $lim(S)=\{p\in S : \forall r > 0, \exists q\in S, q\neq p, q\in B(p,r) \}$
+	\item Interior of S: $int(S)=\{p\in S : \exists r > 0, B(p,r)\subseteq S\}$
+\end{itemize}
+\subsection{Equivalence of definitions of closed set}
+The following definitions of a closed set are equivalent.
+
+\begin{enumerate}
+	\item $bd(S)\subseteq S$
+	\item $lim(S)\subseteq S$
+\end{enumerate}
+
+\textbf{Proof}: Suppose $bd(S)\subseteq S$. 
+Let $x\in lim(S)$ and fix some arbitrary $r\in \mathbb{R}^+$.
+If $x\in S$, we are done.\\
+Otherwise,  $x\not \in S$. As $x$ is a limit point, $\exists q\in S, q\neq x$ such that $q\in B(x,r)$. Now, notice that $x$ is a boundary point of $S$, since $x$ itself is not in S, and $q$ is in S, and both $x,q\in B(x,r)$.\\
+But by our initial assumption, we have $x\in bd(S)\subseteq S$. Contradiction.\\
+Hence, $x\in S$ and $\lim(S)\subseteq S$.
+
+Conversely, suppose $lim(S)\subseteq S$.\\
+Let $x\in bd(S)$ and fix some arbitrary $r\in \mathbb{R}^+$. If $x\in S$, we are done.\\
+Otherwise, $x\not \in S$. As $x$ is a boundary point, $\exists q\in S, q' \in S^c$ such that both are in $B(x,r)$. In particular, $q\neq x$ since $x\not \in S$. This says that $x$ is a limit point of $S$.\\
+Our initial supposition says that $x\in lim(S)\subseteq S$. Again, we have a contradiction.  
+
+\end{document}
+
+
