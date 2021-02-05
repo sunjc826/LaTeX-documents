@@ -1,0 +1,169 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+% Margins
+\usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
+
+
+\title{MA2104 (Multivariable Calculus)}
+\author{Jia Cheng}
+\date{January 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Definitions and Formula}
+
+
+\section{Vectors, Lines and Planes}
+\subsection{The dot product}
+Here, I reference MA1101R's textbook, (Linear Algebra, Concepts and Techniques in Euclidean Space).
+Theorems in geometry and trigonometry(cosine rule) gives rise to the equalities
+\begin{align*}
+	\cos(\theta) &= \frac{x_1y_1+x_2y_2}{||\mathbf{x}||||\mathbf{y}||} &&\text{in } \mathbb{R}^2\\
+	\cos(\theta) &= \frac{x_1y_1+x_2y_2+x_3y_3}{||\mathbf{x}||||\mathbf{y}||} &&\text{in } \mathbb{R}^3
+\end{align*} 
+Hence, we define the dot product in $\mathbb{R}^2$ and $\mathbb{R}^3$. Now, we extend this definition to $\mathbb{R}^n$, such that $\mathbf{x}\cdot \mathbf{y} = \sum_{1\leq i\leq n}x_iy_i$. We also extend the definition of angle to $\mathbb{R}^n$, such that 
+\begin{align*}
+	\cos(\theta) = \frac{\mathbf{x}\cdot \mathbf{y}}{||\mathbf{x}||||\mathbf{y}||}
+\end{align*}
+By the Cauchy Schwarz inequality, it turns out that such a generalisation is consistent, as $\frac{\mathbf{x}\cdot \mathbf{y}}{|\mathbf{x}||\mathbf{y}|}$ is always bounded between $-1$ and $1$.
+
+Note that the angle $\theta$ between vectors is by definition the smaller angle, i.e. $0\leq \theta \leq \pi$.
+
+In fact, we can completely "ditch" all geometrical sources of "proof" and simply define $\cos(\theta) = \frac{\mathbf{x}\cdot \mathbf{y}}{||\mathbf{x}||||\mathbf{y}||}$ axiomatically. This is the direction that Prof Chin Chee Whye takes.\\
+To make things more efficient by this approach, my personal interpretation that we can simply "assume" that this algebraic definition of angle is equivalent with the geometrical definition when it comes to 2-space and 3-space. By thinking heuristically in this manner, we can then use intuitive geometrical arguments, then fall back to algebraic axioms and definitions to proof our results formally.\\
+If we do take the cosine rule (geometric) approach, then I am curious how length is defined there. (since we are not working from an algebraic standpoint)
+
+\subsection{Distance between parallel planes in $\mathbb{R}^3$}
+Let $P_1$ and $P_2$ be 2 parallel planes. Let $n$ be the normal vector of both planes.\\
+Choose any point $r_1$ on $P_1$.\\
+Now let $r_2$ be a point on $P_2$. Then $(r_2 - r_1)\cos\theta=(r_2 - r_1)\cdot \frac{n}{||n||}$ is the shortest distance from $r_1$ to plane $P_2$. (Here, $\theta$ is the angle between $(r_2-r_1)$ and $n$.)\\
+Regardless of which $r_1$ we choose, this shortest distance is the same. Hence, this shortest distance is also the distance between the 2 planes.
+
+\subsection{Distance between point and a line}
+We can prove algebraically that the shortest distance between a point with position vector $\mathbf{u}$ and a vector space $V$ is the $\mathbf{u} -proj_V(\mathbf{u})$, where $proj(u)$ is the orthogonal projection of $\mathbf{u}$ on $V$.
+
+This result means that we can show that this shortest distance is equal to $|mathbf{u}|\sin \theta$ \textit{without} geometry (i.e. without drawing a diagram and relying on our intuitive/visual understanding of geometry). Note that angle $\theta$ is defined as 
+\begin{align*}
+	\cos(\theta) &= \frac{\mathbf{x}\cdot \mathbf{y}}{||\mathbf{x}||||\mathbf{y}||}
+\end{align*}
+The algebra goes:
+\begin{align*}
+	|\mathbf{u}-proj(\mathbf{u})|^2&=(\mathbf{u}-proj(\mathbf{u}))\cdot \mathbf{u}-proj(\mathbf{u})\\
+	&= |\mathbf{u}|^2-\frac{(\mathbf{u}\cdot \mathbf{v})^2}{|\mathbf{v}|^2}\\
+	&=|\mathbf{u}|^2\sin^2\theta\\
+	\text{Note the last equality is due to }\\
+	|\mathbf{u}|^2|\mathbf{v}|^2-(\mathbf{u}\cdot \mathbf{v})^2&=|\mathbf{u}|^2|\mathbf{v}|^2\sin^2\theta\\
+	\text{Hence, }\\ 
+	|\mathbf{u}-proj(\mathbf{u})|&=|\mathbf{u}|\sin\theta
+\end{align*}
+
+
+
+\section{Functions of Two Variables, Quadric Surfaces, Limits and Continuity}
+
+\subsection{Point Set Topology}
+Definitions given in lecture are that of open, closed, interior points, (open) ball, boundary points.
+Define limit points as in Baby Rudin chapter 2.
+Define the following:
+\begin{itemize}
+	\item Metric space S, Region $R\subseteq S$ 
+	\item $B(p, r) = \{q\in S : d(p,q)<r\}$ 
+	\item $bd(R) = \{p\in S : \forall r\in \mathbb{R}^+, B(p,r) \cap R\neq \emptyset \land B(p,r)\cap R^c\neq \emptyset \}$ (boundary of region R)
+	\item $int(R) = \{p\in R : \exists r\in \mathbb{R}^+, B(p,r) \subseteq R\}$ (interior of R)
+	\item $lim(R) = \{p\in S :  \forall r\in \mathbb{R}^+, \exists q\in S, q\neq p, q\in B(p,r)\}$ (limit points of R)
+\end{itemize}
+
+
+
+\subsubsection{Closed set}
+The following are equivalent:\\
+\begin{itemize}
+	\item A region R in a metric space is closed
+	\item $bd(R)\subseteq R$
+	\item $lim(R)\subseteq R$
+\end{itemize}
+\textbf{Proof:}
+
+
+\subsection{Surfaces}
+A surface is described by a predicate. For e.g. a surface in 3D can be described by the predicate $P(x,y,z)="x+y+2z=k"$. The surface itself is then the set $\{(x,y,z):P(x,y,z)\}$.
+
+Let $f(x,y)$ be a function of 2 variables. To visualise this as a surface, we consider the equation $z=f(x,y)$. The predicate describing the surface is then $P(x,y,z)="z=f(x,y)"$. Hence, the surface is the set $\{(x,y,z):P(x,y,z)\}=\{(x,y,z):z=f(x,y)\}$.
+
+\subsection{Quadric Surfaces}
+\subsubsection{Naming}
+Notice that quadric surfaces have 2 parts to their name: x-ic y-loid\\
+\begin{itemize}
+	\item Elliptic Paraboloid: The horizontal traces are ellipses, vertical traces are parabolas.
+	\item Hyperbolic Paraboloid: The horizontal traces are hyperbolas, vertical traces are parabolas. 
+	\item n-sheet Hyperboloid (where $n=\pm 1$): Vertical traces are hyperbolas.
+	
+Note that the "vertex" is only relevant to the elliptic paraboloid. The vertex can be interpreted to be the point of intersection between the elliptic paraboloid and the line of symmetry.
+\end{itemize}
+
+\subsection{Limits}
+\subsubsection{Squeeze Theorem}
+The following are equivalent statements of the Squeeze Theorem. (Either can be used to prove the other.)
+
+MA1102R Style:\\
+Suppose $g(x)\leq f(x)\leq h(x)$ in a neighborhood of $a$, and $\lim_{x\rightarrow a}g(x)=L=\lim_{x\rightarrow a}h(x)$. Then $\lim_{x\rightarrow a}f(x)=L$.
+
+MA2104 Style:\\
+Suppose $|f(x)-L|\leq g(x)$ in a neighborhood of $a$, and $\lim_{x\rightarrow a}g(x)=0$. Then $\lim_{x\rightarrow a}f(x)=L$.
+
+
+\section{Differentiation of multivariable functions}
+See lecture notes for definitions.
+
+Unless otherwise stated, function $f: R\rightarrow R^n$, where $R\subset R^n$. $R$ is an open region.
+
+\subsection{Higher Order Derivatives (Lecture 8)}
+\textbf{Def} A function $f$ is said to be of class $C^0$ if $f$ is continuous on region $R$.\\
+A function $f$ is said to be of class $C^r$, $r\in \mathbb{Z^+}$, if $f'$ is of class $C^{r-1}$.\\
+For example, functions of class $C^1$ are continuously differentiable.
+
+\textbf{Thm 1} $f$ is of class $C^1$ $\iff$ $\frac{\partial f_i}{\partial x_j}$ is defined and continuous on $R$ for all $1\leq i\leq n,\, 1\leq j \leq m$. 
+
+
+$f$ is of class $C^r \iff \frac{\partial f_i}{\partial x_j}$ is of class $C^{r-1}$.
+
+Proof by induction on $r$:\\
+Suppose $P(r)$, and let $f: R\rightarrow \mathbb{R}^n$ be of class $C^{r+1}$. By definition, $f': R \rightarrow L(\mathbb{R}^m, \mathbb{R}^n) \cong M_{n\times m}(\mathbb{R}) = \mathbb{R}^{n,m}$ is of class $C^r$.
+
+Next, we will show that the partial derivatives of the component functions of $f'$ are, in fact, second order partial derivatives of the component functions of $f$.
+
+By $P(r)$,  
+\begin{align*}
+	\forall (i_1,i_2)\in \{1,\dots, n\}\times \{1,\dots, m\}, \forall j\in \{1,\dots, m\}, \, \frac{\partial f'_{(i_1, i_2)}}{\partial x_j} \text{is of class } C^{r-1}
+\end{align*}
+
+Note that the vector space of linear maps $L(\mathbb{R}^m, \mathbb{R}^n)$ is isomorphic to $n$ by $m$ matrices.\\
+Hence, if we view $f'_{(i_1, i_2)}(\mathbf{p})$ as a matrix, then we have
+\begin{align*}
+	\forall \mathbf{p}\in R, \, f'_{(i_1, i_2)}(\mathbf{p}) = \frac{\partial f_{i_1}}{\partial x_{i_2}}(\mathbf{p})
+\end{align*}
+Hence, in general we have
+\begin{align*}
+	f'_{(i_1, i_2)} = \frac{\partial f_{i_1}}{\partial x_{i_2}}
+\end{align*}
+Hence, 
+\begin{align*}
+	\frac{\partial f'_{(i_1, i_2)}}{\partial x_j} = \frac{\partial^2 f_{i_1}}{\partial x_j \partial x_{i_2}}
+\end{align*}
+
+But saying that $\frac{\partial^2 f_{i_1}}{\partial x_j \partial x_{i_2}}$ is of class $C^{r-1}$ is the same as saying $\frac{\partial f_{i_1}}{\partial x_{i_2}}$ is of class $C^r$. And we are done since $1\leq i_1\leq n, 1\leq i_2\leq m$.
+
+
+
+\end{document}
+
+
