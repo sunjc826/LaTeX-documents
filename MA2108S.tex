@@ -57,6 +57,8 @@ The following 2 notions are equivalent.
 	\item $X$ is sequentially compact, that is, for every sequence $\{p_n\}$ in $X$, there exists a subsequence converging to some point of $X$.
 \end{enumerate}
 
+To prove (2) using (1), consider 2 cases: a sequence with finite range, and a sequence with infinite range (this case is proven with (1)).
+
 \section{Sequences}
 \subsection{Infinite subsets vs sequences}
 There is a subtle difference between these 2 concepts. Of course, infinite sets are unordered, whereas sequences are ordered. \\
@@ -65,6 +67,69 @@ Additionally, it must be noted that sequences can have repeat elements (with dif
 Also, with regard to infinite sets, we speak of limit points, and with regard to sequences, we speak of subsequence limits. Again, there is a difference between limit points and subsequential limits.
 
 For example, a point can be a subsequential limit without being a limit point. Consider the earlier defined set $\{i^n\}$. Every element in the range $\{\pm 1, \pm i\}$ is a subsequential limit, but since the range is finite, none of these subsequential limits are limit points of the range.
+
+As a consequence, these 2 propositions say different things:
+\begin{itemize}
+	\item The set of limit points $E'$ of a set $E$ is closed.
+	\item The set of subsequential limits of a sequence $\{p_n\}$ is closed.
+\end{itemize}
+
+
+Similarly, supremum of a finite subset of $\mathbb{R}$ is clearly not a limit point of the set.
+
+\subsubsection{Supremum of closed subset of $\mathbb{R}$ belongs to set}
+Like before, we need to consider 2 cases, whether the set if infinite or not.
+
+If the set is finite, the supremum of a set is the maximum of the set, and is clearly an element of the set.\\
+If the set is infinite, the supremum is then a limit point of the set, and by definition of "closed", belongs to the set.
+
+
+\subsection{Subsequential limits in $\mathbb{R}$ and $\pm \infty$}
+This discussion is inspired by Rudin 3.15 to 3.17.
+
+Notice that subsequential limits of a real sequence lie in $(-\infty, +\infty)$, i.e. they are finite. $\pm \infty$ are \textbf{not} considered limits.
+
+This is because the definition of a limit $p$ of a sequence $\{p_n\}$ (or a subsequence) involved the notion of distance $d(p_n, p)$ approaching 0. In particular, $d(p_n, p)$ is defined.\\
+Clearly, $d(p_n, +\infty)$ or $d(p_n, -\infty)$ are not defined, since metric $d$ is always a real-valued function.
+
+\subsection{The Extended Real Line}
+While this was introduced in Chapter 1, it is in Chapter 3 that we see the application of $\mathbb{R} \cup \{\pm \infty\} = [-\infty, +\infty]$.
+
+Properties of the extended reals
+\begin{itemize}
+	\item The extended real line is no longer a field.
+	\item $\mathbb{R}$ has the completeness property, such that for any upper bounded subset $S$ of $\mathbb{R}$, $\sup S$ exists in $\mathbb{R}$. However, $\sup S$ does not exist in $\mathbb{R}$ is $S$ is unbounded.\\
+	 In contrast, all subsets $S$ of $[-\infty, +\infty]$ have supremums and infimums. For an upper unbounded set $S$, we would have $\sup S = + \infty$, and for a lower unbounded set $S$, we would have $\inf S = -\infty$. For a bounded set, we can then apply the completeness property of $\mathbb{R}$ to find a supremum/infimum in $\mathbb{R}\subset [-\infty, +\infty]$
+\end{itemize}
+
+The fact that all subsets of $[-\infty, +\infty]$ have well-defined supremum and infimum makes Theorem 3.17 in PMA very easy to state. Given the set $E$ of all subsequential limits of a sequence $\{p_n\}$ \textbf{which \textit{additionally} includes $\pm \infty$ if the sequence is unbounded}, we are guaranteed to find $\sup E, \inf E$, without having to talk about special cases (i.e. bounded vs unbounded sequences), which can be troublesome to write.
+
+Of course, if $\sup E$ turns out to be $+\infty$ or $-\infty$, we must be careful. We can't treat the infinities like subsequential limits. For e.g., we can't use a theorem like \textit{the set of subsequential limits is closed}, since $\pm \infty$ do not belong in the set of subsequential limits.\\
+To emphasise: $E$ in theorem 3.17 is the union of subsequential limits (which are finite) and possibly $+\infty$ if the sequence is unbounded above, $-\infty$ if the sequence is unbounded below.
+
+
+\subsection{Two proofs of the Squeeze Theorem}
+We are given functions $f,g,h$ where $f(x)\leq g(x)\leq h(x)$ in some neighborhood of $x_0$, such that $f(x)\rightarrow L$ and $h(x)\rightarrow L$. Fix $\epsilon > 0$ and we can obtain the following bound for all $0 < |x - x_0| < \delta$ for some $\delta > 0$.
+\begin{align*}
+	L - \epsilon < f(x) \leq g(x) \leq h(x) < L + \epsilon
+\end{align*}
+This says that $g(x)\rightarrow L$ as well.
+
+This can easily be adapted to the proof of squeeze theorem for sequences as well.
+
+A second proof of the squeeze theorem that is more in line with Rudin Chapter 3:
+
+Given sequences $\{a_n\}, \{b_n\}, \{c_n\}$ such that $a_n\leq b_n\leq c_n$ for all but finitely many $n$, and $a_n, c_n\rightarrow L$.
+
+Then we have \begin{align*}
+	L = \lim a_n = \liminf a_n \leq \liminf b_n \leq \limsup b_n \leq \limsup c_n = \lim c_n = L
+\end{align*}
+which implies
+\begin{align*}
+	\liminf b_n = \limsup b_n = L \implies \lim b_n = L
+\end{align*}
+The last implies is due to the following: For any $\epsilon > 0$, there exists $N \in \mathbb{N}$ s.t. $n\geq N\implies L - \epsilon = \liminf b_n - \epsilon < b_n < \limsup b_n + \epsilon = L + \epsilon$.
+
 
 \end{document}
 
