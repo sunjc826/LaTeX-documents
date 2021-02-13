@@ -50,6 +50,22 @@ Let $x\in bd(S)$ and fix some arbitrary $r\in \mathbb{R}^+$. If $x\in S$, we are
 Otherwise, $x\not \in S$. As $x$ is a boundary point, $\exists q\in S, q' \in S^c$ such that both are in $B(x,r)$. In particular, $q\neq x$ since $x\not \in S$. This says that $x$ is a limit point of $S$.\\
 Our initial supposition says that $x\in lim(S)\subseteq S$. Again, we have a contradiction.  
 
+\subsection{Sequential Compactness}
+The following 2 notions are equivalent.
+\begin{enumerate}
+	\item Every infinite subset $E$ of a set $X$ has a limit point in $X$.
+	\item $X$ is sequentially compact, that is, for every sequence $\{p_n\}$ in $X$, there exists a subsequence converging to some point of $X$.
+\end{enumerate}
+
+\section{Sequences}
+\subsection{Infinite subsets vs sequences}
+There is a subtle difference between these 2 concepts. Of course, infinite sets are unordered, whereas sequences are ordered. \\
+Additionally, it must be noted that sequences can have repeat elements (with different indices). The range of an infinite sequence may very well be finite. An example would be the sequence $\{i^n\}_{n\in \mathbb{N}}$, with range $\{\pm 1, \pm i\}$.
+
+Also, with regard to infinite sets, we speak of limit points, and with regard to sequences, we speak of subsequence limits. Again, there is a difference between limit points and subsequential limits.
+
+For example, a point can be a subsequential limit without being a limit point. Consider the earlier defined set $\{i^n\}$. Every element in the range $\{\pm 1, \pm i\}$ is a subsequential limit, but since the range is finite, none of these subsequential limits are limit points of the range.
+
 \end{document}
 
 

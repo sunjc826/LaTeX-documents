@@ -1,0 +1,148 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage {tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{tabularx,booktabs}
+\usepackage{algorithmic}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\usepackage[shortlabels]{enumitem}
+\usepackage{slashed}
+
+\usetikzlibrary {positioning}
+%\usepackage {xcolor}
+\definecolor {processblue}{cmyk}{0.96,0,0,0}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+
+% Margins
+\usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
+
+
+\title{CS2100}
+\author{Jia Cheng}
+\date{January 2021}
+
+\begin{document}
+\maketitle
+
+\section{Definitions}
+\begin{itemize}
+	\item MSB: Most significant bit
+	\item LSB: Least significant bit
+\end{itemize}
+
+\section{Conversion Table}
+\begin{center}
+\begin{tabular}{ c|c|c } 
+ 	Dec & Hex & Bin\\
+	\hline
+	0&	0&	0000\\	 	
+	1&	1&	0001\\	 	
+	2&	2&	0010\\	 	
+	3&	3&	0011\\	 	
+	4&	4&	0100\\	 	
+	5&	5&	0101\\	 	
+	6&	6&	0110\\	 	
+	7&	7&	0111\\	 	
+	8&	8&	1000\\	 	
+	9&	9&	1001\\	 	
+	10&	a&	1010\\	 	
+	11&	b&	1011\\	 	
+	12&	c&	1100\\	 	
+	13&	d&	1101\\	 	
+	14&	e&	1110\\	 	
+	15&	f&	1111\\
+	\hline
+\end{tabular}
+\end{center}
+
+
+\section{Number representations}
+
+Note: The following terminology may be slightly confusing. 
+$2s$ complement representation refers to the number representation format.
+$2s$ complement of a number $N$ refers to how $-N$ is represented under the $2s$ complement representation.
+
+Ditto for $1s$ complement representation and $1s$ complement of a number $N$.
+
+\subsection{Bs complement}
+Given a base $B$, positive integer $n$. The $n$-digit $B$'s complement representation operates modulo $B^n$.
+
+We now denote $Bs$ as $n$-digit $B$'s complement representation.
+
+An interesting observation is that we can map the $Bs$ values, i.e. the \textbf{ordered} set $\{(b_{n-1}\dots b_0) : b_i\in \{0, 1, \dots, B-1\}\}$ to \textbf{any} translation + cyclic permutation of $\mathbb{Z}/B^{n}\mathbb{Z}$.
+
+We now arbitrarily fix the integer $10$, so as to demonstrate the meaning of translation and cyclic permutation.
+An example of translation of $\mathbb{Z}/10\mathbb{Z}$ is $\{2,3,4,\dots, 11\}$. In this case, this is a translation of $+2$. An example of cyclic permutation of $\mathbb{Z}/10\mathbb{Z}$ is $\{2,3,4,\dots, 9, 0, 1\}$.
+
+In the case of the regular $8$-bit $2s$ complement representation, we have a combination of translation and cyclic permutation of $\mathbb{Z}/256\mathbb{Z}$ .
+
+\textbf{Example} To show the completely arbitrary nature of such a map from $\{(b_{n-1}\dots b_0) : b_i\in \{0, 1, \dots, B-1\}\}$ to any translation + cyclic permutation of $\mathbb{Z}/B^{n}\mathbb{Z}$, consider the map of $5$-bits to $\mathbb{Z}/32\mathbb{Z}$. Call this representation $R$. Note that under $2s$ complement, the $5$-bits would have been mapped to the ordered set $\{0, 1, \dots, 15, -16, -15, \dots, -1\}$
+
+Then, $31 = (11111)_R$, $-31 \equiv 32 - 31 (\mod 32) = 1 = (00001)_R$.\\
+Hence, $31 - 31 = 32 + (-31) = (11111)_R + (00001)_R = (00000)_R = 0$, which is indeed the expected result.
+
+\subsection{Fractional complements}
+\subsubsection{(B-1)'s complement}
+Suppose a fractional number $N$ has $n$ integer digits and $m$ fractional digits, then $(B-1)$'s complement of $N$ is given by $B^n-B^{-m}-N$.
+
+To see why, simply remove the decimal point by multiplying $N$ by $B^m$ (and then dividing $B^m$).
+Hence, \begin{align*}
+	B^{-m}(B^{n+m} - 1 - B^mN) = B^n - B^{-m} - N
+\end{align*}
+
+
+
+\subsection{Sign extension to the left}
+\subsubsection{Binary case}
+For positive numbers, i.e. numbers with the MSB 0, in both $2s$ and $1s$ complement, it suffices to pad the "left" of the number with $0$'s.
+
+It is particularly easy to mentally prove the sign extension rules for $1s$, since for a negative number $x$, we simply invert it to get positive $-x$, apply the positive sign extension rules (pad with $0$'s), then invert it back. 
+
+Regardless, it is easy to prove the validity of the sign extension by doing summations.
+
+For \textbf{both} 1s and 2s complement representations
+\begin{itemize}
+	\item Sign extending number with $0$ as MSB: Pad with $0$'s.
+	\item Sign extending number with $1$ as MSB: Pad with $1$'s.
+	\item Note that the reason why I didn't say positive/negative here is because in $1s$ complement, there is a positive and a negative $0$ value. Referring to the MSB would be the most general.
+\end{itemize}
+
+\subsubsection{General case}
+
+\subsection{Sign extension to the right}
+i.e. after the decimal point
+
+Technically this is not called sign extension. But I don't know what is the technical term for this, so I'll just call this sign extension to the right for convenience.
+
+
+1s complement (fractional)
+\begin{itemize}
+	\item Sign extending number with $0$ as MSB: Pad with $0$'s.
+	\item Sign extending number with $1$ as MSB: Pad with $1$'s.
+\end{itemize}
+
+2s complement (fractional)
+\begin{itemize}
+	\item Pad with $0$'s regardless of MSB
+\end{itemize}
+
+\end{document}

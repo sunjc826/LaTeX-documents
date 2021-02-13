@@ -19,7 +19,15 @@
 
 \maketitle
 
-\section{Definitions and Formula}
+\section{Definitions}
+QR Framework
+\begin{enumerate}
+	\item Frame 
+	\item Specify 
+	\item Collect 
+	\item Analyze 
+	\item Communicate
+\end{enumerate}
 
 \section{Misc}
 TP-SR5
@@ -49,12 +57,10 @@ Confounding variables are associated with both independent and dependent variabl
 To reduce confounding, use slicing, so as to compare smaller groups with are relatively homogeneous w.r.t. the factors.
 
 \subsection{Simpson's Paradox}
-
+See Brilliant.com
 
 \subsection{Tutorial 1}
-Imagine	that	you	are	an intern	at	a	large	tuition	centre catered	to	students	of	age	11	and	12	
-years. Your	 employer	 wants to	 know	 if	 it	 is	 worthwhile	 to	 invest	 in iPads to improve students’	proficiency	in English.	He gives	you	authority	and	resources,	and asks	you	
-to design	an	experiment	on	the	thousands	of	customers.
+Imagine	that you are an intern	at	a	large	tuition	centre catered	to	students	of	age	11	and	12	years. Your	 employer wants to know	 if	 it	 is	 worthwhile	 to	 invest in iPads to improve students’ proficiency in English. He gives you authority and	resources,	and asks you to design an experiment	on	the	thousands	of	customers.
 
 (a)	How	would	you	enrol	subjects	and	assign	them	into	two	groups?
 
@@ -68,10 +74,92 @@ Placebo is not possible, since you can't just fake an ipad.
 Blinding students is difficult, since knowledge of having/not having ipad in lesson is easily known by students and by parents.\\
 Single blinding is possible however. For e.g. when testing the students at the end of the trial, do not inform the accessors about which group they belong to.
 
+\section{Association}
+QR Framework: \textbf{Analyze, Communicate}
+
+\textbf{Def:} Relationship between 2 numerical variables\\
+Can be deterministic (described by mathematical equation/equality) or statistical (described by trends/patterns)
+
+\subsection{Linear Regression}
+Regression Line
+\begin{itemize}
+	\item Also called line of least squares (minimises squared errors of data points in y-direction)
+	\item Predicts average/approximate values
+	\item Cannot (should not) be extrapolated to predict values of dependent variable outside the line
+\end{itemize}
+
+Coefficient of correlation
+\begin{align*}
+	\frac{1}{n}\sum_i \frac{X_i-\frac{\sum_j X_j}{n}}{SD_X}\cdot \frac{Y_i-\frac{\sum_j Y_j}{n}}{SD_Y}
+\end{align*}
+
+\begin{itemize}
+	\item Measures linear association between variables
+	\item Unitless
+	\item No linear association only when $r=0$
+	\item Descriptors:
+	\begin{itemize}
+		\item Strong: $|r|\in [0.7, 1]$
+		\item Moderate: $|r|\in [0.3, 0.7]$
+		\item Weak: $|r|\in [0, 0.3]$
+	\end{itemize}
+	\item Descriptors:
+	\begin{itemize}
+		\item Positive/Negative
+	\end{itemize}
+	\item Example: There is a (1)moderate (2)positive linear association between X and Y
+\end{itemize}
+
+Outlier
+\begin{itemize}
+	\item Should not always be removed
+	\item When removed, has serious consequences on r-value
+\end{itemize}
+
+\subsection{Ecological Correlation}
+\textbf{Def:} Correlation computed based on aggregate data\\
+Used when individual data is more difficult to obtain
+
+When association for both individuals and aggregates are in the same direction, ecological correlation based on aggregates will typically overstate strength of association in individuals.
+
+Fallacies
+\begin{itemize}
+	\item Ecological Fallacy: When we deduce inferences on individual-level correlation based on aggregate data
+	\item Atomistic Fallacy: When we generalize correlation based on individuals toward aggregate-level correlation
+\end{itemize}
+
+\subsection{Attenuation Effect/Data Removal}
+Tends to understate strength of correlation
+
+\subsection{Chocolate Consumption}
+Confounding factors; Said factors are positively associated with both the dependent and independent variables.
+
+He brushed them under the carpet lol.
+If I were to collect aggregate data, I would get those from similar socioeconomic backgrounds and make use of table-splitting.
+
+The present data are based on country averages,
+and the specific chocolate intake of individual
+Nobel laureates of the past and present remains
+unknown. The cumulative dose of chocolate that
+is needed to sufficiently increase the odds of being asked to travel to Stockholm is uncertain.
+This research is evolving, since both the number
+of Nobel laureates and chocolate consumption
+are time-dependent variables and change from
+year to year.
+
+Instead of collecting aggregate data (of which Nobel laureates only make up a exceedingly tiny proportion of), I would collect data directly from the Nobel Laureates. Ecological fallacy. Population data may not apply to individuals. Even if it does apply to a certain proportion of individuals, Nobel laureates are so few and far between.
+Population may like chocolate. Laureates themselves may not even consume chocolate.
+
+Change in population units with respect to time; Tastes and preferences, economic situation would all affect annual chocolate consumption. Considering how few Nobel Laureates are produced per year, even getting one more Laureate per country would lead to large changes in the population unit. 
 
 
 
 \end{document}
+
+
+
+
+
 
 
 
