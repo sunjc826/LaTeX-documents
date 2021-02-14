@@ -19,7 +19,22 @@
 
 \maketitle
 
-\section{Definitions and Formula}
+\section{The real numbers}
+\subsection{$p$-th powers and roots are order preserving ($p > 0$)}
+It is very easy to see that for $n\in \mathbb{Z}^+$, taking $n$-th roots on $r>0$ preserves order. That is, $0 < r_1 < r_2 \implies r_1^{\frac{1}{n}} < r_2^\frac{1}{n}$. This can be easily proven by contradiction.
+
+However, later in chapter 3, theorem 3.20(a) uses the idea that given $p>0$, $\frac{1}{\epsilon} < n^p \iff (\frac{1}{\epsilon})^\frac{1}{p} < n$. Here, $p$ is a positive real number, not just a positive integer.
+
+
+PMA Ex 1.6 gives a definition on rational powers, then real powers of positive real numbers. (I'm not quite sure why $b>1$ is used in this exercise instead of $b>0$)
+
+Ex 1.6 shows that it makes sense to define rational powers. Now, we show that positive rational powers $q > 0$ are order preserving. Since $q>0$, $q=\frac{m}{n}$ for some $m,n\in \mathbb{N}^+$. Suppose $0<r_1<r_2$.\\
+Then $r_1^\frac{1}{n} < r_2^\frac{1}{n}$. Hence, $(r_1^\frac{1}{n})^m < (r_2^\frac{1}{n})^m$. By definition of rational powers, $r_1^q < r_2^q$.\\
+So now we have proven that taking rational powers is order preserving. This implies that taking rational roots is also order preserving. To define rational roots, we need to prove that $(r^a)^b=r^{ab}$. Then, $(r^\frac{1}{q})^q=r^1=r$ will be a consequence of this.
+
+To show that real powers are also order preserving, I believe it suffices to consider supremums of sets and show that one supremum is larger than the other. (see definition of real powers in Ex 1.6)
+
+I believe we might also need to prove that $(r^\frac{1}{p})^p$ indeed recovers $r$ for real $p$, or more generally, $(r^a)^b=r^{ab}$.
 
 \section{Point Set Topology}
 \subsection{Definitions}
@@ -98,7 +113,7 @@ While this was introduced in Chapter 1, it is in Chapter 3 that we see the appli
 Properties of the extended reals
 \begin{itemize}
 	\item The extended real line is no longer a field.
-	\item $\mathbb{R}$ has the completeness property, such that for any upper bounded subset $S$ of $\mathbb{R}$, $\sup S$ exists in $\mathbb{R}$. However, $\sup S$ does not exist in $\mathbb{R}$ is $S$ is unbounded.\\
+	\item $\mathbb{R}$ has the completeness property, such that for any upper bounded subset $S$ of $\mathbb{R}$, $\sup S$ exists in $\mathbb{R}$. However, $\sup S$ does not exist in $\mathbb{R}$ if $S$ is unbounded.\\
 	 In contrast, all subsets $S$ of $[-\infty, +\infty]$ have supremums and infimums. For an upper unbounded set $S$, we would have $\sup S = + \infty$, and for a lower unbounded set $S$, we would have $\inf S = -\infty$. For a bounded set, we can then apply the completeness property of $\mathbb{R}$ to find a supremum/infimum in $\mathbb{R}\subset [-\infty, +\infty]$
 \end{itemize}
 
@@ -129,6 +144,45 @@ which implies
 	\liminf b_n = \limsup b_n = L \implies \lim b_n = L
 \end{align*}
 The last implies is due to the following: For any $\epsilon > 0$, there exists $N \in \mathbb{N}$ s.t. $n\geq N\implies L - \epsilon = \liminf b_n - \epsilon < b_n < \limsup b_n + \epsilon = L + \epsilon$.
+
+
+Note: These 2 proofs really do the same thing, but are expressed differently.
+
+
+\subsection{Some common limits}
+Theorem 3.20 is what I find to be one of the hardest in Chapter 3 of PMA.\\
+The core ideas are as follows.
+
+The independent variable here is $n$.
+\begin{itemize}
+	\item It is easier to show the convergence of monomials ($n^p$) than exponentials ($x^n$) because we can take roots($\frac{1}{p}$).
+	\item For integer powers (such as in the case of $x^n$), we can use binomial theorem to expand out an exponential expression, e.g. $(1+p)^n$ and extract out a monomial from the binomial expression, so as to prove properties of convergence/divergence.
+\end{itemize}
+
+\subsection{Series of Nonnegative terms}
+This will cover PMA 3.26 to 3.29.
+
+\subsubsection{Values of monomial $n^p$}
+Assume $n > 1$.
+We will prove explicitly that $a,b\in \mathbb{R}, a < 0 < b$ implies $n^a < 1 < n^b$. While this may be trivial for integers, this actually needs to be proven for rationals, then for reals. We will only prove the right inequality, since the left inequality is analogous.\\
+Note that $n^0=1$ by definition.
+
+Suppose $0 < b=\frac{p}{q}\in \mathbb{Q}$. Then $n^p \geq n = n^1 > 1$ since $p$ is a positive integer. Hence $n^b=(n^p)^\frac{1}{q}>1$. (Easily proven by contradiction).\\
+The result for positive real $b$ then follows by considering supremums.
+
+Given the above result, together with the theorem that $\forall x,y\in \mathbb{R}, n^{x+y}=n^xn^y$, we can then prove a more general result where $a < b\implies n^a < n^b$.\\
+As a start, $a < b\implies \exists c > 0, b = a + c$ and $n^c > 1$.
+
+
+\textbf{Remark}: With this understanding, we can now rest assured when we claim that $2^{(1-p)}<1 \iff (1-p) < 0$ in the proof of theorem 3.28.
+
+\subsubsection{Theorem 3.29}
+A supplement to the proof of theorem 3.29. (\textit{I am not sure why Rudin did not write this detail in. Either it is too trivial, or I am missing something here.})
+
+First of all, it is not obvious whether $\frac{1}{n(\log n)^p}$ is monotonically decreasing for $p<0$. Because one of the conditions for applying theorem 3.27 is for the terms of the sequence to be monotonically decreasing. Hence, I would just temporarily assume that $p\geq 0$, and work from there.
+
+So assuming $p\geq 0$, following Rudin's proof, we will arrive at the conclusion that the series converges if $p > 1$ and diverges is $0\leq p \leq 1$. Then, we make the observation that $p < 0$ implies that the terms of the series $\frac{1}{n(\log n)^p} > \frac{1}{n(\log n)^0}=\frac{1}{n}$, and by the comparison test, the series also diverges for $p < 0$.
+
 
 
 \end{document}
