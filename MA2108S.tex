@@ -11,7 +11,7 @@
 \usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
 
 
-\title{MA2108S (Mathematical Analysis I) Pointers}
+\title{MA2108S (Mathematical Analysis I)}
 \author{Jia Cheng}
 \date{January 2021}
 
@@ -35,6 +35,16 @@ So now we have proven that taking rational powers is order preserving. This impl
 To show that real powers are also order preserving, I believe it suffices to consider supremums of sets and show that one supremum is larger than the other. (see definition of real powers in Ex 1.6)
 
 I believe we might also need to prove that $(r^\frac{1}{p})^p$ indeed recovers $r$ for real $p$, or more generally, $(r^a)^b=r^{ab}$.
+
+\subsection{Complex Numbers and $\mathbb{R}^2$}
+Both $\mathbb{C}$ and $\mathbb{R}^2$ are normed spaces. With respect to metrics, these 2 spaces are essentially equivalent. 
+
+The only difference between $\mathbb{C}$ and $\mathbb{R}^2$ is the inner product defined on them (and also the multiplication operation on complex numbers). For $\mathbb{R}^2$ (and $\mathbb{R}^n$ in general), it is the dot/scalar product. For $\mathbb{C}$ (and $\mathbb{C}^n$), it is the Hermitian product. \\
+Regardless, the normed induced by these inner products with respect to $\mathbb{C}$ and $\mathbb{R}^2$ are effectively the same.
+A complex number can be represented by a 2-tuple $(a,b)$, and it's norm is given by $a^2+b^2$, which the same for a tuple in $\mathbb{R}^2$.
+
+Hence, many theorems that apply to sequences in $\mathbb{R}^2$ later on also apply to complex number sequences.
+
 
 \section{Point Set Topology}
 \subsection{Definitions}
@@ -159,6 +169,13 @@ The independent variable here is $n$.
 	\item For integer powers (such as in the case of $x^n$), we can use binomial theorem to expand out an exponential expression, e.g. $(1+p)^n$ and extract out a monomial from the binomial expression, so as to prove properties of convergence/divergence.
 \end{itemize}
 
+\subsection{Comparison Test}
+PMA Theorem 3.25
+
+It is important to note that part (a) of this theorem holds not just for real sequences, but for complex (and $\mathbb{R}^k)$ sequences as well.
+
+See Ex 3.15 for more extensions to $\mathbb{R}^k$.
+
 \subsection{Series of Nonnegative terms}
 This will cover PMA 3.26 to 3.29.
 
@@ -182,6 +199,71 @@ A supplement to the proof of theorem 3.29. (\textit{I am not sure why Rudin did 
 First of all, it is not obvious whether $\frac{1}{n(\log n)^p}$ is monotonically decreasing for $p<0$. Because one of the conditions for applying theorem 3.27 is for the terms of the sequence to be monotonically decreasing. Hence, I would just temporarily assume that $p\geq 0$, and work from there.
 
 So assuming $p\geq 0$, following Rudin's proof, we will arrive at the conclusion that the series converges if $p > 1$ and diverges is $0\leq p \leq 1$. Then, we make the observation that $p < 0$ implies that the terms of the series $\frac{1}{n(\log n)^p} > \frac{1}{n(\log n)^0}=\frac{1}{n}$, and by the comparison test, the series also diverges for $p < 0$.
+
+
+\subsection{Power Series}
+\subsubsection{Theorem 3.39}
+The best way to remember this result is by the equality 
+\begin{align*}
+	\limsup_{n\rightarrow \infty}\sqrt[n]{|c_nz^n|}=|z|\limsup_{n\rightarrow \infty}\sqrt[n]{|c_n|}
+\end{align*}
+Notice that this result holds even if $\limsup_{n\rightarrow \infty}\sqrt[n]{|c_n|}=+\infty$, i.e. this result holds for all values of $\limsup_{n\rightarrow \infty}\sqrt[n]{|c_n|}\in [0, +\infty]$. It simply says that the subsequential limits of LHS and RHS are unbounded.
+
+Hence we let $\alpha=\limsup_{n\rightarrow \infty}\sqrt[n]{|c_n|}$, then $\limsup_{n\rightarrow \infty}\sqrt[n]{|c_nz^n|}<1 \iff |z|\alpha<1$.\\
+For finite $\alpha$, divide both sides by $\alpha$ to get $|z|<\frac{1}{\alpha}$.\\
+For $\alpha=0$, clearly $\forall z\in \mathbb{C}, |z|\alpha=0<1$, hence $R=\infty$, where $R$ is radius of convergence.\\
+For $\alpha=\infty$, then $\forall z\in \mathbb{C}, |z|>0 \implies |z|\alpha=\infty > 1$, hence $R=0$.
+
+By defining $\frac{1}{0}=+\infty$ and $\frac{1}{+\infty}=0$, we then have $R=\frac{1}{\alpha}$ for all values of $\alpha \in [0, +\infty]$.
+
+\subsection{Summation by parts}
+This covers theorem 3.41.
+
+The following is what I recall from the book Concrete Mathematics Chapter 2. Some terminology may be different from in the book.
+
+We introduce the following notions of finite calculus.\\
+For a discrete function $f: \mathbb{Z} \rightarrow \mathbb{R}$, define the difference operator $(\Delta f)(x) = f(x+1) - f(x)$.\\
+Define the summation operator (the discrete analog of the antiderivative) as $\sum \Delta f(x) \delta x=f(x)+C$. i.e. the summation operator the reverse operation to the difference operator. Here, $C$ is a constant, just like antiderivatives, where particular antiderivatives belonging to the same equivalence class/family of antiderivatives differ by a constant. \\
+Define the definite summation (the discrete analog of the definite integral) as $\sum_p^q \Delta f(x) \delta x = f(q) - f(p)$.
+
+From now on, unless otherwise stated, let $\Delta F(x) = f(x)$.
+
+We make the observation that $\sum_p^q f(x) \delta x = \sum_{p\leq n < q}f(n)$. Note that LHS is the definite summation operator, whereas the RHS is a regular sum.
+
+\subsubsection{Discrete summation by parts}
+With these definitions, we can derive some results. Recall that in calculus, for differentiable functions $f,g$, the product rule states $(D(fg))(x) = (Df)(x)g(x) + f(x)(Dg)(x)$ for all $x$ in domain of definition, where $D$ is the derivative operator.
+
+Similarly, there is a product rule for finite calculus.
+\begin{align*}
+	(\Delta (fg))(x) &= f(x+1)g(x+1) - f(x)g(x)\\
+	&= f(x+1)g(x+1) - f(x+1)g(x) + f(x+1)g(x) - f(x)g(x)\\
+	&= f(x+1)(g(x+1)-g(x)) + (f(x+1)-f(x))g(x)\\
+	&= f(x+1)(\Delta g)(x) + (\Delta f)(x)g(x)
+\end{align*}
+Hence, applying the summation operator to both sides,
+\begin{align*}
+	(fg)(x) + C = \sum (f(x+1)(\Delta g)(x) + (\Delta f)(x)g(x)) \delta x\, , C\in \mathbb{R}
+\end{align*}
+
+Rearranging then recovers the rule for discrete summation by parts.
+\begin{align*}
+	\sum (\Delta f)(x)g(x)) \delta x = (fg)(x) - \sum f(x+1)(\Delta g)(x) \delta x
+\end{align*}
+Again, similar to antiderivatives, the constant $C$ is absorbed by the summation expression.
+
+Applying limits of summation, we obtain,
+\begin{align*}
+	\sum_p^q (\Delta f)(x)g(x)) \delta x = (fg)(x)|_p^q - \sum_p^q f(x+1)(\Delta g)(x) \delta x
+\end{align*}
+
+Writing this in terms of a regular sum, we have,
+\begin{align*}
+	\sum_{p\leq x < q} (\Delta f)(x)g(x)) = (fg)(x)|_p^q - \sum_{p\leq x < q} f(x+1)(\Delta g)(x)
+\end{align*}
+
+This lends to a second proof of theorem 3.41.
+Define $a_n,b_n,A_n$ as in the book. Also let $A(n) = A_n$. Then $(\Delta A)(n-1) = A_n - A_{n-1} = a_n$.\\
+Theorem 3.41 can then be proven by using $p, q+1$ as limits of definite summation.
 
 
 
