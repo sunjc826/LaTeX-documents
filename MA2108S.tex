@@ -223,10 +223,8 @@ The following is what I recall from the book Concrete Mathematics Chapter 2. Som
 
 We introduce the following notions of finite calculus.\\
 For a discrete function $f: \mathbb{Z} \rightarrow \mathbb{R}$, define the difference operator $(\Delta f)(x) = f(x+1) - f(x)$.\\
-Define the summation operator (the discrete analog of the antiderivative) as $\sum \Delta f(x) \delta x=f(x)+C$. i.e. the summation operator the reverse operation to the difference operator. Here, $C$ is a constant, just like antiderivatives, where particular antiderivatives belonging to the same equivalence class/family of antiderivatives differ by a constant. \\
+Define the summation operator (the discrete analog of the antiderivative) as $\sum \Delta f(x) \delta x=f(x)+C$. i.e. the summation operator the reverse operation to the difference operator. Call this the antidifference. Here, $C$ is a constant, just like antiderivatives, where particular antiderivatives belonging to the same equivalence class/family of antiderivatives differ by a constant. \\
 Define the definite summation (the discrete analog of the definite integral) as $\sum_p^q \Delta f(x) \delta x = f(q) - f(p)$.
-
-From now on, unless otherwise stated, let $\Delta F(x) = f(x)$.
 
 We make the observation that $\sum_p^q f(x) \delta x = \sum_{p\leq n < q}f(n)$. Note that LHS is the definite summation operator, whereas the RHS is a regular sum.
 
@@ -251,6 +249,12 @@ Rearranging then recovers the rule for discrete summation by parts.
 \end{align*}
 Again, similar to antiderivatives, the constant $C$ is absorbed by the summation expression.
 
+Notice that here, we split a single antidifference into 2. Why does this work? In regular calculus, this is because $f, g$ are assumed to be continuously differentiable, such that $Df$, $Dg$ are continuous, and thus $Df\cdot g$, $f\cdot Dg$ are continuous, and hence antiderivatives $\int (Df)(x)g(x)\, dx, \int f(x)(Dg)(x)\, dx$ both exist.\\
+In finite calculus, the definite summation of a function always exists, since regular summation is always well-defined. And consequently, we can define $F(p) = \sum_0^p f(x)\delta x = \sum_{0\leq x < p}f(x)$. Call this $F$ the indefinite summation of $f$ (\textit{see remark below}). Then $(\Delta F)(x) = F(x+1)-F(x) = f(x)$. This tells us that the indefinite summation is a particular antidifference.
+Hence, the antidifference always exists.\\
+Notice the contrast between the indefinite integral and the indefinite summation. The indefinite integral is only guaranteed to be a particular antiderivative for continuous functions, whereas indefinite summation is always a particular antidifference for any discrete function defined on $\mathbb{Z}$.
+
+
 Applying limits of summation, we obtain,
 \begin{align*}
 	\sum_p^q (\Delta f)(x)g(x)) \delta x = (fg)(x)|_p^q - \sum_p^q f(x+1)(\Delta g)(x) \delta x
@@ -265,7 +269,8 @@ This lends to a second proof of theorem 3.41.
 Define $a_n,b_n,A_n$ as in the book. Also let $A(n) = A_n$. Then $(\Delta A)(n-1) = A_n - A_{n-1} = a_n$.\\
 Theorem 3.41 can then be proven by using $p, q+1$ as limits of definite summation.
 
-
+\textbf{Remark}: Notice that I am quite hesitant to speak of indefinite integrals. This is because, inspired by Prof Chin Chee Whye in MA2104 Multivariable Calculus, indefinite integrals are defined as $F(p)=\int_0^pf(x)dx$ and should not be viewed as the antiderivative for continuous functions $f$. At the very most, indefinite integrals are \textbf{particular} antiderivatives for continuous functions.\\
+Hence, when speaking about the reverse process of differentiation, it is better to use terminology like antiderivatives. Similarly, the reverse of difference should be referred to as antidifference. Indefinite summation refers to a specific function, $\sum_0^p f(x)\delta x$.
 
 \end{document}
 
