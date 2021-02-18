@@ -9,7 +9,13 @@
 
 % Margins
 \usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
-
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
 
 \title{MA2108S (Mathematical Analysis I)}
 \author{Jia Cheng}
@@ -271,6 +277,61 @@ Theorem 3.41 can then be proven by using $p, q+1$ as limits of definite summatio
 
 \textbf{Remark}: Notice that I am quite hesitant to speak of indefinite integrals. This is because, inspired by Prof Chin Chee Whye in MA2104 Multivariable Calculus, indefinite integrals are defined as $F(p)=\int_0^pf(x)dx$ and should not be viewed as the antiderivative for continuous functions $f$. At the very most, indefinite integrals are \textbf{particular} antiderivatives for continuous functions.\\
 Hence, when speaking about the reverse process of differentiation, it is better to use terminology like antiderivatives. Similarly, the reverse of difference should be referred to as antidifference. Indefinite summation refers to a specific function, $\sum_0^p f(x)\delta x$.
+
+\subsection{Limits of truncated sums}
+\textbf{Proposition}: For all $n\in \mathbb{N}, \sum_{k=1}^na_k+\sum_{k=n+1}^\infty a_k=\sum_{k=1}^\infty a_k$
+
+\textbf{Proof}: Fix $n\in \mathbb{N}$. For all $N\in \mathbb{N}, N>n$, we have $\sum_{k=1}^na_k+\sum_{k=n+1}^N a_k=\sum_{k=1}^N a_k$.\\
+Rearranging, we get $\sum_{k=n+1}^N a_k=\sum_{k=1}^N a_k-\sum_{k=1}^na_k$. As $N\rightarrow \infty$, RHS converges to $\sum_{k=1}^\infty a_k-\sum_{k=1}^na_k$. Hence the LHS converges, and $\sum_{k=n+1}^\infty a_k=\sum_{k=1}^\infty a_k-\sum_{k=1}^na_k$.
+
+This leads to the following result. 
+
+Suppose $\sum_{k=1}^\infty a_k=L$. Then fix $\epsilon >0$ and choose $N\in \mathbb{N}$ such that $n\geq N\implies |\sum_{k=1}^{n}a_k - L|<\epsilon$.
+
+By the previous proposition, $|\sum_{k=1}^{n}a_k - L|=|\sum_{k=n+1}^\infty a_k|<\epsilon$.
+
+
+Alternatively, we can prove this using Cauchy property of convergent sequences, finding $N\in \mathbb{N}$ such that $m>n\geq N\implies |\sum_{k=n}^ma_k|<\frac{\epsilon}{2}$. Letting $m\rightarrow \infty$, we get $|\sum_{k=n}^\infty a_k|\leq \frac{\epsilon}{2} < \epsilon$.
+
+
+\subsection{Rearrangements}
+This will cover PMA 3.52 to 3.55.
+
+\subsubsection{Theorem 3.55}
+See the first answer of this \href{https://math.stackexchange.com/questions/523979/theorem-3-55-rudin-rearrangement-and-convergence}{math.stackexchange post} for how we get the $\epsilon$ upper bound for $|s_n-s_n'|$.
+
+The consequence of this bound is that $s_n - \epsilon <s_n'<s_n + \epsilon$, and by taking the limsup and liminf, we get
+\begin{align*}
+	L - \epsilon \leq \liminf_{n\rightarrow \infty}s_n'\leq \limsup_{n\rightarrow \infty}s_n' \leq L + \epsilon
+\end{align*}
+and hence $L = \lim_{n\rightarrow \infty}s_n'$. (Here, $L$ is defined to be the limit of $s_n$)
+
+However, note that it is also possible to prove directly that $\lim_{n\rightarrow \infty} s_n' = L$.
+
+\textbf{Alternative Proof}
+
+Before we begin, define the permutation function $\sigma: \mathbb{N}\rightarrow \mathbb{N}$ such that $\forall N\in \mathbb{N}, a_{\sigma(n)}=a_n'$.
+
+Fix $\epsilon > 0$. \\
+Choose $N_0\in \mathbb{N}$ such that $n\geq N_0\implies |s_n - L| < \frac{\epsilon}{2}$.\\
+Choose $N_1\in \mathbb{N}$ such that $\{1, 2, \dots, N_0\}\subset \{\sigma(1),\dots, \sigma(N_1)\}$\\
+Choose $N_2\in \mathbb{N}$ such that $n\geq N_2\implies \sum_{k=n}^\infty |a_k|<\frac{\epsilon}{2}$. This is possible since $\{s_n\}$ converges absolutely.
+
+Let $N=\max(N_1, N_2)$. Then $n\geq N\implies$
+\begin{align*}
+	|s_n - L| &= |\sum_{k=1}^n a_k' - L|\\
+	&\leq |\sum_{k=1}^{N_1} a_k - L| + |\sum_{1\leq k\leq n; \sigma^{-1}(k) > N_1}a_k'| &&\text{by triangle inequality} \\
+	&\leq |\sum_{k=1}^{N_1} a_k - L| + \sum_{1\leq k\leq n; \sigma^{-1}(k) > N_1}|a_k'| &&\text{by triangle inequality} \\
+	&\leq |\sum_{k=1}^{N_1} a_k - L| + \sum_{k > N_1}|a_k|\\
+	&< \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon
+\end{align*}
+And we are done.
+
+Compared to the book's proof, this involves the choice of $N_0$, which isn't needed in the book.
+
+
+\section{Functions and Continuity}
+Check out this \href{https://math.stackexchange.com/questions/455296/can-a-function-with-just-one-point-in-its-domain-be-continuous}{math.stackexchange post} on some of the subtleties of defining limits of a function and continuity. 
 
 \end{document}
 
