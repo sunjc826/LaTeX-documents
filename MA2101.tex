@@ -80,7 +80,22 @@ So in my opinion, the more rigorous way to write things is $PM(v, B)$, where $B$
 
 Of course, in chapter 1, we do not deal with abstract vector spaces, so when Prof Brett writes $Pv$, he means that matrix $P$ is multiplied with the representation of $v$ in the standard basis of $\mathbb{R}^n$.
 
-
+\subsubsection{MA1101R Recap}
+Given 2 bases $B_1=(u_1,u_2),B_2=(v_1,v_2)$ of $\mathbb{R}^2$, then how do we find the change of basis matrix from $B_2$ to $B_1$, $M(I, B_1, B_2)$? (Notice the order "from $B_2$ to $B_1$". This will be explained in future.)\\
+$M(I, B_1, B_2)=[M(u_1, B_2), M(u_2,B_2)]$\\
+To find $M(u_i, B_2), i=1,2$, we aim to find $a,b\in \mathbb{R} s.t. av_1+bv_2=u_i$, i.e. $\begin{pmatrix}
+	v_1 & v_2
+\end{pmatrix}\begin{pmatrix}
+	a\\
+	b
+\end{pmatrix}=\begin{pmatrix}
+	u_i
+\end{pmatrix}
+$\\
+Here, we did not write $M(v_1,\text{basis}),M(v_2,\text{basis}),M(u_i,\text{basis})$ within the expression, this basis is arbitrary, though ofc it has to be the same for each vector. Usually, this basis would be the canonical basis of $\mathbb{R}^2$.\\
+Next, apply Gaussian Elimination to $\begin{pmatrix}
+	v_1 & v_2 & | & u_1 & u_2
+\end{pmatrix}$
 \subsection{Markov Chains}
 Given a finite set of states $E_1, \dots E_n$, let $A\in \mathbb{R}^{n,n}$ be the matrix where
 \begin{align*}
@@ -118,7 +133,38 @@ Then probability theory tells us that
 \end{align*}
 The second equality is due to the assumption that whether it is rainy/sunny  on day $i+2$ depends only on whether it rains/is sunny on day $i+1$.
 
-
+To calculate the actual probabilities:
+Define $x_n=\begin{pmatrix}
+	P(R_n)\\
+	P(S_n)
+\end{pmatrix}
+,\, \forall n\in \mathbb{N}$\\
+Then \begin{align*}
+	M^kx_0&=\begin{pmatrix}
+		P(R_{k}\mid R_0) & P(R_{k}\mid S_0)\\
+		P(S_{k}\mid R_0) & P(S_{k}\mid S_0)
+	\end{pmatrix}\begin{pmatrix}
+		P(R_0)\\
+		P(S_0)
+	\end{pmatrix}\\
+	&=P(R_0)\begin{pmatrix}
+		P(R_{k}\mid R_0)\\
+		P(S_{k}\mid R_0)
+	\end{pmatrix}+
+	P(S_0)\begin{pmatrix}
+		P(R_{k}\mid S_0)\\
+		P(S_{k}\mid S_0)
+	\end{pmatrix}\\
+	&=\begin{pmatrix}
+		P(R_{k}\cap R_0)\\
+		P(S_{k}\cap R_0)
+	\end{pmatrix}+
+	\begin{pmatrix}
+		P(R_{k}\cap S_0)\\
+		P(S_{k}\cap S_0)
+	\end{pmatrix}\\
+	&=x_k
+\end{align*}
 \subsection{Sums and products of eigenvalues}
 We claim that trace $tr$ and determinant $det$ are attributes of linear operators, regardless of the choice of basis.
 \begin{align*}
@@ -332,7 +378,7 @@ Notice the symmetry here.
 \textbf{Definition} The tensor product $\otimes$ is a bilinear map defined as follows:
 \begin{align*}
 	\otimes: &V \times \hat{V}\rightarrow L(V)\\
-	&(v, \alpha)(\cdot) \mapsto \alpha(\cdot)v
+	&(v, \alpha) \mapsto \alpha(\cdot)v
 \end{align*}
 That is, for each $w\in V$, $(v\otimes \alpha)w=\alpha(w)v$, multiplying $v$ by scalar $\alpha w$.
 
@@ -437,6 +483,27 @@ Hence, combining (1) and (2), $\forall 1\leq i,j\leq n$,
 \end{align*}
 
 Hence, in matrix form, $(\hat{T}_{i,j})=(T_{i,j})^t$.
+
+
+\subsection{Linear maps $L(V,W), V\neq W$}
+As a convention, let $dim(V)=n, dim(W)=m$
+Define the tensor product:
+\begin{align*}
+	\otimes: &W \times V' \rightarrow L(V,W)\\
+	&(w, \alpha) \mapsto \alpha(\cdot)w
+\end{align*}
+i.e. $\forall v\in V, (w \otimes \alpha)v = \alpha(v)w$
+
+This definition makes a lot more sense when we try to define the basis of $L(V,W)$ in terms of the tensor product.
+
+Let $z=(z_1,\dots, z_n)$ be a basis for $V$.
+Let $x=(x_1,\dots, x_m)$ be a basis for $W$.
+
+\textbf{Proposition} The set 
+\begin{align*}
+	\{x_i \otimes \zeta_j : 1\leq i\leq m, 1\leq j\leq n\}
+\end{align*}
+is a basis for $L(V,W)$.
 
 
 \end{document}
