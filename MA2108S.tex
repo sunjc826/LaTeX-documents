@@ -32,7 +32,7 @@ It is very easy to see that for $n\in \mathbb{Z}^+$, taking $n$-th roots on $r>0
 However, later in chapter 3, theorem 3.20(a) uses the idea that given $p>0$, $\frac{1}{\epsilon} < n^p \iff (\frac{1}{\epsilon})^\frac{1}{p} < n$. Here, $p$ is a positive real number, not just a positive integer.
 
 
-PMA Ex 1.6 gives a definition on rational powers, then real powers of positive real numbers. (I'm not quite sure why $b>1$ is used in this exercise instead of $b>0$)
+PMA Ex 1.6 gives a definition on rational powers, then real powers of positive real numbers.
 
 Ex 1.6 shows that it makes sense to define rational powers. Now, we show that positive rational powers $q > 0$ are order preserving. Since $q>0$, $q=\frac{m}{n}$ for some $m,n\in \mathbb{N}^+$. Suppose $0<r_1<r_2$.\\
 Then $r_1^\frac{1}{n} < r_2^\frac{1}{n}$. Hence, $(r_1^\frac{1}{n})^m < (r_2^\frac{1}{n})^m$. By definition of rational powers, $r_1^q < r_2^q$.\\
@@ -41,6 +41,24 @@ So now we have proven that taking rational powers is order preserving. This impl
 To show that real powers are also order preserving, I believe it suffices to consider supremums of sets and show that one supremum is larger than the other. (see definition of real powers in Ex 1.6)
 
 I believe we might also need to prove that $(r^\frac{1}{p})^p$ indeed recovers $r$ for real $p$, or more generally, $(r^a)^b=r^{ab}$.
+
+\subsection{Methods of bounding $b^\frac{1}{n}, b>1$}
+In both proofs, we assume $M > 1$
+
+\textbf{Method 1} (Ex 1.7)
+In general, $x^n - 1 = (x-1)(x^{n-1} + \dots + 1)$\\
+Hence, $b - 1 \geq n(b^\frac{1}{n}-1)$
+
+$b^\frac{1}{n}<M \iff b^\frac{1}{n} - 1 < M - 1$\\
+It suffices to show $b^\frac{1}{n}-1 \leq \frac{b-1}{n} < M - 1$\\
+The strict inequality will hold iff $n > \frac{b-1}{M-1}$.
+
+\textbf{Method 2}
+This uses binomial expansion and Bernoulli's inequality.
+$b^\frac{1}{n}<M \iff b < M^n = (1 + (M - 1))^n$\\
+It suffices to show $b < 1 + n(M - 1) \leq M^n$.\\
+The strict inequality will hold iff $n > \frac{b-1}{M-1}$.
+
 
 \subsection{Complex Numbers and $\mathbb{R}^2$}
 Both $\mathbb{C}$ and $\mathbb{R}^2$ are normed spaces. With respect to metrics, these 2 spaces are essentially equivalent. 
@@ -51,8 +69,55 @@ A complex number can be represented by a 2-tuple $(a,b)$, and it's norm is given
 
 Hence, many theorems that apply to sequences in $\mathbb{R}^2$ later on also apply to complex number sequences.
 
+\subsection{Dense sets}
+(Theorem 1.20)\\
+The notion of denseness in Chapter 1 claims that, to prove $S$ is dense in $\mathbb{R}$, it is equivalent to show that $\forall p,q\in \mathbb{R}, p<q, \exists x\in S, p<x<q$.\\
+Note that in general, this is not always true for any set.
+
+For instance, consider $\mathbb{Z}$. $\mathbb{Z}$ is dense with respect to itself. However, between $0$ and $1$, there exists no element of $\mathbb{Z}$.
+
+Of course with respect to $\mathbb{R}$, topological denseness of a set $S$ is the same as saying that we can always find another element of $S$ between two elements $p,q$ of $\mathbb{R}$.
+
+
+\subsection{Linear Algebra}
+The following theorem can be developed without the notion of basis, linear independence or dimension. 
+We simply need definition of orthogonality.
+It is useful when dealing with orthogonality.
+
+Given subspace $U$ of Euclidean vector space $V$ and vector $v\in V$.
+Also assume that $U$ is spanned by orthogonal vectors $\{u_1,\dots, u_m\}$.
+Then there exists vectors $p\in U$, $n\in V$, where $n$ is orthogonal to $U$.\\
+In particular, 
+\begin{align*}
+	p = \sum_{i=1}^m\frac{v\cdot u_i}{|u_i|^2}u_i,\, n=v-p
+\end{align*}
+We call $p$ the projection of $v$ on $U$.
+
+This is used in ex 1.18.
+
+
+\subsection{Strategies}
+\subsubsection{To show $\sup A\leq \sup B$}
+One of the ways to show this is the following:\\
+For each $a\in A$, there exists $b\in B, a \leq b$.\\
+Take supremum of RHS to get $a\leq \sup B$.\\
+Use definition of supremum to get $\sup A \leq \sup B$.
+
+\subsubsection{To show $\inf A\leq \inf B$}
+This mirrors the previous section. But we'll show it, for clarity.\\
+For each $b\in B$, there exists $a\in A, a\leq b$.\\
+Take infimum of LHS to get $\inf A\leq b$.\\
+Use definition of infimum to get $\inf A\leq \inf B$.
+
+
+
 
 \section{Point Set Topology}
+\subsection{Countability}
+\textbf{Proposition} If there is an injection from $A$ to countable set $B$, then $A$ is at most countable.
+
+An alternative way of saying this is that if there is a 1-1 correspondence between $A$ and some subset of $B$, then $A$ is at most countable.
+
 \subsection{Definitions}
 \begin{itemize}
 	\item Metric Space $M$
@@ -95,7 +160,7 @@ To prove (2) using (1), consider 2 cases: a sequence with finite range, and a se
 There is a subtle difference between these 2 concepts. Of course, infinite sets are unordered, whereas sequences are ordered. \\
 Additionally, it must be noted that sequences can have repeat elements (with different indices). The range of an infinite sequence may very well be finite. An example would be the sequence $\{i^n\}_{n\in \mathbb{N}}$, with range $\{\pm 1, \pm i\}$.
 
-Also, with regard to infinite sets, we speak of limit points, and with regard to sequences, we speak of subsequence limits. Again, there is a difference between limit points and subsequential limits.
+Also, with regard to infinite sets, we speak of limit points, and with regard to sequences, we speak of subsequence limits. Again, there is a difference between limit points and subsequential limits (also known as accumulation points in some texts).
 
 For example, a point can be a subsequential limit without being a limit point. Consider the earlier defined set $\{i^n\}$. Every element in the range $\{\pm 1, \pm i\}$ is a subsequential limit, but since the range is finite, none of these subsequential limits are limit points of the range.
 

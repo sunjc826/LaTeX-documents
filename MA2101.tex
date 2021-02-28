@@ -49,6 +49,398 @@ Linear functionals (linear maps that have the field as the codomain) allow the d
 To quote Matt E, the author of the post:\\
 So this gives a reasonable justification for introducing the elements of the dual space to $V$; they generalize the notion of linear equation in several variables from the case of $\mathbb{R}^n$ to the case of an arbitrary vector space.
 
+
+\section{Matrices, A revision}
+\subsection{Change of basis}
+For simplicity, we consider linear operators in $\mathbb{R}^2$.
+
+The following notations $M(T, B1, B2), M(v, B)$ (respectively matrix representation of a linear transformation $T$, matrix representation of a vector) are found in Axler's book.
+
+Suppose we have 2 bases, the standard basis $(i, j)$ and another basis $(u,v)$. Now define the matrix $P=
+\begin{bmatrix}
+	M(u, (i,j)) & M(v, (i,j))
+\end{bmatrix}
+$
+Then we will obtain the following equations.
+\begin{align*}
+	u=Pi\\
+	v=Pj
+\end{align*}
+There are 2 ways to understand/interpret this equality.
+\begin{enumerate}
+	\item First, we "see" $P$ as purely a matrix, and we operator solely in the canonical basis of $\mathbb{R}^2$. Then this equality is simply an equality of matrices. i.e. When the standard basis vector $i$ is left multiplied by matrix $P$, we obtain the vector $u$, also with respect to the standard basis.
+	\item Second, we view the equation as a change of basis. To be precise, the first equality can be written as $M(u, (i,j))=M(I, (u,v), (i,j))M(u, (u,v))$. The second equality is written similarly.
+	\item Note that regardless of the viewpoint, the above 2 equalities are equalities in matrices! Clearly, $i$ and $u$ are not the same vector.
+\end{enumerate}
+
+\subsubsection{A possible area of confusion}
+In this course (or at least chapter 1), Prof Brett usually represents multiplication of matrix $P$ with vector $v$ as $Pv$. Note that to be fully rigorous, we need to differentiate between an abstract vector and a matrix representation of a vector. For example, if we were to talk about a real polynomial $v$, which is a vector in $P(\mathbb{R})$, then obviously, matrix multiplication with $v$ is undefined.
+
+So in my opinion, the more rigorous way to write things is $PM(v, B)$, where $B$ is a basis of the vector space $v$ lies in. $M(v,B)$ is that the matrix representation of $v$ w.r.t basis $B$.
+
+Of course, in chapter 1, we do not deal with abstract vector spaces, so when Prof Brett writes $Pv$, he means that matrix $P$ is multiplied with the representation of $v$ in the standard basis of $\mathbb{R}^n$.
+
+
+\subsection{Markov Chains}
+Given a finite set of states $E_1, \dots E_n$, let $A\in \mathbb{R}^{n,n}$ be the matrix where
+\begin{align*}
+	(A)_{i,j}=P(E_{i,m+1}\mid E_{j,m})
+\end{align*}
+where the $E_{j,m}$ denotes the event where state $E_j$ occurs on the $m$-th trial.
+
+Some properties of the stochastic matrix:
+\begin{enumerate}
+	\item Sum of a column: $\sum_{1\leq i\leq n}(A)_{i,j}= \sum_{1\leq i\leq n}P(E_i\mid E_j)=1$
+	\item Power of a matrix: $(A^k)_{i,j}=P(E_{i, m+k}\mid E_{j, m})$
+\end{enumerate}
+
+For instance, to use an example from lecture notes:
+\begin{itemize}
+	\item $P(\text{rain next day} \mid \text{rain today}) = 0.6$
+	\item $P(\text{sunny next day} \mid \text{sunny today}) = 0.7$
+\end{itemize}
+The stochastic matrix is then 
+\begin{align*}
+	M=\begin{pmatrix}
+		P(R_{i+1}\mid R_i) & P(R_{i+1}\mid S_i)\\
+		P(S_{i+1}\mid R_i) & P(S_{i+1}\mid S_i)
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		0.6 & 0.3\\
+		0.4 & 0.7
+	\end{pmatrix}
+\end{align*}
+Then probability theory tells us that
+\begin{align*}
+	P(R_{i+2}\mid R_i) &= P(R_{i+2}\mid R_{i+1}R_i)P(R_{i+1}\mid R_i)+P(R_{i+2}\mid S_{i+1}R_i)P(S_{i+1}\mid R_i)\\
+	&= P(R_{i+2}\mid R_{i+1})P(R_{i+1}\mid R_i)+P(R_{i+2}\mid S_{i+1})P(S_{i+1}\mid R_i)=(M^2)_{1,1}
+\end{align*}
+The second equality is due to the assumption that whether it is rainy/sunny  on day $i+2$ depends only on whether it rains/is sunny on day $i+1$.
+
+
+\subsection{Sums and products of eigenvalues}
+We claim that trace $tr$ and determinant $det$ are attributes of linear operators, regardless of the choice of basis.
+\begin{align*}
+&tr(P^{-1}AP)=tr(APP^{-1})=tr(A)\\
+&det(P^{-1}AP)=det(P^{-1})det(A)det(P)=det(P^{-1}P)det(A)=det(A)
+\end{align*}
+Hence, if $P$ is the change of basis matrix from eigenvector-basis to standard basis, and $A$ is the matrix of $T$ w.r.t standard basis, we then have 
+\begin{align*}
+	tr(D) &= tr(A)\\
+	det(D) &= det(A)
+\end{align*} 
+where $D$ is a diagonal matrix (matrix of $T$ w.r.t eigenvector-basis). This says that $tr(A)$ is the sum of eigenvalues of linear map $T$, and $det(A)$ is the product of eigenvalues of linear map $T$.
+
+Geometrically (in 2 or 3 dimensions), we can then understand the magnitude of the determinant of a linear map $T$ by the scaling of the area/volume of the parallelogram/parallelepiped bordered by linearly independent eigenvectors after applying linear transformation $T$ on those eigenvectors. Prof Brett calls this the "unit box".
+
+\subsection{Useful formula}
+This result can be proven by expanding the exponential into a sum and applying multivariable calculus. (Simply think of a matrix as a vector)
+\begin{align*}
+	\frac{d}{dt} e^{Bt}=Be^{Bt}
+\end{align*}
+Note: Here, $Bt=tB$ (multiplying constant matrix $B$ by scalar $t$)
+
+Let $D=\begin{pmatrix}
+	\lambda_1 & 0\\
+	0 & \lambda_2
+\end{pmatrix}$.
+Then,
+\begin{align*}
+	e^{D}=\begin{pmatrix}
+		e^{\lambda_1} & 0\\
+		0 & e^{\lambda_2}
+	\end{pmatrix}, 
+	e^{Dt}=\begin{pmatrix}
+		e^{\lambda_1t} & 0\\
+		0 & e^{\lambda_2t}
+	\end{pmatrix}
+\end{align*}
+where $t$ is a scalar.
+
+
+\section{Vector spaces}
+In the following chapter, Prof Brett diverges quite significantly from Axler's book. However, what this shows is that Mathematics truly is a "web" as Prof Han Fei says, instead of a series of linear progressions. i.e. There are many places/foundations that we can start from. In the following discussion, I hope to highlight some of the more notable differences from the book, as well as draw some attention to new concepts not discussed in the book.
+
+\subsection{Direct Sums}
+Direct sums are analogous to bases. Whereas a basis allows for the unique representation of vectors in terms of the spans of the basis vectors, a direct sum of vector space allows for the unique representation of a vector by choosing one vector from each vector space.
+
+Let $U, V$ be 2 vector subspaces of some vector space $W$.
+The following statements are equivalent.
+\begin{enumerate}
+	\item $u_1 + v_1 = u_2 + v_2 \implies u_1=u_2 \land v_1=v_2$
+	\item $u + v = 0\implies u=v=0$
+	\item $U\cap V=\{0\}$
+\end{enumerate}
+Hence any of the 3 statements can be used to define $U\oplus V$. In the case of MA2101, no. 3 is used.
+
+\subsubsection{Multiple direct sums}
+Prof Brett defines
+\begin{align*}
+	\oplus_{i=1}^n U_i = (\dots((U_1 \oplus U_2)\oplus U_3) \oplus \dots)\oplus U_n
+\end{align*}
+In particular, $U_1 \oplus U_2\oplus U_3=(U_1 \oplus U_2)\oplus U_3$
+
+It turns out that it doesn't matter which order to conduct the direct sum.
+
+The following definition of a multiple direct sum (i.e. direct sum of more than 2 vector spaces) is perhaps more enlightening.\\
+Suppose $\sum_{i=1}^n U_i = \oplus_{i=1}^n U_i$.\\
+Then $\sum_{i=1}^n u_i=0\implies \forall 1\leq i\leq n, u_i=0$
+
+With this definition in mind, suppose $(U_1 \oplus U_2)\oplus U_3$, and let $u_1 + u_2 + u_3 = 0$. This implies $(u_1 + u_2) + u_3 = 0$, where $u_1+u_2\in U_1+U_2, u_3\in U_3$. Definition of direct sum for 2 vector spaces says that $u_1+u_2=u_3=0$.\\
+Now, this reduces to $u_1+u_2=0$. Since $U_1 \oplus U_2$, we then have $u_1=u_2=0$.
+
+Hence, it makes sense to define multiple direct sums in terms of "single" direct sums (i.e. direct sums of 2 vector spaces).
+
+\subsection{Vector space isomorphisms}
+\textbf{Definition} A vector space homomorphism is a linear transformation.
+
+A vector space isomorphism is a bijective linear map.
+
+It is here that the notion of finite-dimensionality is introduced. Note that it is perfectly fine to define finite-dimensional without dimension. We simply need to capture the idea of finiteness.\\
+In Axler's book, a finite-dimensional vector space $V$ is one which has a finite spanning set. i.e. A finite subset of $V$ exists that spans $V$.
+
+Prof Brett defines finite-dimension via isomorphisms. A finite-dimensional vector space $V$ is one that is isomorphic to $\mathbb{F}^n$ for some $n\in \mathbb{N}$.\\
+Contrary to the book's definition, it is immediately (intuitively) obvious that such an $n$ is unique, if it exists. Suppose not, such that $V$ is isomorphic to both $F^m$ and $F^n$, $m\neq n$. Then since the composition of bijective linear maps gives another bijective linear map, $\mathbb{F}^m\cong \mathbb{F}^n$, which immediately seems absurd. (The rigorous proof for this however, probably still requires the Replacement Theorem. So on a rigorous basis, this probably isn't much easier than Axler's approach.)
+
+
+\subsection{Bases as isomorphisms from $\mathbb{F}^n$ to $V$}
+In this course, the convention is to use basis vectors starting from the end of the alphabet. Occasionally, I will also use $u,v$.
+
+Given a basis $z=(z_1,\dots,z_n)$ of $V$, we can also define the mapping 
+\begin{align*}
+z:\mathbb{F}^n\rightarrow V\\
+z(a)=\sum_{i=1}^na_iz_i
+\end{align*}
+where $a=(a_1,\dots, a_n)\in \mathbb{F}^n$. It is easy to verify that $z$ is a bijective linear map, i.e., $z$ is a vector space isomorphism.
+
+\textbf{Proposition} The range/image of a linear transformation $T:U\rightarrow V$ is the span of $T$ applied to the basis vectors of $U$.
+
+\textbf{Proposition} A vector space isomorphism $\phi: \mathbb{F}^n\rightarrow V$ admits a basis $(\phi(e_1),\dots, \phi(e_n))$.
+
+\textbf{Proof} Since linear map $\phi$ is injective, the vectors $(\phi(e_1),\dots, \phi(e_n))$ span $V$. Since $\phi$ is injective, $\sum_{i=0}^n a_i\phi(e_i)=0\implies \phi(\sum_{i=0}^n a_ie_i)=0 \implies \sum_{i=0}^n a_ie_i=0 \implies \forall i, a_i = 0$, which proves linear independence. Hence we have a basis.
+
+Hence, "there is a one-one correspondence between isomorphisms of the form $\mathbb{F}^n\rightarrow V$ and bases".
+
+Here is another way to think about a basis $z=(z_1,\dots,z_n)$ of $V$ . In Axler's book, the matrix representation of a vector $v\in V$ with respect to a basis $z$ is denoted as $M(v, z)$. So if we define the linear map $M(\cdot, z): V\rightarrow \mathbb{F}^{n,1}\cong \mathbb{F}^n$, we then notice that this is the inverse function of $z:\mathbb{F}^n\rightarrow V$.
+
+
+\subsection{Dimension}
+In Axler's book, dimension of a vector space is defined to be the number of vectors in a basis of $V$. This is well-defined since by the Replacement Theorem, the number of vectors in any basis of a vector space is the same.
+
+In MA2101, as mentioned previously, defining a vector space $V$ to be  finite-dimensional if it is isomorphic to $\mathbb{F}^n$ for some $n\in \mathbb{N}$ suggests a natural definition for dimension -- the value of $n$. (Of course, as mentioned previously, a rigorous treatment of this would still require proving that this $n$ is unique if it exists.) Now, we take this for granted, that $n$ is unique.
+
+\textbf{Proposition} The dimension of a finite-dimensional vector space $V$ is equal to the number of vectors in any basis.
+
+\textbf{Proof} Consider a basis $z=(z_1,\dots,z_n)$ of $V$. $z$ then corresponds to some vector space isomorphism $\phi_z:\mathbb{F}^n\rightarrow V$ as defined above. (The vectors of basis $z$ are then given by $\phi_z(e_1),\dots,\phi_z(e_n)$.) By definition of dimension, this precisely says that the dimension of $V$ is $n$.
+
+\section{Linear maps}
+
+\subsection{Change of basis}
+As mentioned in the previous section, for any basis $z:\mathbb{F}^n\rightarrow V$, we have $z^{-1}=M(\cdot,z):V\rightarrow \mathbb{F}^n$.
+
+Let $y,z$ be 2 bases of vector space $V$.\\
+Let $P=z^{-1}\circ y:\mathbb{F}^n\rightarrow \mathbb{F}^n$.\\
+We then have $y=z\circ P$. Here, $P$ is a change of basis from $z$ to $y$ (\textbf{\textit{note the order!}}). In the notation of Axler's book, $P=M(I, y, z)$. ($I$ is the identity linear map.) For any $v\in V$, $M(I,y,z)M(v,y)=M(v,z)$.
+
+Another way to remember the bolded part above is to think of the change of basis of a linear operator $T\in L(V)$.
+\begin{align*}
+	M(T, y, y) = M(I, z, y)M(T, z, z)M(I, y, z) = P^{-1}M(T, z, z)P
+\end{align*}
+Hence $P$ changes the basis on which $T$ acts from $z$ to $y$.
+
+Given a certain basis $z$ of $V$, every other basis can be expressed in the form of $z\circ P$ for some isomorphism $P:\mathbb{F}^n\rightarrow \mathbb{F}^n$.
+
+\subsection{Dual spaces}
+Given a vector space $V$ over $\mathbb{F}$. The dual space of $V$, the set of all linear functionals on $V$, is denoted $V'=\hat{V}=L(V, \mathbb{F})$.
+
+\subsection{Kernel and range}
+In MA2101, the null space/kernel of a linear map $T:V\rightarrow W$ is denoted $ker(T)$. $dim\, ker(T) = null(T)$
+
+The range of $T$ is denoted $rang(T)$. $dim\, rang(T)=rank(T)$
+
+In Axler's book, rank is actually defined in terms of the column/row rank of a matrix representation of $T$. Then, rank is proven to be equal to $dim\, rang(T)$ by establishing an isomorphism between the column space of $M(T,B1,B2)$ and the range of $T$.
+
+\subsubsection{Fundamental Theorem of Linear Maps}
+Given linear map $T:V\rightarrow W$,
+\begin{align*}
+	dim V = null(T) + rank(T)
+\end{align*}
+
+There are 2 ways to prove the dimension theorem.
+The first way (Axler) is to construct a basis $B_{null(T)}=\{y_1,\dots, y_k\}$ of $ker(T)$, then extend it to a basis $B_V=\{y_1,\dots,y_k, z_1,\dots, z_m\}$ of $V$. Show that $(Tz_1,\dots, Tz_m)$ is a basis for $range(T)$. 
+Hence,
+\begin{align*}
+	dim(V) = k + m = null(T) + rank(T)
+\end{align*}
+
+The second way (MA2101) is to find a subspace $U$ of $V$ such that $V=null(T)\oplus U$. It is possible to find such a subspace via basis extension. Show that $U\cong range(T)$ by considering the restriction of $T$ to $U$ (also restrict codomain $V$ to $range(T)$. 
+\begin{align*}
+	T|_U:U\rightarrow range(T)
+\end{align*}
+Since isomorphism by definition (in MA2101) implies equal dimension, we are done.
+
+\subsection{Dual vectors}
+\textbf{Proposition} Given a basis $z=(z_1,\dots,z_n)$ of a vector space $V$, and any choice of vectors $w_1,\dots, w_n\in W$, a linear map $T:V\rightarrow W$ is uniquely identified by $T(z_i)=w_i, i\in \{1,\dots,n\}$.
+
+The proof is trivial.
+
+\textbf{Corollary} Given a basis $z=(z_1,\dots,z_n)$ of a vector space $V$, and linear maps $T_1,T_2:V\rightarrow W$. To check if $T_1=T_2$, it suffices to check that $\forall i\in \{1,\dots,n\}, T_1(z_i)=T_2(z_i)$
+
+Hence we can define dual basis vectors as follows.\\
+\textbf{Definition} $\forall i,j\in \{1,\dots, n\}, \zeta_i(z_j)=\delta_{ij}$.
+
+Prof Brett uses Einstein's notation, however, I decide to stick with the classical subscript notation. However, I will still follow certain conventions for this course, e.g. scalars start from the start of the alphabet; basis vectors start from the end of the alphabet.
+
+To show that $\zeta$ is indeed a basis for $\hat{V}$, we need to check for linear independence and span. Linear independence is easy. As for span, for any $\alpha \in \hat{V}$, define $\beta=\sum_i(\alpha z_i)\zeta_i$. Using the corollary above, it suffices to check for $\forall j\in \{1,\dots,n\}, \alpha z_j=\beta z_j$. Hence $\alpha=\beta$ and $\zeta$ spans $\hat{V}$.
+
+\textbf{Proposition} $\alpha\sum_ip_i\zeta_i\iff p_i=\alpha z_i$
+
+The backward direction is proven above. The forward direction is proven by applying $\alpha$ to $z_j$ for each $j=1,\dots,n$.
+
+Now, temporarily forget the original set-based definition of the dual basis. We want to see if we can define the dual basis using an isomorphism, i.e. a map-based definition.
+
+So now we don't have a general definition of dual basis. However, we still wish to define a special case for the dual space of $\mathbb{F}^n, \hat{\mathbb{F}^n}$. The dual basis vectors of $\hat{\mathbb{F}^n}$ are the row vectors $(\epsilon_1,\dots \epsilon_n)$, where $\epsilon_i=(e_i)^T$.
+
+Based on this special case, we now define the following:\\
+\textbf{Definition} Given a basis $z$ of $V$, the dual basis $\zeta$ of $\hat{V}$ is the isomorphism $\zeta: \hat{\mathbb{F}^n}\rightarrow \hat{V}$ such that 
+\begin{align*}
+	\forall a\in \mathbb{F}^n,\, \forall p\in \hat{\mathbb{F}^n}, (\zeta p)(za)=pa
+\end{align*}
+ 
+Now, I want to recover the original set-based definition of a dual basis. Let $p=\epsilon_i, a=e_j$, then $pa=\delta_{ij}$.\\
+By definition $(\zeta \epsilon_i)(z_j)=\delta_{ij}$. Since $\zeta$ is an isomorphism, it corresponds to a set-basis with $(\zeta_1,\dots,\zeta_n)$, where $\zeta_i=\zeta \epsilon_i$. Hence, $\zeta_iz_j=\delta{ij}$.\\
+And we have recovered the original set definition of a dual basis.
+
+\subsubsection{Vector acting on dual vector}
+I introduce the following notation:\\
+Given $v\in V, \alpha \in \hat{V}$,
+\begin{align*}
+	\alpha(v)=\alpha v=v[\alpha]
+\end{align*}
+In MA2101, Prof Brett does not use square brackets, instead just writing $v(\alpha)=v\alpha$, however I find this to be potentially confusing.\\
+The motivation for writing this will come later (e.g. when showing that the matrix representation of the transpose/dual map $\hat{T}$ of $T$ is really the transpose matrix of $T$).
+
+\textbf{Definition} Given $V, W$, $T\in L(V, W)$, the \textbf{dual map}(Axler)/\textbf{transpose}(MA2101) of $T$ is denoted by $\hat{T}\in L(\hat{W},\hat{V})$. 
+\begin{align*}
+	\forall \alpha \in \hat{W}, \hat{T}(\alpha)=\alpha \circ T
+\end{align*}
+Hence, $\forall v\in V, v[\hat{T}\alpha]=(\alpha \circ T)v=\alpha Tv$. Note that the convention of linear maps is to forego the use of round brackets.\\
+Notice the symmetry here.
+
+\subsection{Tensor products}
+\textbf{Definition} The tensor product $\otimes$ is a bilinear map defined as follows:
+\begin{align*}
+	\otimes: &V \times \hat{V}\rightarrow L(V)\\
+	&(v, \alpha)(\cdot) \mapsto \alpha(\cdot)v
+\end{align*}
+That is, for each $w\in V$, $(v\otimes \alpha)w=\alpha(w)v$, multiplying $v$ by scalar $\alpha w$.
+
+The transpose/dual map of $T=(v\otimes \alpha)$ has the following "nice" property. \\
+For all $\beta \in \hat{V}, \hat{T}\beta=\beta \circ (v\otimes \alpha)\in \hat{V}$. Applying this to any arbitrary $w\in V$, we get 
+\begin{align*}
+	(\beta \circ (v\otimes \alpha))w&=\beta(\alpha(w)v)\\
+	&=\alpha(w)\beta(v) && \text{linearity of $\beta$}\\
+	&=\beta(v)\alpha(w) && \text{commutativity of scalar multiplication}\\
+	&=(\beta(v)\alpha)(w) && \text{scalar multiplication of functions}
+\end{align*}
+Hence, $\hat{T}\beta=(\beta \circ (v\otimes \alpha))=\beta(v)\alpha$
+
+\subsubsection{Basis of $L(V)$}
+We are given that $z=(z_i)_{1\leq i\leq n}$ is a basis of $V$.\\
+Let $\zeta=(\zeta_i)_{1\leq i\leq n}$ be the dual basis of $\hat{V}$.\\
+Consider the following set 
+\begin{align*}
+	B=\{z_i\otimes \zeta_j : i,j\in \{1,\dots, n\}\}
+\end{align*}
+We claim that $B$ is a basis for $L(V)$.
+
+\textbf{Claim}: $B$ spans $L(V)$.
+
+Let $T\in L(V)$.\\
+Define the scalars $T_{i,j}, i,j\in \{1,\dots,n\}$ as follows: For each $1\leq j\leq n$, $T(z_j)=\sum_{1\leq i\leq n}T_{i,j}z_i$.
+
+Define 
+\begin{align*}
+	S=\sum_{1\leq i,j\leq n}T_{i,j}z_i \otimes \zeta_j
+\end{align*}
+Then for each $1\leq k\leq n$, 
+\begin{align*}
+	S(z_k)&=\sum_{1\leq i,j\leq n}T_{i,j}\zeta_j(z_k)z_i \\
+	&=\sum_{1\leq i,j\leq n}T_{i,j}\delta_{jk}z_i\\
+	&=\sum_{1\leq i\leq n}T_{i,k}z_i && \text{Substitute $j=k$}\\
+	&=Tz_k && \text{definition of $T_{ij}$}
+\end{align*}
+
+Since linear maps are uniquely determined by their actions on basis vectors, $S=T$. This says that $B$ spans $L(V)$.
+
+\textbf{Claim}: $B$ is linearly independent.
+
+Suppose there exists $\lambda_{i,j}, 1\leq i,j\leq n$ such that \begin{align*}
+	\sum_{1\leq i,j\leq n}\lambda_{i,j}z_i \otimes \zeta_j=0_{L(V)}
+\end{align*}
+Then, for each $1\leq k\leq n$, 
+\begin{align*}
+	0_V=0_{L(V)}(z_k)&=\sum_{1\leq i,j\leq n}\lambda_{i,j}\zeta_j(z_k)z_i \\
+	&=\sum_{1\leq i,j\leq n}\lambda_{i,j}\delta_{jk}z_i\\
+	&=\sum_{1\leq i\leq n}\lambda_{i,k}z_i \\
+\end{align*}
+Since $z$ is a basis, it is a linearly independent set, hence $\forall 1\leq i\leq n,\, \lambda_{i,k}=0$. $k$ runs from $1$ to $n$, so we have $\lambda_{i,k}=0$ for all $1\leq i,k\leq n$. This proves linear independence of $B$. 
+
+\textbf{Definition} $T_{i,j}$ are called the components of $T\in L(V)$ with respect to basis $z$.
+
+Before, the definition of $T_{i,j}$ is implicitly given by $T(z_j)=\sum_{1\leq i\leq n}T_{i,j}z_i$. Here is a more explicit way to express an individual entry of $T_{i,j}$.
+\begin{align*}
+	\forall 1\leq i,j\leq n,\, T_{i,j}=\zeta_{i}(Tz_j)
+\end{align*}
+
+\subsection{Matrices}
+In MA2101, the $(i,j)$-th entry of a $n$ times $m$ matrix $M\in \mathbb{F}^{n,m}$ is denoted as $M^i_j$.
+I will use the "classical" $M_{i,j}$ instead.\\
+If the entries of a matrix $M_{i,j}$ are known and equal $a_{i,j}$, then $M$ can be denoted as $(a_{i,j})$.
+
+All the matrix notation here onwards will largely follow Axler's book.
+
+\textbf{Proposition} Given $M\in \mathbb{F}^{n,m}, N\in \mathbb{F}^{m,p}$,
+\begin{align*}
+	MN = \sum_{1\leq i\leq m}M_{\cdot,i}N_{i,\cdot}
+\end{align*}
+
+This is covered in MA1101R and is one of the multiple ways with which to view matrix multiplication.
+
+Given a linear operator $T\in L(V)$, we know from the previous section that $T=\sum_{1\leq i,j\leq n}T_{i,j}(z_i\otimes \zeta_j)$.
+Its matrix representation with respect to the basis $z$ is $(T_{i,j})=(\zeta_i(Tz_j))$.
+
+\textbf{Theorem} The matrix representation of $\hat{T}$ with respect to basis $\zeta$ is the transpose of the matrix representation of $T$ w.r.t basis $z$.
+
+\textbf{Remark} Prof Brett actually refers to the matrix representation of $\hat{T}$ relative to basis $z$, since $\zeta$ is derived from $z$. However, personally, I'd like to emphasise that $\hat{T}$ maps from $\hat{V}$ to $\hat{V}$, so when referring to the basis I also would refer to the dual basis of $\hat{V}$.
+
+\textbf{Proof}
+We have
+(1)
+\begin{align*}
+	T_{i,j}=\zeta_i(Tz_j)=(\zeta_i\circ T)z_j=(\hat{T}\zeta_i)z_j=z_j[\hat{T}\zeta_i]
+\end{align*}
+Notice that as $\hat{T}$ is just another linear operator, we have already defined $\hat{T}_{i,j}$ implicitly in the previous section as 
+\begin{align*}
+	\hat{T}\zeta_j=\sum_{1\leq i\leq n}\hat{T}_{i,j}\zeta_i
+\end{align*}
+Hence, 
+(2)
+\begin{align*}
+	z_k[\hat{T}\zeta_i]&=\sum_{1\leq i\leq n}\hat{T}_{i,j}\zeta_i(z_k)\\
+	&=\hat{T}_{k,j}
+\end{align*}
+Hence, combining (1) and (2), $\forall 1\leq i,j\leq n$,
+\begin{align*}
+	T_{i,j}=z_j[\hat{T}\zeta_i]=\hat{T}_{j,i}
+\end{align*}
+
+Hence, in matrix form, $(\hat{T}_{i,j})=(T_{i,j})^t$.
+
+
 \end{document}
+
+
 
 
