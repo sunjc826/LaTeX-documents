@@ -82,18 +82,6 @@ Define the following:
 	\item $lim(R) = \{p\in S :  \forall r\in \mathbb{R}^+, \exists q\in S, q\neq p, q\in B(p,r)\}$ (limit points of R)
 \end{itemize}
 
-
-
-\subsubsection{Closed set}
-The following are equivalent:\\
-\begin{itemize}
-	\item A region R in a metric space is closed
-	\item $bd(R)\subseteq R$
-	\item $lim(R)\subseteq R$
-\end{itemize}
-\textbf{Proof:}
-
-
 \subsection{Surfaces}
 A surface is described by a predicate. For e.g. a surface in 3D can be described by the predicate $P(x,y,z)="x+y+2z=k"$. The surface itself is then the set $\{(x,y,z):P(x,y,z)\}$.
 
@@ -162,7 +150,35 @@ Hence,
 
 But saying that $\frac{\partial^2 f_{i_1}}{\partial x_j \partial x_{i_2}}$ is of class $C^{r-1}$ is the same as saying $\frac{\partial f_{i_1}}{\partial x_{i_2}}$ is of class $C^r$. And we are done since $1\leq i_1\leq n, 1\leq i_2\leq m$.
 
+\subsection{Directional and partial derivatives}
+Directional derivatives, and in particular, partial derivatives, are really just derivatives of single variable (composite) functions.
 
+For instance, consider the directional derivative of a scalar-valued, multivariable function $f: \mathbb{R}^m \rightarrow \mathbb{R}$.
+\begin{align*}
+	D_uf(p)=\lim_{t\rightarrow 0}\frac{f(p+tu)-f(p)}{t}
+\end{align*} 
+Define the function
+\begin{align*}
+	f_u: &\mathbb{R}\rightarrow \mathbb{R}\\
+	&t \mapsto f(p+tu)
+\end{align*}
+
+Usually, the domains of $f$ and $f_u$ are a subset of $\mathbb{R}^m$ and $\mathbb{R}$ respectively, with the image of $p+tu$ falling within the domain of $f$. However for simplicity, we will ignore this detail.
+
+Then, $D_uf(p)=f_u'(0)$.\\
+For a product of functions $f,g$, we have 
+\begin{align*}
+	(fg)_u(t)=(fg)(p+tu)=f(p+tu)g(p+tu)=f_u(t)g_u(t)
+\end{align*}
+Differentiating, we obtain $(fg)_u'(t)=f_u(t)g_u'(t)+f_u'(t)g_u(t)$ by the product rule for single-variable functions. In particular, this holds for $t=0$.
+
+Writing this for partial derivatives, we have,
+\begin{align*}
+	&(fg)_u'(0)=f_u(0)g_u'(0)+f_u'(0)g_u(0) &&\text{where $u=e_i$}\\
+	&\frac{\partial fg}{\partial x_i}(p)=f(p)\frac{\partial g}{\partial x_i}(p)+\frac{\partial f}{\partial x_i}(p)g(p)
+\end{align*}
+
+This is used to prove the product and quotient rules for gradients.
 
 \end{document}
 
