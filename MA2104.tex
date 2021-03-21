@@ -127,6 +127,8 @@ $f$ is of class $C^r \iff \frac{\partial f_i}{\partial x_j}$ is of class $C^{r-1
 Proof by induction on $r$:\\
 Suppose $P(r)$, and let $f: R\rightarrow \mathbb{R}^n$ be of class $C^{r+1}$. By definition, $f': R \rightarrow L(\mathbb{R}^m, \mathbb{R}^n) \cong M_{n\times m}(\mathbb{R}) = \mathbb{R}^{n,m}$ is of class $C^r$.
 
+Note that in particular, $f$ is of class $C^1$, hence the components of $f'$ are indeed the partial derivatives of $f$.
+
 Next, we will show that the partial derivatives of the component functions of $f'$ are, in fact, second order partial derivatives of the component functions of $f$.
 
 By $P(r)$,  
@@ -179,6 +181,20 @@ Writing this for partial derivatives, we have,
 \end{align*}
 
 This is used to prove the product and quotient rules for gradients.
+
+
+\subsection{Lemma on constant functions}
+The following lemma is used implicitly in Lecture 14, when finding the potential function when given a gradient field.
+
+For simplicity we will work with 3 variables $x,y,z$.\\
+\textbf{Lemma} Given a multivariable scalar-valued function $f:\mathbb{R}^3\rightarrow \mathbb{R}$, suppose $\frac{\partial f}{\partial x}(x,y,z)=0$ for all $x,y,z\in \mathbb{R}^3$. Then, $f(x,y,z)=g(y,z)$ for some function $g:\mathbb{R}^2\rightarrow \mathbb{R}$.
+
+\textbf{Proof} Fix some $y_0,z_0\in \mathbb{R}$. Then $\frac{\partial f}{\partial x}(x,y_0,z_0)=0$. Mean-value theorem from single variable calculus says that the composite function $x\mapsto f(x,y_0,z_0)$ is some constant $C$ (which depends on choice of $y_0,z_0$). Hence, we can define $g(y_0,z_0)=C=f(x,y_0,z_0)$ for any $x$. Clearly, $g$ is well-defined for each $y_0,z_0\in \mathbb{R}$.\\
+And the proof is complete.
+
+In other words, this lemma allows us to remove "redundant" variables from a function $f(x,y,z)$ to form a function $g(y,z)$ that is clearly independent of $x$.\\
+While this may seem intuitive, I feel that it is important to write out the details.
+
 
 \end{document}
 

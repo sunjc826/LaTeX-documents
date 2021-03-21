@@ -487,6 +487,7 @@ Hence, in matrix form, $(\hat{T}_{i,j})=(T_{i,j})^t$.
 
 \subsection{Linear maps $L(V,W), V\neq W$}
 As a convention, let $dim(V)=n, dim(W)=m$
+
 Define the tensor product:
 \begin{align*}
 	\otimes: &W \times V' \rightarrow L(V,W)\\
@@ -504,6 +505,192 @@ Let $x=(x_1,\dots, x_m)$ be a basis for $W$.
 	\{x_i \otimes \zeta_j : 1\leq i\leq m, 1\leq j\leq n\}
 \end{align*}
 is a basis for $L(V,W)$.
+
+\subsection{Change of Basis}
+For simplicity, we first consider a single vector space $V$.\\
+Let $z,y: \mathbb{F}^n\rightarrow V$ be 2 bases of $V$, and $\zeta, \gamma$ be the corresponding dual bases.
+A change of basis affects the matrix representation of the following 3 items:
+\begin{enumerate}
+	\item Linear maps $T\in L(V)$
+	\item Vectors $v\in V$
+	\item Dual vectors $\alpha \in \hat{V}$
+\end{enumerate}
+
+Define $P=z^{-1}\circ y$.
+
+\textbf{Lemma 1} $M(I, y, z) = M(P, e, e)$\\
+For convenience, we write $M(P, e) = M(P,e,e)$, since the two bases are the same.
+
+\textbf{Proof} Consider the $(i,j)$-th entry of the matrix of $I$ w.r.t bases $y, z$. 
+\begin{align*}
+	M(I, y, z)_{i,j}&=\zeta_iIy_j=(\epsilon_iz^{-1})I(ye_j)\\
+	&=\epsilon_i(z^{-1}y)e_j=\epsilon_iPe_j=M(P, e)_{i,j}
+\end{align*}
+Since all the entries of the 2 matrices are the same, we have the desired result.
+\textbf{Remark} A similar derivation gives $M(I, z, y) = M(P^{-1}, e)$
+
+\subsubsection{Linear maps}
+I will present 3 different derivations. The first 2 approaches also make use of the result the matrix of composite linear maps is the product of their matrices. Comparing \textbf{1} with \textbf{2}, they both make use of the same ideas, but the first is shorter.
+
+\textbf{1 Axler}
+\begin{align*}
+	M(T, y) = M(I, z, y)M(T, z)M(I, y, z) = M(P^{-1}, e)M(T, z)M(P, e)
+\end{align*}
+The last equality is from the use of the lemma above.
+
+\textbf{2 MA2101 Method 1}
+Note that $M(T,z)_{i,j}=\zeta_iTz_j = \epsilon_iz^{-1}Tze_j=M(z^{-1}Tz, e)$. We can similarly replace $z$ with $y$.
+\begin{align*}
+	M(T, y) = M(y^{-1}Ty, e) = M((zP)^{-1}T(zP),e) = M(P^{-1}(z{-1}Tz)P,e) =  M(P^{-1}, e)M(T, z)M(P, e)
+\end{align*}
+
+\textbf{3 MA2101 Method 2}
+See below. This will be presented separately.
+
+\subsubsection{Vectors}
+Let $v\in V$. Define the matrix of $v$ with respect to a basis $z$ as $M(v, z)$. Clearly, $M(v, z)=M(z^{-1}v, e)$
+
+For simplicity/laziness, I will identify the column matrix $M(z^{-1}v, e)\in \mathbb{F}^{n,1}$ as just the column vector $z^{-1}v\in \mathbb{F}^n$. Technically they are different mathematical objects.\\
+I also implicitly make use of the result that $M(Tu, basis)=M(T, basis)M(u, basis)$
+
+Then $M(v, y) = y^{-1}v = (z\circ P)^{-1}v = P^{-1}z^{-1}v = M(P^{-1}, e)M(v, z)$
+
+
+
+\subsubsection{Dual vectors}
+Let $\alpha \in \hat{V}$. 
+
+Denote $e=\{1\}$ as the basis of $\mathbb{F}$ (when viewed as a vector space).\\
+The dual basis of $e$ is $\epsilon=\{1\}$.\\
+Denote $e'$ as the basis of $\mathbb{F}^n$.
+
+Then $M(\alpha, y, e) = M(\alpha, z, e)M(I, y, z) = M(\alpha, z, e)M(P, e')$
+
+Alternative derivation:\\
+Notice that $1\alpha y_j = 1(\alpha y)(e'_j)$ for each $1\leq j\leq n$.\\
+Hence, $M(\alpha, y, e) = M(\alpha y, e', e) = M(\alpha zP, e', e) = M(\alpha z, e', e)M(P, e', e')$
+
+We can observe that the alternative way is rather analogous to how Prof Brett does it in \textbf{MA2101 Method 1} as stated above.
+
+\subsubsection{MA2101 Method 2}
+\textbf{Lemma 2} $\epsilon_j \circ P = \sum_{1\leq i\leq n}P_{ji}\epsilon_i$
+
+\textbf{Proof} Clearly, $\epsilon_j \circ P\in \hat{\mathbb{F}^n}$. \\
+For each $1\leq k\leq n$, $\epsilon_j \circ P e_k = \epsilon_j \sum_i P_{i,k} e_i = P_{j,k}$. Also, $\sum_{1\leq i\leq n}P_{ji}\epsilon_i (e_k) = P_{j,k}$. And we are done.
+
+We first summarise how the basis vectors of $y,z,\gamma,\zeta$ are represented in terms of each other.
+\begin{itemize}
+	\item $y_j=y(e_j)=(zP)e_j=z\sum_iP_{i,j}e_i=\sum_iP_{i,j}z_i$
+	\item Similarly, $z_j=\sum_iP^{-1}_{i,j}y_i$
+	\item Using Lemma 2, $\gamma_j=\epsilon_j\circ y^{-1}=\epsilon_j \circ (zP)^{-1} =(\epsilon_jP^{-1})z^{-1}= (\sum_iP^{-1}_{j,i}\epsilon_i)z^{-1}=\sum_i P^{-1}_{j,i}\zeta_i$
+	\item Similarly, $\zeta_j=\sum_i P_{j,i}\gamma_i$
+\end{itemize}
+
+\textbf{Vectors}\\
+Let $v$ be a vector in $V$. Note that $z=y\circ P^{-1}$.\\
+Denote $a_j:=M(v,z)_{j,1}$\\
+$v = \sum_j a_j z_j = \sum_j a_j \sum_i P^{-1}_{i,j} y_i = \sum_i (\sum_j P^{-1}_{i,j}a_j) y_i$\\
+Hence, $M(v,y)_{i,1}=\sum_j P^{-1}_{i,j}M(v,z)_{j,1}$ for each $1\leq i\leq n$. Hence, $M(v,y) = M(P^{-1}, e)M(v,z)$
+
+We deal with dual vectors and linear maps in a similar fashion.
+
+\section{Eigenthings}
+\textbf{Definition} Given a linear operator $T$ on a vector space $V$, a subspace $U\subseteq V$ is an eigenray if it is invariant with respect to $T$ and is one-dimensional. 
+
+\textbf{Proposition} The eigenvalue of an eigenray is unique.
+
+This is a consequence of the linearity of a linear operator.
+
+\textbf{Proposition} Given $n$ eigenrays $R_1,\dots,R_n$ of a vector space $V$ with pairwise different eigenvalues, and any choice of $n$ eigenvectors $v_i\in R_i$ (one from each eigenray), then the set $(v_1,\dots,v_n$) is linearly independent.
+
+\textbf{Proof} By induction on $n$.\\ 
+A special case for $n=2$ can be proven as follows. If $v_1, v_2$ are linearly dependent, then $v_2=kv_1$ for some scalar $k$. But this says that $v_2$ lies in span($v_1$)=$R_1$. It then follows directly that $R_1 = R_2$. But we know that the an eigenray only has one eigenvalue. Contradiction.
+
+\textbf{Corollary} There are at most $dim(V)$ distinct eigenrays in a finite-dimensional vector space $V$.
+
+This is a consequence of the fact that a linearly independent set of vectors in a finite-dimensional vector space $V$ can have at most $dim(V)$ vectors.
+The proof is by Steinitz exchange/replacement lemma.\\
+
+\subsection{Fundamental Theorem of Algebra}
+We now assume the fundamental theorem of algebra without proof.
+
+\textbf{Proposition} Every linear operator over a complex vector space $V$ has an eigenvalue.
+
+Consider $v, Tv, \dots, T^nv$, where $n=dim(V)$. Since there are more than $n$ vectors, they cannot be linearly independent. That is, there exists scalars, $\lambda_i, i\in \{0,\dots,n\}$ such that $\sum_{0\leq i\leq n}\lambda_i T^iv=0$.
+
+\begin{align*}
+	\sum_{0\leq i\leq n}\lambda_i T^iv&=(\sum_{0\leq i\leq n}\lambda_i T^i)v\\
+	&=a(T-a_1I)\dots(T-a_nI)v &&\text{by FTA and linearity of $T$}
+\end{align*}
+
+Note 1: Recall that for all functions, linear or not, we have $(f+g)h=fh+gh$. However, additionally linear maps are bilinear under composition, that is, $f(g+h)=fg+fh$. This is what allows the second equality to hold.
+
+Note 2: It is also important that $V$ is a vector space over $\mathbb{C}$, otherwise, we would not be able to do the factorisation $a(T-a_1I)\dots(T-a_nI)$, where $a_i$ are possibly complex scalars. If $V$ was a vector space over $\mathbb{R}$, then $(T-iI)$ for instance would not be an operator over a real vector space, since $(T-iI)v=Tv-iv$ and we are trying to multiply $v$ by a complex scalar.
+
+This lemma will allow us to "kickstart" our proof of the next theorem.
+
+\subsection{Upper triangular and diagonal matrices}
+\textbf{Definition} Given matrices $A,B$, say $A\equiv B$ or $A$ is similar to $B$ if there exists invertible matrix $P$ such that $A=P^{-1}BP$.
+
+\textbf{Proposition} Given a linear operator $T\in L(V)$, where $V$ is a vector space over $\mathbb{C}$, there exists a choice of basis $y$ of $V$ such that $M(T, y)$ is upper triangular.
+
+Note that this is equivalent to stating that given any basis $z$ of $V$, there exists $P$ such that $M(T, y)=M(P^{-1},e)M(T, z)M(P, e)$. i.e. $M(T, z)$ is similar to some upper triangular matrix $M(T, y)$.
+
+
+(For simplicity, we will denote $M(T, y, y)$ with $M(T, y)$.)
+
+Before proceeding with the proof, we need to recall a few things. \begin{itemize}
+	\item By choosing any 2 bases $y,z$ of a vector space $V$, $P:=z^{-1}\circ y$ is a change of basis map. $P$ is the composition of 2 isomorphisms, so it is itself an isomorphism. 
+	\item We choose one basis $z$ of $V$ and some isomorphism $P\in L(\mathbb{F}^n)$. Then $y:=z\circ P$ is another basis for $V$.
+	\item As a consequence, we have the following results:
+	\item Given 2 bases $y,z$ and $P:=z^{-1}\circ y$, we have $M(T, y)=M(P^{-1},e)M(T, z)M(P, e)$.
+	\item Given a basis $z$, isomorphism $P\in L(\mathbb{F}^n)$ and $y:=z\circ P$, we have $M(T, y)=M(P^{-1},e)M(T, z)M(P, e)$
+\end{itemize}
+My point here is that we can either go from $z,P$ to $y$, or from $z,y$ to $P$.
+
+
+\textbf{Proof} The proof is by induction on dimension of $V$, $n$. Suppose $P(n)$ true. That is, for any $n$-dimensional vector space $V$, $T\in L(V)$, there exists a choice of basis $y$ such that $M(T,y)$ is upper triangular.
+
+Let $V$ be a $n+1$-dimensional complex vector space. Let $T\in L(V)$. We define the basis $z$ as follows. We know that $T$ must have at least $1$ eigenvalue, and hence some eigenvector. So we let $z_1$ be an eigenvector of $T$, and extend $z_1$ arbitrarily to a basis $z$ for $V$. 
+
+Consider $M(T,z)$. The first column of $M(T,z)$ is $\begin{pmatrix}
+	\lambda_1\\
+	0\\
+	\dots \\
+	0
+\end{pmatrix}$ by our choice of $z_1$. Hence $M(T,z)$ has the form
+\begin{align*}
+	\begin{pmatrix}
+		\lambda_1 & \mathbf{r} \\
+		\mathbf{0} & Q
+	\end{pmatrix}
+\end{align*}
+where $\mathbf{r}\in \mathbb{C}^{1,n}, \mathbf{0}\in \mathbb{C}^{n,1}, Q\in \mathbb{C}^{n,n}$
+
+Note that $Q$ is an $n*n$ matrix, and hence can be viewed as a linear operator on $\mathbb{C}^n$. So by induction hypothesis, there exists a matrix $M(P_1,e)$ such that $P_1^{-1}QP_1$ is upper triangular.\\
+Now define $M(P,e)=\begin{pmatrix}
+	1 & \mathbf{0}\\
+	\mathbf{0} & M(P_1, e)
+\end{pmatrix} 
+$ and we have the desired $P$.
+
+See block matrix multiplication for more details.
+
+
+\textbf{Theorem} The eigenvalues of a linear map $T$ are precisely the diagonal entries of an upper triangular matrix $A$ of $T$. 
+
+\textbf{Proof}
+First, we note that for any scalar $\lambda$ and any basis $z$, 
+\begin{align*}
+	M(T-\lambda I, z)&=M(T,z)-\lambda M(I,z)\\
+	&=A-\lambda I.
+\end{align*}
+Note that $I$ in the first line is the identity map and $I$ in the second line is the identity matrix. 
+ 
+Hence, $\lambda$ is a diagonal entry of $A$ \\
+$\iff$ $A-\lambda I$ is a non-invertible/singular matrix \\
+$\iff$ $T-\lambda I$ is a non-invertible/singular linear operator\\
+$\iff$ $\lambda$ is an eigenvalue of $T$.
 
 
 \end{document}

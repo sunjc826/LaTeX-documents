@@ -204,6 +204,15 @@ Of course, if $\sup E$ turns out to be $+\infty$ or $-\infty$, we must be carefu
 To emphasise: $E$ in theorem 3.17 is the union of subsequential limits (which are finite) and possibly $+\infty$ if the sequence is unbounded above, $-\infty$ if the sequence is unbounded below.
 
 
+\subsection{Multiple definitions of limsup/liminf}
+\textbf{Theorem} The following definitions are equivalent:
+\begin{enumerate}
+	\item $\limsup_{n\rightarrow \infty}x_n=\sup C(x_n)$, where $C(x_n)$ is the set of subsequential limits of $(x_n)$.
+	\item $\limsup_{n\rightarrow \infty}x_n=\inf V$, where $V=\{y\in \mathbb{R}:x_n>y \text{ for finitely many } n\}$
+	\item $\limsup_{n\rightarrow \infty}x_n=\inf U_n=\lim_{n\rightarrow \infty}U_n$ where $U_n=\sup\{x_m:m\geq n\}$
+\end{enumerate}
+
+
 \subsection{Two proofs of the Squeeze Theorem}
 We are given functions $f,g,h$ where $f(x)\leq g(x)\leq h(x)$ in some neighborhood of $x_0$, such that $f(x)\rightarrow L$ and $h(x)\rightarrow L$. Fix $\epsilon > 0$ and we can obtain the following bound for all $0 < |x - x_0| < \delta$ for some $\delta > 0$.
 \begin{align*}

@@ -154,6 +154,40 @@ Change in population units with respect to time; Tastes and preferences, economi
 
 
 
+\section{Odds, Risk ratios}
+Given 2 groups, $A$ and $B$, we will abuse notation and let $A$, $B$ refer to the events that a person is in $A$ and $B$ respectively.
+\begin{align*}
+	\text{Odds, } O(A)&=\frac{P(D|A)}{P(D^c|A)}\\
+	\text{Risk, } R(A)&=P(D|A)\\
+	\text{Odds ratio, }OR(A/B)&=\frac{O(A)}{O(B)}=\frac{\frac{P(D|A)}{P(D^c|A)}}{\frac{P(D|B)}{P(D^c|B)}}=\frac{P(D|A)P(D^c|B)}{P(D|B)P(D^c|A)}\\
+	\text{Risk ratio, }RR(A/B)&=\frac{R(A)}{R(D)}=\frac{P(D|A)}{P(D|B)}
+\end{align*}
+
+$RR(A/B)>1\iff P(D|A)>P(D|B) \iff P(D^c|A)<P(D^c|B) \iff \frac{P(D^c|A)}{P(D^c|B)}<1 \iff \frac{P(D^c|B)}{P(D^c|A)}>1$\\
+Hence, $RR(A/B)>1\implies OR(A/B)>1$\\
+Since $P(D|A)>P(D|A)\iff P(D^c|A)<P(D^c|B)$, the converse is clearly true as well.\\
+An analogous derivation shows that $RR(A/B)<1 \iff OR(A/B)<1$.\\
+Finally, $RR(A/B)=1\iff OR(A/B)=1$
+
+
+\section{Testing}
+\subsection{Null hypothesis, alternative hypothesis, p-value}
+p-value is calculated with the assumption that the null hypothesis is true.
+
+\subsection{Sensitivity and specificity}
+Let $A$ be the event that a person is tested positive for disease.
+Let $D$ be the event that the person has the disease.
+
+\begin{align*}
+	\text{Base rate} &= P(D)\\
+	\text{Sensitivity} &= P(A|D)\\
+	\text{Specificity} &= P(A^c|D^c)
+\end{align*}
+
+
+
+
+
 \end{document}
 
 
