@@ -154,8 +154,35 @@ Hence,
 
 Going from even $k$ to odd $k+1$ is similar.
 
-\section{Random Variables}
-\subsection{Linearity of Expectation}
+\section{Some Problems}
+\subsection{Maximums and minimums of dice throw}
+Suppose we have $N$ dice, for each $i\in \{1,\dots,N\}$, denote $D_i$ as the outcome of the $i$-th dice roll. Note that $D_i\in \{1,\dots, 6\}$.
+
+Define random variables $X=max\{D_i:1\leq i\leq N\}, Y=min\{D_i:1\leq i\leq N\}$.\\
+Find $P(Y=j, X=k)$.
+
+First we consider a simpler problem. What is $P(X=k)$?\\
+$P(X\leq k)=(\frac{k}{6})^N$, and we can use this to find $P(X=k)=P(X\leq k) - P(X\leq k-1)$
+
+Similarly, 
+\begin{align*}
+	P(j\leq Y, X\leq k)=(\frac{k-j+1}{6})^N
+\end{align*}
+
+Then 
+\begin{align*}
+	P(j=Y, X=k) = 
+	\begin{cases}
+	\begin{aligned}
+	&P(j\leq Y, X\leq k) - P(j+1\leq Y, X\leq k) \\
+	&- P(j\leq Y, X\leq k-1) + P(j+1\leq Y, X\leq k-1)
+	\end{aligned} &\text{if } k\geq j+2\\
+	\begin{aligned}
+	P(j\leq Y, X\leq k) - P(j+1\leq Y, X\leq k) - P(Y=x=j)
+	\end{aligned} &\text{if } k=j+1\\
+	P(Y=X=j) &\text{if } k=j
+	\end{cases}
+\end{align*}
 
 
 \end{document}

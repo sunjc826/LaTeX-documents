@@ -408,8 +408,34 @@ Compared to the book's proof, this involves the choice of $N_0$, which isn't nee
 Check out this \href{https://math.stackexchange.com/questions/455296/can-a-function-with-just-one-point-in-its-domain-be-continuous}{math.stackexchange post} on some of the subtleties of defining limits of a function and continuity. 
 
 
-\subsection{Subtleties in definitions}
+\subsection{Uniform continuity}
+An alternative to Rudin's proof is presented in class. (this is much easier!)
 
+\textbf{Theorem} Let $f:X\rightarrow Y$ be a continuous mapping. Suppose $X$ is compact. Then $f$ is uniformly continuous on $X$.
+
+
+Proof outline:
+Suppose $f$ is not uniformly continuous. Then $\exists \epsilon, \forall \delta>0, \exists x,y\in X, 0<d(x,y)<\delta \text{ but } d(f(x), f(y)) \geq epsilon$. Letting $\delta_n=\frac{1}{n}$, we then define a sequence $(x_n,y_n)$ such that $\lim_{n\rightarrow \infty}d(x_n,y_n)=0$ but $d(f(x_n), f(y_n)) \geq \epsilon$.
+
+Compactness is equivalent to sequential compactness.\\
+We use this to prove 2 things.\\
+First, $X$ compact implies that $X^2$ is compact.\\
+Next, since $(x_n,y_n)$ is a sequence in $X^2$, we use sequential compactness of $X^2$ to find convergent $(x_{n_i},y_{n_i})$, say it converges to $(x,y)$. Since $0\leq d(x,y)\leq d(x,x_{n_i}) + d(x_{n_i}, y_{n_i}) + d(y_{n_i},y)$, we must have $d(x,y)=0$, hence $x=y$.
+
+Finally, using continuity of $f$, $f(x_{n_i}), f(y_{n_i})\rightarrow f(x)$. And we are have a contradiction since $\lim_{i\rightarrow \infty}x_{n_i}-y_{n_i}=0$. 
+
+Of course, note that the range of the sequences $\{x_{n_i}\}, \{y_{n_i}\}$ may be finite (i.e. we have infinitely many repeating elements). But it doesn't matter, since all we want to show is that there exists $x_{n_i}\neq y_{n_i}$ such that $d(f(x_{n_i}),f(y_{n_i}))\leq \epsilon$.
+
+\subsection{Connectedness}
+\textbf{Definition} $X$ is said to be path connected if $\forall x,y\in X$, $\exists \mathbf{r}:[0,1]\rightarrow C$, where $\mathbf{r}$ is continuous, $\mathbf{r}(0)=x,\mathbf{r}(1)=y$ and $C$ is a curve joining $x,y$.
+
+In many well behaved sets, connectedness and path connectedness are either both present or both absent. However, there are exceptions.\\
+Consider $S=A\cup B$, where
+\begin{align*}
+	A &= \{(x,y):y=\sin \frac{1}{x}, x>0\}\\
+	B &= \{(0,y):-1\leq y\leq 1\}
+\end{align*}
+Claim: $S$ is connected, but not path-connected.
 \end{document}
 
 

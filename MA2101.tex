@@ -693,6 +693,73 @@ $\iff$ $T-\lambda I$ is a non-invertible/singular linear operator\\
 $\iff$ $\lambda$ is an eigenvalue of $T$.
 
 
+\subsection{Jordan Canonical Form}
+See lecture notes for definition of Jordan block and Jordan form.
+
+As with any upper triangular matrix of a linear operator $T$, the diagonal entries of the Jordan canonical form of $T$ are precisely the eigenvalues of $T$.\\
+\textbf{Definition} The multiplicity of an eigenvalue $\lambda$ is the sum of the sizes of Jordan blocks corresponding to that eigenvalue.\\
+\textbf{Remark} It is incorrect to say the multiplicity of an eigenvalue $\lambda$ is simply the number of occurrences of $\lambda$ along any upper triangular matrix. This is because the Jordan canonical form has certain desired characteristics that makes this definition of multiplicity useful in the Cayley-Hamilton Theorem.
+
+\textbf{Definition} Given that $\lambda_i, 1\leq i\leq k$ are precisely the eigenvalues of a linear operator $T$, and that $m_i$ is the multiplicity of eigenvalue $\lambda_i$, the the characteristic polynomial of $T$ is 
+\begin{align*}
+	\chi_T(x)=\prod_{i=1}^k (x-\lambda_i)^{m_i}
+\end{align*}
+\textbf{Remark} A reminder that eigenvalues and eigenvectors are properties of a linear operator, independent of choice of basis. Hence the characteristic polynomial is also a property of an operator, independent of basis.
+
+
+\subsubsection{Cayley-Hamilton Theorem}
+\begin{align*}
+	\chi_T(T)=0_{L(V)}
+\end{align*}
+
+To prove this, let $y$ be a Jordan basis of $T$, such that $M(T, y)$ is in Jordan canonical form. We can show via block matrix multiplication that $\chi_T(M(T,y))=0_{\mathbb{C}^{n,n}}$.
+
+Since $M(\chi_T(T), y) = \chi(M(T, y)) = 0_{\mathbb{C}^{n,n}}$, we have $\chi_T(T)=0_{L(V)}$.
+
+\textbf{Proposition} Let $z$ be any basis of $V$. Then 
+\begin{align*}
+	\chi_T(M(T,z))=0_{\mathbb{C}^{n,n}}
+\end{align*}
+
+\textbf{Proof} Since $\chi_T(T)=0_{L(V)}$, i.e. $\chi_T(T)$ is the zero map, clearly any matrix of $\chi_T(T)$ is the zero matrix regardless of basis. (since $M(\chi_T(T), z) = \chi_T(M(T, z))$) Hence, we have the desired conclusion.
+
+STUFF
+
+Given linear operator $T\in L(V)$, where $V$ is a complex vsp. Let $z$ be any basis of $V$. Let $y$ be an orthonormal eigen-basis.
+
+Let $M(P, e, e)$ be the matrix $M(I, y, z)$.
+Then $y_j = \sum_{i}P_{i,j}z_i$.
+
+Prof's Claim: The columns of $M(P)$, $c_i=\sum_{i}P_{ij}e_i$ are orthonormal.
+
+It suffices to show $dot(c_i, c_j)=\delta_{ij}$
+
+$M(P)=\begin{pmatrix}
+c_1 \dots c_n
+\end{pmatrix}
+$
+\begin{align*}
+dot(c_i, c_j) &= dot(\sum_kP_{ki}e_k,\sum_lP_{lj}e_l)\\
+&=\sum_{k,l}P_{ki}P_{lj}dot(e_k,e_l)\\
+&=
+\sum_{k}P_{ki}P_{kj}
+\end{align*}
+
+\begin{align*}
+\delta_{ij} &= g(y_i,y_j)\\&=g(zc_i, zc_j) \\&= \sum_{k,l}P_{ki}P_{lj}g(z_k,z_l)
+\end{align*}
+
+\begin{align*}
+\begin{pmatrix}
+1 & 1\\
+0 & 1 
+\end{pmatrix}
+\begin{pmatrix}
+1 & -1\\
+0 & 1 
+\end{pmatrix}
+\end{align*}
+
 \end{document}
 
 
