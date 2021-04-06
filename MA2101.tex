@@ -760,6 +760,128 @@ dot(c_i, c_j) &= dot(\sum_kP_{ki}e_k,\sum_lP_{lj}e_l)\\
 \end{pmatrix}
 \end{align*}
 
+
+\section{Inner Product Spaces}
+\subsection{Determinants}
+Define multilinear forms as in lecture notes.
+Define n-forms as in lecture notes. In short, $n$-forms are multilinear forms that are antisymmetric with respect to any pair of components.
+
+\paragraph{Properties of 2-forms}
+Let $f$ be a 2-form. Then by definition, $f(u,v)=-f(v,u)$.\\
+Hence, $f(u,u) = -f(u,u)\implies f(u,u)=0$.
+
+Define the wedge product 
+\begin{align*}
+\zeta_1\wedge \dots, \wedge \zeta_k := \frac{1}{k!}(\zeta_1\otimes \zeta_2\otimes \dots, \otimes \zeta_k - \zeta_2\otimes \zeta_1\otimes \dots, \otimes \zeta_k + \dots)
+\end{align*}
+
+For 2 dual vectors, 
+\begin{align*}
+\zeta_1\wedge \zeta_2 := \frac{1}{2!}(\zeta_1\otimes \zeta_2 - \zeta_2 \otimes \zeta_1)
+\end{align*}
+In other words, we enumerate all permutations of $zeta_1, \dots, \zeta_k$ and each "swap" we make, we multiply a factor of $-1$.
+
+Let $V$ be a vector space of dimension $n$, and let $z$ be a basis of $V$, $\zeta$ its dual basis.
+
+We will prove that $\{\zeta_i \wedge \zeta_j : 1\leq i < j \leq n\}$ is a basis for the set of 2-forms on $V$.
+
+Let $f$ be a 2-form, then $f$ is a bilinear form, and hence 
+\begin{align*}
+f &= \sum_{1\leq i,j\leq n}f(z_i, z_j)\zeta_i\otimes \zeta_j\\
+&=\sum_{1\leq i\leq n}f(z_i, z_i)\zeta_i\otimes \zeta_i
++ \sum_{1\leq i < j\leq n}f(z_i, z_j)\zeta_i\otimes \zeta_j
++ \sum_{1\leq j < i\leq n}f(z_i, z_j)\zeta_i\otimes \zeta_j\\
+&= 0 + \sum_{1\leq i < j\leq n}f(z_i, z_j)\zeta_i\otimes \zeta_j
++ \sum_{1\leq j < i\leq n}-f(z_j, z_i)\zeta_i\otimes \zeta_j\\
+&=\sum_{1\leq i < j\leq n}f(z_i, z_j)\zeta_i\otimes \zeta_j
++ \sum_{1\leq i < j\leq n}-f(z_i, z_j)\zeta_j\otimes \zeta_i\\
+&= \sum_{1\leq i < j\leq n}(2!)f(z_i, z_j)\zeta_i\wedge \zeta_j
+\end{align*}
+which completes the proof.
+
+The dimension of the set of 2-forms is $nC2$. In general, the dimension of the set of $m$-forms is $nCm$. The dimension of the set of $n$-forms is $nCn=1$.
+
+Let $T$ be a linear operator on $V$. The transpose of $T$ with respect to an $m$-form $\Omega$ is defined as follows:\\
+$\hat{T}\Omega(v_1, \dots, v_m) = \Omega(Tv_1, \dots, Tv_m)$.\\
+Hence, $\hat{T}\Omega$ is another $m$-form.
+
+If $m=n$, then $\hat{T}\Omega \in span(\Omega)$. Hence, we can associate a number $\Delta_\Omega(T)$, such that 
+\begin{align*}
+	\hat{T}\Omega = \Delta_\Omega(T)\Omega
+\end{align*}
+
+Let $z$ be a Jordan basis of $V$ with respect to $T$, and $z_i, 1\leq i\leq n$ are the Jordan basis vectors. Then letting $\hat{T}\Omega$ act on $z$, we have
+\begin{align*}
+	\hat{T}\Omega(z_1, \dots, z_n)
+	&= \Omega(Tz_1, \dots, Tz_n) \\
+	&= \prod_{i=1}^n T_{i,i} \Omega(z_1, \dots z_n)
+\end{align*}
+Hence, $\Delta_\Omega(T) = \prod_iT_{i,i}$, the product of the diagonal entries of the matrix of $T$.\\
+Now, notice that this holds for any choice of $\Omega$. Hence we can ditch the $\Omega$ subscript, and write
+\begin{align*}
+	\hat{T}\Omega = \Delta(T)\Omega
+\end{align*}
+In other words, this is a property of $T$, independent of choice of $\Omega$.
+
+This allows us to derive other properties of $\Delta$ by choosing any arbitrary $\Omega$. Some properties derived in lecture are:
+\begin{itemize}
+	\item If $S,T$ are linear operators, then $\Delta(ST) = \Delta(S)\Delta(T)$
+	\item An immediate consequence is that $\Delta(P)\Delta(P^{-1})=1$
+	\item Let $A, B$ be similar matrices. Then $B=P^{-1}AP$ for some invertible matrix $P$. We can view $B, A, P, P^{-1}$ as linear operators in $\mathbb{F}^n$, hence $\Delta(B)=
+	\Delta(P^{-1})\Delta(A)\Delta(P)=\Delta(A)$
+\end{itemize}
+
+We now refer to $\Delta$ as $\det$.
+
+\subsubsection{More properties of det}
+By default, we will let $A$ denote a square matrix, and $T$ denote a linear operator over n-dimensional vector space $V$.
+\paragraph{Transpose of a matrix preserves determinants}
+We first prove that a Jordan matrix has the same determinant as its transpose.
+If $J$ is a Jordan matrix, then it's determinant is just the product of the diagonal entries, as we have proven above in $\Delta_\Omega(T) = \prod_iT_{i,i}$. Since $J^T$ is a lower triangular matrix, the antisymmetric property of an $n$-form means that its determinant is also the product of the diagonal entries. Hence $\det(J)=\det(J^T)$.
+
+If $A$ is a complex square matrix, then it is similar to a Jordan matrix $J$. Also, $A^T$ is similar to $J^T$.\\
+To see this, write
+\begin{align*}
+	P^{-1}AP=J\\
+	P^TA^T(P^{-1})^T=J^T\\
+	P^TA^T(P^T)^{-1}=J^T
+\end{align*}
+Hence
+\begin{align*}
+	\det(A^T) = \det(J^T) = \det(J) = \det(A)
+\end{align*}
+
+
+\paragraph{Conjugate of a matrix conjugates determinant}
+As with the previous section, consider Jordan matrix $J$ first.
+\begin{align*}
+	\det(\overline{J})
+	&=\prod_i\overline{J}_{i,i}\\
+	&=\prod_i\overline{J_{i,i}}\\
+	&=\overline{\prod_iJ_{i,i}}\\
+	&=\overline{\det(J)}
+\end{align*}
+
+Then for a complex matrix $A$, it is similar to some Jordan matrix $J$. Also, $\overline{A}$ is similar to $\overline{J}$.
+To see this, write
+\begin{align*}
+	&P^{-1}AP=J\\
+	&\overline{P^{-1}AP}=\overline{J}\\
+	&\overline{P^{-1}}\,\overline{A}\,\overline{P}=\overline{J}\\
+	&(\overline{P})^{-1}\, \overline{A}\, \overline{P}=\overline{J}
+\end{align*}
+Hence,
+\begin{align*}
+	\det(\overline{A}) = \det(\overline{J}) = \overline{\det(J)} = \overline{\det(A)}
+\end{align*}
+
+\textbf{Remark} In the above, we also used some minor propositions along the way. 
+\begin{itemize}
+	\item Transpose and inverse can be interchanged
+	\item Conjugate and inverse can be interchanged
+	\item Transpose and conjugate can be interchanged (this is not mentioned above, but this is easy to see)
+\end{itemize}
+
 \end{document}
 
 

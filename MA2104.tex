@@ -195,6 +195,39 @@ And the proof is complete.
 In other words, this lemma allows us to remove "redundant" variables from a function $f(x,y,z)$ to form a function $g(y,z)$ that is clearly independent of $x$.\\
 While this may seem intuitive, I feel that it is important to write out the details.
 
+\section{Properties of the Iverson bracket}
+Suppose we define a real, scalar-valued function case-wise. Let $A$, $B$ be disjoint sets in $\mathbb{R}$ and that $5\not \in A, B$.
+\begin{align*}
+	f(x)=
+	\begin{cases}
+		y_1 &x\in A\\
+		y_2 &x\in B\\
+		y_3 &x=5
+	\end{cases}
+\end{align*}
+Then, 
+\begin{align*}
+	f(x) = y_1[x\in A] + y_2[x\in B] + y_3[x=5]
+\end{align*}
+
+Suppose $y_1 = g(x), y_2 = h(x), y_3=l(x)$ for some functions $g,h,l$. Then, we have,
+\begin{align*}
+	f(x) &= g(x)[x\in A] + h(x)[x\in B] + l(x)[x=5]\\
+	&= g(x)[x\in A] + h(x)[x\in B] + l(5)[x=5]
+\end{align*}
+
+In particular, notice the following equality.
+\begin{align*}
+	l(x)[x=5] = l(5)[x=5]
+\end{align*}
+If we are to view the LHS and RHS as functions of $x$, then consider cases:
+\begin{itemize}
+	\item If $x\neq 5$, then $LHS(x) = 0 = RHS(x)$.
+	\item If $x=5$, then $LHS(5)=l(5)[5=5] = l(5) = RHS(5)$.
+	\item Since for all values of $x$, $LHS(x)=RHS(x)$, we have LHS = RHS.
+\end{itemize}
+
+\textbf{Note} In general, we cannot write $l(5)[x=5] = l(5)$, since RHS here is identically $l(5)$, whereas LHS is only $l(5)$ when $x=5$, and equals $0$ for all other values of $x$.
 
 \end{document}
 
