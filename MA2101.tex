@@ -808,7 +808,7 @@ A real inner product $g$ is a bilinear form that has the following properties:
 	\item Definiteness: $g(v,v)=0\iff v=0$
 	\item Symmetry: $\forall u,v\in V, g(u,v)=g(v,u)$
 \end{enumerate}
-\subsubsection{Matrix of an inner product}
+\subsubsection{Matrix of a real inner product}
 Let $M(g,z)$ be the matrix of real inner product $g$ with respect to basis $z$ of $V$. Denote $g_{i,j}=M(g,z)_{i,j}$.\\
 Let $u,v\in V$. Then $u=\sum_i a_iz_i,\, v=\sum_i b_iz_i$ for some scalars $a_i,b_i\in \mathbb{R}$.\\
 The matrix of a real inner product has these properties:
@@ -829,6 +829,8 @@ Use the same definitions of $g_{i,j},u,v$ as above. Then the 1*1 matrix of $g(u,
 	[g(u,v)]_{1,1} = \sum_{i,j}a_ib_j g_{i,j} = \sum_{i,j}a_ig_{i,j}b_j = \sum_{i,j}(M(u,z)^T)_{1,i} M(g,z)_{i,j} M(v,z)_{j,1}
 \end{align*}
 and the result follows.
+
+\textbf{Remark} Note that this is for a \textbf{real} inner product. For complex inner product, the transpose is replaced by conjugate transpose.
 
 \textbf{Proposition} Matrix of an inner product cannot have non-positive eigenvalues.
 
@@ -969,6 +971,30 @@ p_1\\ p_2\\ \dots \\ p_n
 Define sesquilinear forms as in lecture notes. (Linear in first component, conjugate linear in second component)
 
 Changes to the following results:
+\paragraph{Computing inner products by matrix multiplication}
+The 1*1 matrix of $g(u,v)$ is given by
+\begin{align*}
+	[g(u,v)] = M(u,z)^TM(g,z)\overline{M(v,z)}
+\end{align*}
+\textbf{Proof} Observe that 
+\begin{align*}
+	[g(u,v)]_{1,1} = \sum_{i,j}a_i\overline{b_j} g_{i,j} = \sum_{i,j}a_ig_{i,j}\overline{b_j} = \sum_{i,j}(M(u,z)^T)_{1,i} M(g,z)_{i,j} \overline{M(v,z)_{j,1}}
+\end{align*}
+and the result follows.
+
+\paragraph{Eigenvalues of a matrix of a complex inner product} Let $A$ be a matrix of a complex inner product $g$ of $\mathbb{C}^n$. Then $A$ only has positive eigenvalues.
+
+\textbf{Proof} Since $A$ is a matrix of a complex inner product $g$, $A$ must be Hermitian (see Spectral Theorem section for definition) since $g$ is conjugate-symmetric. And it is also proven in a later section that a Hermitian linear operator only has real eigenvalues. In particular, a Hermitian matrix only has real eigenvalues.\\
+Suppose $\lambda \in \mathbb{R}$ is a real eigenvalue of $A$. Suppose $\lambda \leq 0$. By a similar argument as in the real inner product case, we first find an eigenvector $v\in \mathbb{C}^n$ associated with $\lambda$. Then,
+\begin{align*}
+	g(\overline{v}, \overline{v}) = \overline{v}^TA\overline{\overline{v}}=\overline{v}^TAv=\overline{v}^T\lambda v = \lambda |v|^2 \leq 0
+\end{align*} 
+which contradicts the positive definiteness of $g$.
+
+\textbf{Remark} If we replace $\mathbb{C}^n$ with a generic inner product space $V$ with basis $z$, then we need to do a bit more housekeeping. For e.g. we will find $u,u'\in V$ such that $v=M(u,z), \overline{v} = M(u',z)$. Since $v$ has non-zero components, so does its conjugate $\overline{v}$, which says that $u'\neq 0$.
+
+\textbf{Remark} This result applies to all Hermitian positive-definite matrices.
+
 \paragraph{Cauchy Schwarz inequality} It suffices to adjust one line in the proof
 \begin{align*}
 	&\left\lvert \frac{g(u,v)}{|v|^2}v \right\rvert^2\\
@@ -1078,6 +1104,8 @@ Since we are given that $z$ is orthonormal, $g_{i,k}=\delta_{i,k}$ and
 	&= \overline{T_{j,i}}
 \end{align*}
 
+\textbf{Remark} Note that if $z$ is not orthonormal, then the matrix of a Hermitian operator $T$, $M(T,z)$, is not necessarily a Hermitian matrix.
+
 \paragraph{Spectral Theorem (Complex)} Given a Hermitian linear operator $T$, there exists an orthonormal basis $z$ such that $M(T,z)$ is diagonal.
 
 \textbf{Remark} Since $M(T,z)$ is diagonal, $z$ is made up of eigenvectors.
@@ -1086,10 +1114,21 @@ Since we are given that $z$ is orthonormal, $g_{i,k}=\delta_{i,k}$ and
 
 \textbf{Remark} The condition that $M(T,z)$ is diagonal is not necessary. In fact, given any two orthonormal bases $y,z$, the change of basis matrix between these is orthogonal.
 
+
+The matrix form of a spectral theorem does not immediately follow from the linear operator form of a spectral theorem. This is because a Hermitian matrix $A$ may not be a Hermitian operator (i.e. its associated sesquilinear form may not be Hermitian). Hence, we cannot use one of the above lemmas that states that the eigenvalues of a Hermitian operator are real.
+
+\textbf{Lemma} The eigenvalues of a Hermitian matrix are real.\\
+\url{https://yutsumura.com/eigenvalues-of-a-hermitian-matrix-are-real-numbers/}
+
 \paragraph{Matrix form of Spectral Theorem (Complex)} Given a Hermitian matrix $A$, the exists a unitary matrix $U$ such that $\overline{U^T}AU$ is diagonal.
 
-\textbf{Proof} $A$ can be interpreted as the matrix of a linear operator $T$ in $L(\mathbb{C}^n)$ with respect to the standard basis $e$, which is orthonormal. By the Spectral Theorem, there exists an orthonormal basis $z$ made up of eigenvectors of $T$. Then the matrix $U$ of the change of basis transformation from $e$ to $z$ is unitary.
-Hence, $\overline{U^T}AU=\overline{U^T}M(T,e)U = M(T,z)$, where $M(T,z)$ is diagonal.
+\textbf{Proof} $A$ can be interpreted as the matrix of a linear operator $T$ in $L(\mathbb{C}^n)$ with respect to the standard basis $e$, which is orthonormal. By Schur's Theorem, there exists orthonormal basis $z$ such that $M(T,z)$ is upper triangular. By the above lemma, the eigenvalues along the diagonal of $M(T,z)$ are real (since $A$ and $M(T,z)$ share eigenvalues). Also, the matrix $U$ of the change of basis transformation from $e$ to $z$ is unitary.\\
+Note that 
+\begin{align*}
+	M(T,z) = \overline{U^T}AU=\overline{U^T}M(T,e)U\\
+\end{align*}
+And $\overline{M(T,z)^T} = M(T,z)$, since $A$ is Hermitian.
+Since $M(T,z)$ is Hermitian and upper triangular, it is diagonal.
 
 \textbf{Remark} Notice that this is slightly different from the spectral theorem. In the operator form of the spectral theorem, we did not claim that the matrix of the change of basis transformation is unitary. That is because we did not necessarily start out with an orthonormal basis $y$.
 
@@ -1223,21 +1262,16 @@ Hence,
 \end{itemize}
 
 \section{Miscellaneous Lemmas}
-\paragraph{Necessary condition for a matrix to be the matrix of an inner product}
-
-Suppose a real square matrix $A$ has non-positive ($0$ or negative) eigenvalues. Then $A$ cannot be the matrix of an inner product.
-
-\textbf{Proof} Suppose $-\lambda$ (where $\lambda \geq 0$ is an eigenvalue of $A$. Then, there exists a non-zero vector(column matrix) $v$ such that $Av=-\lambda v$.\\
-Hence, $v^TAv = -\lambda v^Tv = -\lambda dot(v,v) \leq 0$.\\
-Suppose $v=\sum_i a_ie_i$. Also suppose that $z=\{z_1,\dots z_n\}$ is a basis of inner product space $V$.\\
-Then set $u=\sum_i a_iz_i$, and we have $g(u,u)\leq 0$. Note that $u\neq 0_V$ since not all coefficients $a_i$ are zero.\\
-This says that $g$ is not positive definite. Hence $g$ is not an inner product.
-
 \paragraph{Linear isometries in $\mathbb{R}^n$ are precisely orthogonal matrices}
 (Technically an isometry is a linear map in $L(\mathbb{R}^n)$ and is not quite the same as $\mathbb{R}^{n,n}$, but we'll be a bit sloppy here.)
 
 \paragraph{Parallelogram law} Let $g$ be a real inner product, and $|\cdot|$ is a norm induced by $g$. Then $g(u,v) = \frac{1}{4}(|u+v|^2-|u-v|^2)$.\\
 \textbf{Remark} Notice that this allows us to express the real inner product in terms of the induced norm.
+
+\paragraph{Product of matrices}
+\begin{itemize}
+	\item Product of orthogonal matrices is orthogonal
+\end{itemize}
 
 \end{document}
 
