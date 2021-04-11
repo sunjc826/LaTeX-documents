@@ -625,7 +625,8 @@ Consider $v, Tv, \dots, T^nv$, where $n=dim(V)$. Since there are more than $n$ v
 
 Note 1: Recall that for all functions, linear or not, we have $(f+g)h=fh+gh$. However, additionally linear maps are bilinear under composition, that is, $f(g+h)=fg+fh$. This is what allows the second equality to hold.
 
-Note 2: It is also important that $V$ is a vector space over $\mathbb{C}$, otherwise, we would not be able to do the factorisation $a(T-a_1I)\dots(T-a_nI)$, where $a_i$ are possibly complex scalars. If $V$ was a vector space over $\mathbb{R}$, then $(T-iI)$ for instance would not be an operator over a real vector space, since $(T-iI)v=Tv-iv$ and we are trying to multiply $v$ by a complex scalar.
+Note 2: It is also important that $V$ is a vector space over $\mathbb{C}$, otherwise, we would not be able to do the factorisation $a(T-a_1I)\dots(T-a_nI)$, where $a_i$ are possibly complex scalars. If $V$ was a vector space over $\mathbb{R}$, then $(T-iI)$ for instance would not be an operator over a real vector space, since $(T-iI)v=Tv-iv$ and we are trying to multiply $v$ by a complex scalar.\\
+Additionally, if $V$ was a vector space over $\mathbb{R}$, all the $\lambda_i$ must also be real.
 
 This lemma will allow us to "kickstart" our proof of the next theorem.
 
@@ -698,7 +699,8 @@ See lecture notes for definition of Jordan block and Jordan form.
 
 As with any upper triangular matrix of a linear operator $T$, the diagonal entries of the Jordan canonical form of $T$ are precisely the eigenvalues of $T$.\\
 \textbf{Definition} The multiplicity of an eigenvalue $\lambda$ is the sum of the sizes of Jordan blocks corresponding to that eigenvalue.\\
-\textbf{Remark} It is incorrect to say the multiplicity of an eigenvalue $\lambda$ is simply the number of occurrences of $\lambda$ along any upper triangular matrix. This is because the Jordan canonical form has certain desired characteristics that makes this definition of multiplicity useful in the Cayley-Hamilton Theorem.
+\textbf{Remark} It is incorrect to say the multiplicity of an eigenvalue $\lambda$ is simply the number of occurrences of $\lambda$ along any upper triangular matrix. This is because the Jordan canonical form has certain desired characteristics that makes this definition of multiplicity useful in the Cayley-Hamilton Theorem.\\
+\textbf{Remark 2} It turns out that the multiplicity of an eigenvalue $\lambda$ can be the number of occurrences of $\lambda$ along any upper triangular matrix(same as in the Jordan matrix form). The proof of this, however, is non-trivial and requires the notion of generalised eigenvalues. 
 
 \textbf{Definition} Given that $\lambda_i, 1\leq i\leq k$ are precisely the eigenvalues of a linear operator $T$, and that $m_i$ is the multiplicity of eigenvalue $\lambda_i$, the the characteristic polynomial of $T$ is 
 \begin{align*}
@@ -714,7 +716,7 @@ As with any upper triangular matrix of a linear operator $T$, the diagonal entri
 
 To prove this, let $y$ be a Jordan basis of $T$, such that $M(T, y)$ is in Jordan canonical form. We can show via block matrix multiplication that $\chi_T(M(T,y))=0_{\mathbb{C}^{n,n}}$.
 
-Since $M(\chi_T(T), y) = \chi(M(T, y)) = 0_{\mathbb{C}^{n,n}}$, we have $\chi_T(T)=0_{L(V)}$.
+Since $M(\chi_T(T), y) = \chi_T(M(T, y)) = 0_{\mathbb{C}^{n,n}}$, we have $\chi_T(T)=0_{L(V)}$.
 
 \textbf{Proposition} Let $z$ be any basis of $V$. Then 
 \begin{align*}
@@ -723,9 +725,22 @@ Since $M(\chi_T(T), y) = \chi(M(T, y)) = 0_{\mathbb{C}^{n,n}}$, we have $\chi_T(
 
 \textbf{Proof} Since $\chi_T(T)=0_{L(V)}$, i.e. $\chi_T(T)$ is the zero map, clearly any matrix of $\chi_T(T)$ is the zero matrix regardless of basis. (since $M(\chi_T(T), z) = \chi_T(M(T, z))$) Hence, we have the desired conclusion.
 
-STUFF
+Additionally, let $A$ be any matrix that is similar to $J=M(T, y)$. Then there exists invertible matrix $P$ such that $A=P^{-1}JP$. Let $Q\in L(\mathbb{C}^n)$, $P=M(Q, e)$. Define $z=y\circ Q$. Then $Q$ is a change of basis isomorphism. By our proposition above,
+\begin{align*}
+	\chi_T(A) = \chi_T(M(T,z)) = 0_{\mathbb{C}^{n,n}}
+\end{align*}
 
-Given linear operator $T\in L(V)$, where $V$ is a complex vsp. Let $z$ be any basis of $V$. Let $y$ be an orthonormal eigen-basis.
+An application of the Cayley-Hamilton Theorem is that when taking powers of linear operators, higher powers can be expressed in terms of lower powers.
+
+\textbf{Corollary} Suppose the characteristic polynomial of linear operator $T$ has degree $k$. Then all powers of $T^j, j\geq k$ can be expressed as a linear combination of $I, T, \dots, T^{k-1}$.\\
+Similarly, if $T$ is invertible, then $T^{-1}$ can be expressed as a linear combination of $I, T, \dots, T^{k-1}$.
+
+
+
+
+\paragraph{Stuff: To be integrated into the inner products section}
+
+Given linear operator $T\in L(V)$, where $V$ is a complex vsp. Let $z$ be \textit{any} basis of $V$. Let $y$ be an orthonormal eigen-basis.
 
 Let $M(P, e, e)$ be the matrix $M(I, y, z)$.
 Then $y_j = \sum_{i}P_{i,j}z_i$.
@@ -749,6 +764,8 @@ dot(c_i, c_j) &= dot(\sum_kP_{ki}e_k,\sum_lP_{lj}e_l)\\
 \delta_{ij} &= g(y_i,y_j)\\&=g(zc_i, zc_j) \\&= \sum_{k,l}P_{ki}P_{lj}g(z_k,z_l)
 \end{align*}
 
+Counterexample:
+
 \begin{align*}
 \begin{pmatrix}
 1 & 1\\
@@ -760,8 +777,218 @@ dot(c_i, c_j) &= dot(\sum_kP_{ki}e_k,\sum_lP_{lj}e_l)\\
 \end{pmatrix}
 \end{align*}
 
+Hence, this is a slight inaccuracy in the lecture notes.
+
+We need $z$ to be orthonormal for this proof to follow through.
+
+
 
 \section{Inner Product Spaces}
+\subsection{Bilinear forms}
+Given a vector space $V$ of dimension $n$, and $B(V)$, the set of all bilinear forms over $V$ (which is also a vector space), the basis of $B(V)$ is given by
+\begin{align*}
+	\{\zeta_i\otimes \zeta_j: 1\leq i,j\leq n\}
+\end{align*} 
+where $\zeta$ is a dual basis of $V$.
+
+Denote the matrix of a bilinear form $g$ with respect to basis $z$ of $V$ as $M(g, z)$ (the $z$ here refers to both inputs to $g$).
+For each $1\leq i,j\leq n, M(g,z)_{i,j}=g(z_i,z_j)$.
+
+\subsubsection{Change of basis}
+Let $z,y$ be 2 bases. Let $P=z^{-1}\circ y$ be the change of basis from $z$ to $y$.
+
+Recall from the previous chapter, we can express $z_i,y_i,\zeta_i,\gamma_i$ in terms of each other as follows:
+TODO
+
+
+\subsection{Real inner products}
+A real inner product $g$ is a bilinear form that has the following properties:
+\begin{enumerate}
+	\item Positivity: $\forall v\in V, g(v,v)\geq 0$
+	\item Definiteness: $g(v,v)=0\iff v=0$
+	\item Symmetry: $\forall u,v\in V, g(u,v)=g(v,u)$
+\end{enumerate}
+\subsubsection{Matrix of an inner product}
+Let $M(g,z)$ be the matrix of real inner product $g$ with respect to basis $z$ of $V$. Denote $g_{i,j}=M(g,z)_{i,j}$.\\
+Let $u,v\in V$. Then $u=\sum_i a_iz_i,\, v=\sum_i b_iz_i$ for some scalars $a_i,b_i\in \mathbb{R}$.\\
+The matrix of a real inner product has these properties:
+\begin{enumerate}
+	\item Positivity: $g(u,u)=\sum_{i,j} a_ia_j g_{i,j}\geq 0$
+	\item Definiteness: $\sum_{i,j} a_ia_j g_{i,j}=0 \iff \forall 1\leq i\leq n, a_i=0$
+	\item Symmetry: $g_{i,j}=g_{j,i}$
+\end{enumerate}
+\textbf{Remark} $g_{i,j}=g_{j,i}$ is a sufficient and necessary condition for $g$ to be symmetric.
+
+\textbf{Proposition} Computing inner products by matrix multiplication\\
+Use the same definitions of $g_{i,j},u,v$ as above. Then the 1*1 matrix of $g(u,v)$ is given by
+\begin{align*}
+	[g(u,v)] = M(u,z)^TM(g,z)M(v,z)
+\end{align*}
+\textbf{Proof} Observe that 
+\begin{align*}
+	[g(u,v)]_{1,1} = \sum_{i,j}a_ib_j g_{i,j} = \sum_{i,j}a_ig_{i,j}b_j = \sum_{i,j}(M(u,z)^T)_{1,i} M(g,z)_{i,j} M(v,z)_{j,1}
+\end{align*}
+and the result follows.
+
+\textbf{Proposition} Matrix of an inner product cannot have non-positive eigenvalues.
+
+\textbf{Proof} Let $A$ be a matrix of real inner product $g$. Suppose $A$ has a non-positive eigenvalue $\lambda \leq 0$. Then there exists eigenvector $v\in \mathbb{R}^n, v\neq 0$, such that $Av=\lambda v$. Note that $v$ corresponds to some vector $u\in V$, i.e. $M(u, z)=v$.\\
+Hence, $g(u,u)=v^TAv=v^T\lambda v=\lambda v^Tv = \lambda |v|^2 \leq 0$. (Note that the norm here is the Euclidean norm since $v\in \mathbb{R}^n$).\\
+Then $g$ is not positive definite. Hence $g$ cannot be an inner product.
+
+\subsection{Orthogonality}
+\textbf{Definition} $z$ is an orthonormal basis of real inner product space $(V,g)$ if for each $1\leq i,j\leq n$, $g(z_i,z_j)=\delta_{i,j}$.\\
+Hence $M(g,z)$ is the identity matrix.
+
+An orthonormal basis can also be defined in the "mapping" way.\\
+\textbf{Definition} $z$ is an orthonormal basis of real inner product space $(V,g)$ if $\forall a,b\in \mathbb{R}^n$,
+\begin{align*}
+	g(za, zb) = dot(a,b)
+\end{align*}
+(Note: dot here is the dot product)
+We can prove that the 2 definitions are indeed equivalent.
+
+\textbf{Proposition} Pythagorean Theorem\\
+Let $(y_i)_{1\leq i\leq k}$ be an orthonormal list of vectors. Then 
+\begin{align*}
+	\left\lvert \sum_{1\leq i\leq k}a_iy_i\right\rvert^2 = \sum_{1\leq i\leq k}a_i^2
+\end{align*}
+
+\textbf{Corollary} Orthonormal list of vectors are linearly independent.
+
+\subsection{Riesz Representation Theorem (Real)}
+Given inner product space $(V,g)$, define the linear map
+\begin{align*}
+	\Gamma: &V\rightarrow \hat{V}\\
+	&u\mapsto \Gamma_u
+\end{align*}
+where $\forall v\in V, \Gamma_u(v) = g(u,v)$.
+
+Since $dim(V)=dim(\hat{V})$, to show that $\Gamma$ is an isomorphism, it suffices to show that this is a injection. And indeed, $\Gamma(u)=0_{\hat{V}}\implies \Gamma(u)(u)=g(u,u)=0\implies u=0$. Since kernel of $\Gamma$ is trivial, it is injective.
+
+In particular, there being a bijection between $V$ and $\hat{V}$ means that 
+\begin{align*}
+\forall \alpha \in \hat{V}, \exists! u\in V, \Gamma(u) = \alpha
+\end{align*}
+
+\textbf{Proposition} Cauchy Schwarz inequality\\
+\begin{align*}
+	|g(u,v)| \leq |u||v|
+\end{align*}
+The equality cases occurs iff $u=cv, c\in \mathbb{R}$.
+
+\textbf{Proof}
+Write $u = \frac{g(u,v)}{|v|^2}v + (v-\frac{g(u,v)}{|v|^2}v)$.\\
+Denote $p=\frac{g(u,v)}{|v|^2}v$, $n=u-p$.\\
+Then
+\begin{align*}
+	|u|^2 &= |p|^2 + |n|^2 &&\text{by orthogonality}\\
+	&\geq |p|^2\\
+	&= \left\lvert \frac{g(u,v)}{|v|^2}v \right\rvert^2 \\
+	&= \frac{g(u,v)^2}{|v|^4} |v|^2\\
+	&= \frac{g(u,v)^2}{|v|^2}
+\end{align*}
+Multiplying $|v|^2$ across gives the desired inequality.\\
+The equality case occurs iff
+\begin{align*}
+	|n|^2=0 \implies n=0\implies u=p \implies u = \frac{g(u,v)}{|v|^2}v
+\end{align*}
+Setting $c=\frac{g(u,v)}{|v|^2}$, we conclude the proof.
+
+\textbf{Proposition} Triangle Inequality
+\begin{align*}
+	|u+v| \leq |u| + |v|
+\end{align*}
+If $v\neq 0$, the equality case occurs iff $u=cv, c\in \mathbb{R}^+_0$
+
+\textbf{Proof}
+\begin{align*}
+	|u+v|^2 &= |u|^2 + g(u,v) + g(v,u) + |v|^2\\
+	&= |u|^2 + 2g(u,v) + |v|^2\\
+	&\leq |u|^2 + 2|u||v| + |v|^2\\
+	&\leq (|u| + |v|)^2
+\end{align*}
+The equality cases occurs iff $g(u,v)=|u||v|$. Cauchy Schwarz equality case tells us that $u=cv$ for some $c\in \mathbb{R}$. Substituting in gives $c|v|^2=|c||v|^2\implies c=|c|$ assuming $v$ non-zero. Hence, $c$ must be non-negative.
+
+\subsubsection{Component form of Riesz Representation Theorem}
+Given a basis $z$ of $V$. Let $\alpha=\sum_i p_i\zeta_i$.
+Then the Riesz theorem asserts that there exists a unique $u=\sum_i a_iz_i\in V$ such that for all $v=\sum_i b_iz_i \in V$,
+\begin{align*}
+	\alpha(v) &= g(u,v)\\
+	\sum_{i,j}p_ib_j\zeta_i(z_j) &= \sum_{i,j}a_ib_jg_{i,j}\\
+	\sum_j p_jb_j &= \sum_j \sum_i a_ig_{i,j}b_j
+\end{align*}
+Since the scalars $b_i$ are arbitrary, by setting $b_j=1, b_k=0\forall k\neq j$, we obtain the equalities
+\begin{align*}
+	p_j = \sum_ia_ig_{i,j}
+\end{align*}
+If we view $\begin{pmatrix}
+p_1 p_2 \dots p_n
+\end{pmatrix}$,$\begin{pmatrix}
+a_1 a_2 \dots a_n
+\end{pmatrix}$  as a row vectors,
+our equality becomes 
+\begin{align*}
+	p_{1,j} = \sum_ia_{1,i}g_{i,j}
+\end{align*}
+It is immediately apparent the the row vector $\begin{pmatrix}
+p_1 & p_2 & \dots & p_n
+\end{pmatrix}$ is the product of $\begin{pmatrix}
+a_1 & a_2 & \dots & a_n
+\end{pmatrix}$ and the matrix $M(g,z)$.
+
+As proven previously, the matrix of an inner product cannot have non-positive eigenvalues. In particular, 0 is not an eigenvalue. And this says that the matrix $M(g,z)$ is invertible.
+
+Hence, 
+\begin{align*}
+\begin{pmatrix}
+a_1 & a_2 & \dots & a_n
+\end{pmatrix} = \begin{pmatrix}
+p_1 & p_2 & \dots & p_n
+\end{pmatrix}(M(g,z))^{-1}
+\end{align*}
+
+Hence,
+\begin{align*}
+	a_j=a_{1,j} = \sum_ip_{1,i}(M(g,z)^{-1})_{i,j} = \sum_ip_i(M(g,z)^{-1})_{i,j}
+\end{align*}
+
+\subsection{Extension to complex vector spaces}
+Define sesquilinear forms as in lecture notes. (Linear in first component, conjugate linear in second component)
+
+Changes to the following results:
+\paragraph{Cauchy Schwarz inequality} It suffices to adjust one line in the proof
+\begin{align*}
+	&\left\lvert \frac{g(u,v)}{|v|^2}v \right\rvert^2\\
+	&= \frac{|g(u,v)|^2}{|v|^4} |v|^2\\
+	&= \frac{|g(u,v)|^2}{|v|^2}
+\end{align*}
+
+\paragraph{Triangle inequality} Again, we just need to adjust one line in the proof
+\begin{align*}
+	g(u,v) + g(v,u) = g(u,v) + \overline{g(u,v)} = 2Re(g(u,v))\leq 2|g(u,v)|\leq 2|u||v|
+\end{align*}
+Assuming $v\neq 0$, the equality case also occurs then $u=cv, c\in \mathbb{R}^+_0$. The proof is as follows:
+
+First we note that $|g(u,v)|=|u||v|\iff u = cv, c\in \mathbb{C}$
+
+Then equality occurs iff 
+\begin{align*}
+	Re(g(cv,v) = |c||v|^2\implies Re(c|v|^2)=|c||v|^2\implies Re(c)=|c|
+\end{align*}
+The last equality says that $c$ must be non-negative.
+
+\paragraph{Riesz Representation Theorem}
+Since the complex inner product $g$ is a sesquilinear form, we will need to adjust our definition of $\Gamma$.
+Define 
+\begin{align*}
+	\Gamma: &V\rightarrow \hat{V}\\
+	&u\mapsto \Gamma_u
+\end{align*}
+where $\forall v\in V, \Gamma_u(v) = g(v, u)$
+
+\paragraph{Schur's Theorem}
+
 \subsection{Determinants}
 Define multilinear forms as in lecture notes.
 Define n-forms as in lecture notes. In short, $n$-forms are multilinear forms that are antisymmetric with respect to any pair of components.
@@ -823,6 +1050,8 @@ Now, notice that this holds for any choice of $\Omega$. Hence we can ditch the $
 \end{align*}
 In other words, this is a property of $T$, independent of choice of $\Omega$.
 
+\textbf{Remark} If we are to view $J=M(T,z)$, the matrix of $T$ w.r.t. the Jordan basis as a linear operator over $\mathbb{F}^n$, then it is clear that $\Delta(J)=\Delta(T)$, i.e. the product of the diagonal entries of $J$. This trivial observation that tells us that the determinant of a linear operator $T$ is the same as the determinant of any matrix of $T$ under any choice of basis.
+
 This allows us to derive other properties of $\Delta$ by choosing any arbitrary $\Omega$. Some properties derived in lecture are:
 \begin{itemize}
 	\item If $S,T$ are linear operators, then $\Delta(ST) = \Delta(S)\Delta(T)$
@@ -881,6 +1110,23 @@ Hence,
 	\item Conjugate and inverse can be interchanged
 	\item Transpose and conjugate can be interchanged (this is not mentioned above, but this is easy to see)
 \end{itemize}
+
+\section{Miscellaneous Lemmas}
+\paragraph{Necessary condition for a matrix to be the matrix of an inner product}
+
+Suppose a real square matrix $A$ has non-positive ($0$ or negative) eigenvalues. Then $A$ cannot be the matrix of an inner product.
+
+\textbf{Proof} Suppose $-\lambda$ (where $\lambda \geq 0$ is an eigenvalue of $A$. Then, there exists a non-zero vector(column matrix) $v$ such that $Av=-\lambda v$.\\
+Hence, $v^TAv = -\lambda v^Tv = -\lambda dot(v,v) \leq 0$.\\
+Suppose $v=\sum_i a_ie_i$. Also suppose that $z=\{z_1,\dots z_n\}$ is a basis of inner product space $V$.\\
+Then set $u=\sum_i a_iz_i$, and we have $g(u,u)\leq 0$. Note that $u\neq 0_V$ since not all coefficients $a_i$ are zero.\\
+This says that $g$ is not positive definite. Hence $g$ is not an inner product.
+
+\paragraph{Linear isometries in $\mathbb{R}^n$ are precisely orthogonal matrices}
+(Technically an isometry is a linear map in $L(\mathbb{R}^n)$ and is not quite the same as $\mathbb{R}^{n,n}$, but we'll be a bit sloppy here.)
+
+\paragraph{Parallelogram law} Let $g$ be a real inner product, and $|\cdot|$ is a norm induced by $g$. Then $g(u,v) = \frac{1}{4}(|u+v|^2-|u-v|^2)$.\\
+\textbf{Remark} Notice that this allows us to express the real inner product in terms of the induced norm.
 
 \end{document}
 
