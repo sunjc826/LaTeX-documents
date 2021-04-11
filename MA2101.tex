@@ -923,9 +923,9 @@ Since the scalars $b_i$ are arbitrary, by setting $b_j=1, b_k=0\forall k\neq j$,
 	p_j = \sum_ia_ig_{i,j}
 \end{align*}
 If we view $\begin{pmatrix}
-p_1 p_2 \dots p_n
+p_1 & p_2 & \dots & p_n
 \end{pmatrix}$,$\begin{pmatrix}
-a_1 a_2 \dots a_n
+a_1 & a_2 & \dots & a_n
 \end{pmatrix}$  as a row vectors,
 our equality becomes 
 \begin{align*}
@@ -950,8 +950,20 @@ p_1 & p_2 & \dots & p_n
 
 Hence,
 \begin{align*}
-	a_j=a_{1,j} = \sum_ip_{1,i}(M(g,z)^{-1})_{i,j} = \sum_ip_i(M(g,z)^{-1})_{i,j}
+	a_j=a_{1,j} = \sum_ip_{1,i}(M(g,z)^{-1})_{i,j} = \sum_ip_i(M(g,z)^{-1})_{i,j} = \sum_i p_i g^{-1}_{i,j}
 \end{align*}
+where $g^{-1}:=M(g,z)^{-1}$
+
+Since $g$ is symmetric, $M(g,z)^{-1}$ is a symmetric matrix.
+Hence, 
+\begin{align*}
+	a_j=\sum_i g^{-1}_{j,i}p_i 
+\end{align*}
+Here, we view $\begin{pmatrix}
+a_1\\ a_2\\ \dots \\ a_n
+\end{pmatrix}$ and $\begin{pmatrix}
+p_1\\ p_2\\ \dots \\ p_n
+\end{pmatrix}$ as column vectors.
 
 \subsection{Extension to complex vector spaces}
 Define sesquilinear forms as in lecture notes. (Linear in first component, conjugate linear in second component)
@@ -987,7 +999,106 @@ Define
 \end{align*}
 where $\forall v\in V, \Gamma_u(v) = g(v, u)$
 
+Note that $\Gamma$ is no longer a linear map, since $\Gamma(\lambda u) = \overline{\lambda}\Gamma(u)$.
+However, we can still show that $\Gamma$ is a conjugate isomorphism.\\
+In particular, $\Gamma$ is a bijection between $V$ and $\hat{V}$.
+
+\textbf{Component form}
+\begin{align*}
+	&\alpha(v) = g(v,u)\\
+	&\sum_{i,j}p_ib_j\zeta_i(z_j)=\sum_{j,i}b_j\overline{a_i}g(z_j,z_i)=\sum_{j,i}b_j\overline{a_i}g_{j,i}\\
+	&\sum_j p_jb_j = \sum_j\sum_i \overline{a_i}g_{j,i} b_j\\
+	&p_j = \sum_i g_{j,i}\overline{a_i}
+\end{align*}
+Writing the last eqn by interpreting $p_j$, $a_i$ as column vectors, we get,
+\begin{align*}
+	p_{j,1} = \sum_i g_{j,i}\overline{a_{i,1}}
+\end{align*}
+Hence multiplying the inverse of $M(g,z)$ over gives
+\begin{align*}
+	\overline{a_j}=\sum_i g^{-1}_{j,i}p_i
+\end{align*}
+Here we denote $M(g,z)^{-1}$ as $g^{-1}$. To obtain $a_j$, simply apply conjugation on both sides of the equality.
 \paragraph{Schur's Theorem}
+Given a linear operator $T$ on a finite dimensional complex inner product space, there exists an orthonormal basis $z$ such that $M(T,z)$ is upper-triangular.
+
+\textbf{Proof} First choose a basis $y$ of $V$ such that $M(T,y)$ is upper triangular. Then apply Gram-Schmidt to $y$ to obtain orthonormal basis $z$. Then the change of basis matrix $M(P)$ from $y$ to $z$ is upper-triangular. \\
+Also, the inverse of an upper-triangular matrix $M(P)$ is upper-triangular (Proven by the corollary to Cayley-Hamilton theorem). Since the product of upper triangular matrices is upper triangular, $M(T,z) = M(P)^{-1}M(T,y)M(P)$ is also upper triangular.
+
+\subsection{Spectral Theorem}
+\textbf{Lemma} Given inner product space $(V,g)$, there is a bijection between the set of sesquilinear forms $S(V)$ and the set of linear operators $L(V)$ defined by the relation
+\begin{align*}
+	\forall u,v \in V,\, \tau(u,v) = g(u,Tv) 
+\end{align*}
+
+We now consider the above relation in component form. Let $z$ be a basis of $V$. Letting $u,v$ be the basis vectors of $z$, we have
+\begin{align*}
+	\tau_{i,j} = \tau(z_i,z_j) = g(z_i,Tz_j) = g(z_i,\sum_k T_{k,j}z_k) = \sum_k \overline{T_{k,j}}g(z_i, z_k)=\sum_k \overline{T_{k,j}}g_{i,k}
+\end{align*}
+Hence, 
+\begin{align*}
+	\tau_{i,j} = \sum_k g_{i,k}\overline{T_{k,j}}
+\end{align*}
+
+
+\textbf{Definition} A sesquilinear form $\tau$ is hermitian if $\forall u,v\in V,\, \tau(u,v)=\overline{\tau(v,u)}$.\\
+Hermetian is essentially the same as conjugate symmetric.
+
+\textbf{Definition} A linear operator $T$ over $(V,g)$ is Hermitian iff its corresponding sesquilinear form $\tau$ is Hermitian.\\
+Note that we can only talk about Hermitian operators when $V$ is equipped with an inner product.
+
+
+\textbf{Lemma} If $T$ is Hermitian, then $\forall u,v \in V, g(u,Tv)=g(Tu,v)$.
+
+\textbf{Corollary} If $T$ is Hermitian, $T$ has only real eigenvalues.
+
+\textbf{Proof} Let $\lambda \in \mathbb{C}$ be an eigenvalue of $T$. Let $v$ be an eigenvector of $T$ associated with $\lambda$. Then, setting $u=v$,
+\begin{align*}
+	g(v,Tv) = g(Tv,v) \implies \lambda |v|^2=\overline{\lambda} |v|^2 \implies \lambda=\overline{\lambda}
+\end{align*}
+Hence, $\lambda \in \mathbb{R}$.
+
+\textbf{Lemma} With respect to an orthonormal basis, the matrix of $T$ is the conjugate of the matrix of $\tau$.
+
+\textbf{Proof} Recall that 
+\begin{align*}
+	\tau_{i,j} = \sum_k g_{i,k}\overline{T_{k,j}}
+\end{align*}
+Since we are given that $z$ is orthonormal, $g_{i,k}=\delta_{i,k}$ and 
+\begin{align*}
+	\tau_{i,j} = \overline{T_{i,j}}
+\end{align*}
+
+\textbf{Corollary} If $T$ is Hermitian, that with respect to an orthonormal basis $z$, the matrix of $T$ is also Hermitian.
+
+\textbf{Proof} The result follows by:
+\begin{align*}
+	T_{i,j} &= \overline{\tau_{i,j}} \\
+	&= \tau_{j,i}\quad \text{since }\tau \text{ hermitian}\\
+	&= \overline{T_{j,i}}
+\end{align*}
+
+\paragraph{Spectral Theorem (Complex)} Given a Hermitian linear operator $T$, there exists an orthonormal basis $z$ such that $M(T,z)$ is diagonal.
+
+\textbf{Remark} Since $M(T,z)$ is diagonal, $z$ is made up of eigenvectors.
+
+\textbf{Proposition} Suppose $y$ is an orthonormal basis. Let $T$ be Hermitian. Let $z$ be the orthonormal basis where $M(T,z)$ is diagonal. Then the change of basis matrix from $y$ to $z$ is unitary.
+
+\textbf{Remark} The condition that $M(T,z)$ is diagonal is not necessary. In fact, given any two orthonormal bases $y,z$, the change of basis matrix between these is orthogonal.
+
+\paragraph{Matrix form of Spectral Theorem (Complex)} Given a Hermitian matrix $A$, the exists a unitary matrix $U$ such that $\overline{U^T}AU$ is diagonal.
+
+\textbf{Proof} $A$ can be interpreted as the matrix of a linear operator $T$ in $L(\mathbb{C}^n)$ with respect to the standard basis $e$, which is orthonormal. By the Spectral Theorem, there exists an orthonormal basis $z$ made up of eigenvectors of $T$. Then the matrix $U$ of the change of basis transformation from $e$ to $z$ is unitary.
+Hence, $\overline{U^T}AU=\overline{U^T}M(T,e)U = M(T,z)$, where $M(T,z)$ is diagonal.
+
+\textbf{Remark} Notice that this is slightly different from the spectral theorem. In the operator form of the spectral theorem, we did not claim that the matrix of the change of basis transformation is unitary. That is because we did not necessarily start out with an orthonormal basis $y$.
+
+In MA2101, the real forms of the spectral theorem (and its matrix variation) are stated without proof.
+
+\paragraph{Spectral Theorem (Real)} Given a symmetric linear operator $T$ over real inner product space $V$, there exists an orthonormal basis $z$ such that $M(T,z)$ is diagonal.
+
+\paragraph{Matrix form of Spectral Theorem (Real)} Given a symmetric matrix $A$, the exists an orthogonal matrix $O$ such that $O^TAO$ is diagonal.
+
 
 \subsection{Determinants}
 Define multilinear forms as in lecture notes.
@@ -1006,7 +1117,7 @@ For 2 dual vectors,
 \begin{align*}
 \zeta_1\wedge \zeta_2 := \frac{1}{2!}(\zeta_1\otimes \zeta_2 - \zeta_2 \otimes \zeta_1)
 \end{align*}
-In other words, we enumerate all permutations of $zeta_1, \dots, \zeta_k$ and each "swap" we make, we multiply a factor of $-1$.
+In other words, we enumerate all permutations of $\zeta_1, \dots, \zeta_k$ and each "swap" we make, we multiply a factor of $-1$.
 
 Let $V$ be a vector space of dimension $n$, and let $z$ be a basis of $V$, $\zeta$ its dual basis.
 
