@@ -4,7 +4,14 @@
 \usepackage{amsmath,amssymb}
 \usepackage{parskip}
 \usepackage{graphicx}
+\usepackage{xcolor}
 \usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=gray,
+    filecolor=magenta,      
+    urlcolor=gray,
+}
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 
 % Margins
@@ -984,7 +991,7 @@ and the result follows.
 
 \paragraph{Eigenvalues of a matrix of a complex inner product} Let $A$ be a matrix of a complex inner product $g$ of $\mathbb{C}^n$. Then $A$ only has positive eigenvalues.
 
-\textbf{Proof} Since $A$ is a matrix of a complex inner product $g$, $A$ must be Hermitian (see Spectral Theorem section for definition) since $g$ is conjugate-symmetric. And it is also proven in a later section that a Hermitian linear operator only has real eigenvalues. In particular, a Hermitian matrix only has real eigenvalues.\\
+\textbf{Proof} Since $A$ is a matrix of a complex inner product $g$, $A$ must be Hermitian (see Spectral Theorem section for definition) since $g$ is conjugate-symmetric. And it is also proven in a later section that a Hermitian matrix only has real eigenvalues.\\
 Suppose $\lambda \in \mathbb{R}$ is a real eigenvalue of $A$. Suppose $\lambda \leq 0$. By a similar argument as in the real inner product case, we first find an eigenvector $v\in \mathbb{C}^n$ associated with $\lambda$. Then,
 \begin{align*}
 	g(\overline{v}, \overline{v}) = \overline{v}^TA\overline{\overline{v}}=\overline{v}^TAv=\overline{v}^T\lambda v = \lambda |v|^2 \leq 0
@@ -995,6 +1002,26 @@ which contradicts the positive definiteness of $g$.
 
 \textbf{Remark} This result applies to all Hermitian positive-definite matrices.
 
+\textbf{Remark} For a non-symmetric/Hermitian matrix, the converse is not true. A matrix can have positive eigenvalues, but still be non-positive definite. However, for a symmetric matrix, the converse is true. See link below. \\
+\href{https://math.stackexchange.com/questions/1434167/proving-that-a-symmetric-matrix-is-positive-definite-iff-all-eigenvalues-are-pos}{math.stackexchange}\\
+This be extended to Hermitian matrices as well, as we see below. 
+
+\paragraph{A Hermitian matrix with positive eigenvalues} Let $A$ be a Hermitian matrix. Suppose all eigenvalues of $A$ are positive. Then $A$ is positive definite. (i.e. $A$ is then a matrix of a complex inner product) 
+
+\textbf{Proof} For a matrix $M$, denote $M*=\overline{M^T}$(conjugate transpose). By the Spectral Theorem for complex matrices, there exists an unitary matrix $U$ such that $U^*AU=D$, where $D$ diagonal. Let $P=U^*$. Then $A=P^*DP$.\\
+Let $g$ be the conjugate-symmetric sesquilinear form in $S(V)$ represented by $A$ (for some vector space $V$).\\
+Let $u\in V$, $v\in \mathbb{C}^n$, where $v=M(u)$. \\
+Then 
+\begin{align*}
+	g(u,u) &= v^TA\overline{v} \\
+	&= v^T(P^*DP)\overline{v} \\
+	&= (P\overline{v})^*D(P\overline{v}) \\
+	&= y^*Dy\\
+	&= \sum_i \overline{y_i}y_i D_{i,i}\\
+	&= \sum_i |y_i|^2 D_{i,i}
+\end{align*}
+Since $|y_i|^2\geq 0$, and $D_{i,i} > 0$ since $D_{i,i}$ is an eigenvalue of $A$, $g(u,u)\geq 0$. In particular, if $u\neq 0$, then not all $y_i=0$, such that $|y_i|^2 > 0$ for some $i$. Then, $g(u,u)>0$.\\
+Hence $g$ is positive definite, and $A$ is positive definite.
 \paragraph{Cauchy Schwarz inequality} It suffices to adjust one line in the proof
 \begin{align*}
 	&\left\lvert \frac{g(u,v)}{|v|^2}v \right\rvert^2\\

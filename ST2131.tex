@@ -154,6 +154,42 @@ Hence,
 
 Going from even $k$ to odd $k+1$ is similar.
 
+
+\section{Limit Theorems}
+Since measure theory has not been taught yet, it suffices to have intuitive notions of measure theory like "almost everywhere". For now, we can simply understand an event or a set having "measure 0"/"probability 0" as being negligible in "size" with respect to the probability space.
+
+Let $E$ be an event. When we say $P(E)=1$, all the outcomes $\omega \in E$ essentially "fill up" 99.9999...\% of the sample space.
+
+Let $X_i, i\in \mathbb{N}^+$ be identically distributed random variables.\\
+Let $\mu = E[X_i], \sigma^2 = Var(X_i)$.\\
+Denote $\Omega$ as the sample space.
+Denote 
+\begin{align*}
+\overline{X_n} = \frac{X_1+\dots + X_n}{n}
+\end{align*}
+for the following section.
+
+\subsection{Laws of large numbers}
+\paragraph{Weak Law}
+For any fixed $\epsilon > 0$,
+\begin{align*}
+	\lim_{n\rightarrow \infty}P(\{\omega \in \Omega: |\overline{X_n}(\omega)-\mu|\geq \epsilon \}) = 0
+\end{align*}
+
+\paragraph{Strong Law}
+\begin{align*}
+	P(\{\omega \in \Omega: \lim_{n\rightarrow \infty}\overline{X_n}(\omega) = \mu \}) = 1
+\end{align*}
+
+The strong law says that the random variable $\overline{X_n}$ converges almost surely to $\mu$. This is the same as saying almost everywhere on $\Omega$, the function $\overline{X_n}$ converges pointwise to the constant function $\mu$.
+
+\paragraph{Comparison between Weak and Strong Law}
+The weak law is "weak" because it doesn't tell us anything about pointwise convergence of $\overline{X_n}$. For instance, if we fix any outcome $\omega \in \Omega$, the weak law does \textbf{not} tell us that $\lim_{n\rightarrow \infty}\overline{X_n}(\omega)=\mu$. In fact, even if for all $\omega \in \Omega$, $\lim_{n\rightarrow \infty}\overline{X_n}(\omega)\neq \mu$, this would still not contradict the weak law. All the weak law says is that, the proportion of $\Omega$ that lies $\epsilon$ close to $\mu$ tends to $\Omega$ if we let $n\rightarrow \infty$. (being a bit sloppy here, but you get the idea).
+\\
+In contrast, the strong law says that if we fix any outcome $\omega \in \Omega$, then with probability $1$, $\lim_{n\rightarrow \infty}\overline{X_n}(\omega)=\mu$. In other words, the set $\{\omega \in \Omega: \lim_{n\rightarrow \infty}\overline{X_n}(\omega) \neq \mu \}$ is essentially negligible with respect to the measure imposed on the probability space.
+
+
+
 \section{Some Problems}
 \subsection{Maximums and minimums of dice throw}
 Suppose we have $N$ dice, for each $i\in \{1,\dots,N\}$, denote $D_i$ as the outcome of the $i$-th dice roll. Note that $D_i\in \{1,\dots, 6\}$.
