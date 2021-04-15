@@ -221,6 +221,27 @@ Then
 \end{align*}
 
 
+\subsection{Intersection of 2 intervals}
+\textbf{Lemma} In general, given 2 intervals, $[a,b],[c,d]$, they intersect under the following 2 cases:
+$a \leq d, b \geq c$ and $c\leq b, d\geq b$.
+
+
+Suppose we have 2 intervals $I,J$, with $X$ the midpoint of $I$, $Y$ the midpoint of $J$. Let $s,t\in \mathbb{R}^+$ such that $I=[X-s,X+s]$, $J=[Y-t,Y+t]$. Then 
+\begin{align*}
+	I\cap J\neq \emptyset \iff |X-Y| \leq s+t
+\end{align*}
+
+The proof for this is as follows. We consider 2 cases.
+Suppose $X-s \leq Y+t$. Then by the above lemma we must have $X+s\geq  Y-t$.\\
+This implies $|X-Y|\leq s+t$.
+
+
+Suppose $Y-t \leq X+s$. Then we must have $Y+t\geq X-s$.\\
+This also implies $|X-Y|\leq s+t$.
+
+Hence, in either case, we have $|X-Y|\leq s+t$, proving the result.
+
+
 \end{document}
 
 

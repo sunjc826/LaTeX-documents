@@ -684,6 +684,7 @@ $ and we have the desired $P$.
 
 See block matrix multiplication for more details.
 
+\textbf{Lemma} Let $A = M(T,z)$ be upper triangular. Then the diagonal entries of $A$ are non-zero iff $T$ is invertible.
 
 \textbf{Theorem} The eigenvalues of a linear map $T$ are precisely the diagonal entries of an upper triangular matrix $A$ of $T$. 
 
@@ -714,6 +715,23 @@ As with any upper triangular matrix of a linear operator $T$, the diagonal entri
 	\chi_T(x)=\prod_{i=1}^k (x-\lambda_i)^{m_i}
 \end{align*}
 \textbf{Remark} A reminder that eigenvalues and eigenvectors are properties of a linear operator, independent of choice of basis. Hence the characteristic polynomial is also a property of an operator, independent of basis.
+
+
+\textbf{Proposition} Let $p$ be a polynomial function. Let $M=\begin{pmatrix}
+A & \mathbf{0}_{a*b}\\
+\mathbf{0}_{b*a} & B
+\end{pmatrix}$ be a matrix where $A\in \mathbb{F}^{a,a}$, $B\in \mathbb{F}^{b,b}$ are square matrices. Then 
+\begin{align*}
+	p(M) = p\left(\begin{pmatrix}
+A & \mathbf{0}_{a*b}\\
+\mathbf{0}_{b*a} & B
+\end{pmatrix}\right) = \begin{pmatrix}
+p(A) & \mathbf{0}_{a*b}\\
+\mathbf{0}_{b*a} & p(B)
+\end{pmatrix}
+\end{align*}
+
+The proof is by block matrix multiplication.
 
 
 \subsubsection{Cayley-Hamilton Theorem}
@@ -1097,9 +1115,30 @@ Hence,
 \textbf{Definition} A sesquilinear form $\tau$ is hermitian if $\forall u,v\in V,\, \tau(u,v)=\overline{\tau(v,u)}$.\\
 Hermetian is essentially the same as conjugate symmetric.
 
+\textbf{Proposition} $\tau$ is Hermitian iff its matrix $M(\tau,z)$ is Hermitian.
+
+\textbf{Proof} The forward direction is trivial since $\tau_{i,j} = \tau(z_i,z_j)=\overline{\tau(z_j,z_i)}=\overline{\tau_{j,i}}$. To show the backward direction, let $u=\sum_ia_iz_i,v=\sum_jb_jz_j$. Then,
+\begin{align*}
+	\tau(u,v)&=\sum_{i,j}a_i\overline{b_j}\tau_{i,j}\\
+	&=\overline{\sum_{i,j}\overline{a_i}b_j\overline{\tau_{i,j}}}\\
+	&=\overline{\sum_{j,i}b_j\overline{a_i}\tau_{j,i}}\\
+	&=\overline{\tau(v,u)}
+\end{align*}
+
 \textbf{Definition} A linear operator $T$ over $(V,g)$ is Hermitian iff its corresponding sesquilinear form $\tau$ is Hermitian.\\
 Note that we can only talk about Hermitian operators when $V$ is equipped with an inner product.
 
+\paragraph{IMPORTANT!} There are a few notions of Hermitian here.
+\begin{enumerate}
+	\item A sesquilinear form is Hermitian if it obeys conjugate symmetry. In fact Hermitian is exactly the same as conjugate symmetric.
+	\item A square matrix is Hermitian if it is equal to its conjugate transpose. The matrix of a Hermitian sesquilinear form is Hermitian.
+	\item A linear operator in an inner product space is Hermitian if its associated sesquilinear form is Hermitian.
+\end{enumerate} 
+Note the following:
+\begin{itemize}
+	\item The matrix of a Hermitian linear operator need \textbf{not} be Hermitian. (Below, it is proven that a sufficient condition for $M(T,z)$ to be Hermitian is that $z$ is orthonormal)
+	\item A Hermitian matrix may \textbf{not} be the matrix of a Hermitian linear operator.
+\end{itemize}
 
 \textbf{Lemma} If $T$ is Hermitian, then $\forall u,v \in V, g(u,Tv)=g(Tu,v)$.
 
@@ -1138,6 +1177,20 @@ Since we are given that $z$ is orthonormal, $g_{i,k}=\delta_{i,k}$ and
 \textbf{Remark} Since $M(T,z)$ is diagonal, $z$ is made up of eigenvectors.
 
 \textbf{Proposition} Suppose $y$ is an orthonormal basis. Let $T$ be Hermitian. Let $z$ be the orthonormal basis where $M(T,z)$ is diagonal. Then the change of basis matrix from $y$ to $z$ is unitary.
+
+\textbf{Proof} Define $A=M(P,e)=M(I,z,y)$, where $P=y^{-1}z$ is the change of basis map from $y$ to $z$.\\
+Note that $A$ unitary $\iff$ $A^T\overline{A}=I$ $\iff$ $\sum_k(A^T)_{i,k}(A)_{k,j}=\sum_k (A)_{k,i}(A)_{k,j}=\delta_{i,j}$ $\iff H(c_i,c_j)=\delta_{i,j}$ where $H$ is the Hermitian dot product in $\mathbb{C}^n$ and $c_i$ is the i-th column of matrix $A$.\\
+Want To Show: $H(c_i,c_j)=\delta_{i,j}$
+
+\begin{align*}
+	H(c_i,c_j) &= H(\sum_k P_{k,i}e_k, \sum_l P_{l,j}e_l) \\
+	&= \sum_{k,l} P_{k,i}P_{l,j}H(e_k, e_l) \\
+	&= \sum_{k,l} P_{k,i}P_{l,j}g(y_k, y_l) \quad \text{since $y$ orthonormal}\\
+	&= g(\sum_k P_{k,i}y_k, \sum_l P_{l,j}y_l) \\
+	&= g(z_i, z_j) \quad \text{definition of P}\\
+	&= \delta_{i,j} \quad \text{since $z$ orthonormal}
+\end{align*}
+which is the desired equality.
 
 \textbf{Remark} The condition that $M(T,z)$ is diagonal is not necessary. In fact, given any two orthonormal bases $y,z$, the change of basis matrix between these is orthogonal.
 
@@ -1289,16 +1342,48 @@ Hence,
 \end{itemize}
 
 \section{Miscellaneous Lemmas}
+
+\paragraph{Parallelogram law} Let $g$ be a real inner product, and $|\cdot|$ is a norm induced by $g$. Then 
+\begin{align*}
+	g(u,v) = \frac{1}{4}(|u+v|^2-|u-v|^2)
+\end{align*}
+
+
+\textbf{Remark} The proof of the parallelogram law requires the symmetry property of the real inner product, which is not present in a complex inner product.
+
+\textbf{Remark} Notice that this allows us to express the real inner product in terms of the induced norm.
+
+\textbf{Corollary} The following definitions are equivalent. $A$ is an isometry in a real inner product space $(V,g)$ if
+\begin{itemize}
+	\item $\forall u,v \in V,\, g(Au,Av)=g(u,v)$
+	\item $\forall u\in V,\, |Au|=|u|$
+\end{itemize} 
+In other words, preserving the inner product is equivalent to preserving the norm. Note that this is only true for real inner product spaces as the parallelogram only holds for real inner products.
+
 \paragraph{Linear isometries in $\mathbb{R}^n$ are precisely orthogonal matrices}
 (Technically an isometry is a linear map in $L(\mathbb{R}^n)$ and is not quite the same as $\mathbb{R}^{n,n}$, but we'll be a bit sloppy here.)
 
-\paragraph{Parallelogram law} Let $g$ be a real inner product, and $|\cdot|$ is a norm induced by $g$. Then $g(u,v) = \frac{1}{4}(|u+v|^2-|u-v|^2)$.\\
-\textbf{Remark} Notice that this allows us to express the real inner product in terms of the induced norm.
+\textbf{Proof} Suppose $A$ is orthogonal. Then for all $u,v\in \mathbb{R}^n$,
+\begin{align*}
+	Au\cdot Av = (Au)^T(Av)=u^T(A^TAv)=u^Tv=u\cdot v
+\end{align*}
+Hence $A$ is a linear isometry.\\
+Conversely, let $A$ be a linear isometry. Then for any $u,v\in \mathbb{R}^n$, $Au\cdot Av = u\cdot v\implies u\cdot (A^TAv) = u\cdot v \implies u\cdot (A^A-I)v=0$.\\
+By letting, $u:=(A^TA-I)v$, we have $|u|=0$ and hence $(A^TA-I)v=0$.\\
+But $v$ is arbitrary, so $A^TA-I$ must be the zero transformation, that is $A^TA=I$, as desired.
 
 \paragraph{Product of matrices}
 \begin{itemize}
 	\item Product of orthogonal matrices is orthogonal
 \end{itemize}
+
+\paragraph{Multiplicities} The following definitions are commonly used in other literature, but they were not used in MA2101.\\
+\textbf{Definition} The algebraic multiplicity of an eigenvalue $\lambda$ is the power to which the term $(T-\lambda I)$ is raised in the characteristic polynomial of $T$. It is equal to the number of occurrences of $\lambda$ along any upper triangular matrix of $T$, in particular the Jordan canonical form.\\
+\textbf{Definition} The geometric multiplicity of an eigenvalue $\lambda$ is the dimension of the eigenspace $E_\lambda=ker(T-\lambda I)$.
+
+\subparagraph{Sample notation} Let $\lambda_i$ be the eigenvalues of $T$. Then we can denote $m_i$ to be the algebraic multiplicity of $\lambda_i$. And denote $n_i$ to the geometric multiplicity of $\lambda_i$, that is, $n_i=dim(E_{\lambda_i})=dim(ker(T-\lambda_iI))$.\\
+Note that $n_i$ is also the number of Jordan blocks associated with $\lambda_i$ in the Jordan canonical form of $T$.
+
 
 \end{document}
 
