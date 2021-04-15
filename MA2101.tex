@@ -855,7 +855,7 @@ Use the same definitions of $g_{i,j},u,v$ as above. Then the 1*1 matrix of $g(u,
 \end{align*}
 and the result follows.
 
-\textbf{Remark} Note that this is for a \textbf{real} inner product. For complex inner product, the transpose is replaced by conjugate transpose.
+\textbf{Remark} Note that this is for a \textbf{real} inner product. For complex inner product, we need to conjugate the last column vector.
 
 \textbf{Proposition} Matrix of an inner product cannot have non-positive eigenvalues.
 
@@ -876,9 +876,9 @@ An orthonormal basis can also be defined in the "mapping" way.\\
 We can prove that the 2 definitions are indeed equivalent.
 
 \textbf{Proposition} Pythagorean Theorem\\
-Let $(y_i)_{1\leq i\leq k}$ be an orthonormal list of vectors. Then 
+Let $(y_i)_{1\leq i\leq k}$ be an orthogonal list of vectors. Then 
 \begin{align*}
-	\left\lvert \sum_{1\leq i\leq k}a_iy_i\right\rvert^2 = \sum_{1\leq i\leq k}a_i^2
+	\left\lvert \sum_{1\leq i\leq k}a_iy_i\right\rvert^2 = \sum_{1\leq i\leq k}|a_iy_i|^2 = \sum_{1\leq i\leq k}|a_i|^2|y_i|^2
 \end{align*}
 
 \textbf{Corollary} Orthonormal list of vectors are linearly independent.
