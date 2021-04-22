@@ -404,6 +404,27 @@ And we are done.
 Compared to the book's proof, this involves the choice of $N_0$, which isn't needed in the book.
 
 
+\subsection{Identities related to $e$}
+\begin{itemize}
+	\item $(1+\frac{1}{n})^n$ is a strictly increasing sequence
+	\item $(1+\frac{1}{n})^{n+1}$ is a strictly decreasing sequence
+	\item The tail sum $e-\sum_{0\leq k\leq n}\frac{1}{k!}=\sum_{n<k}\frac{1}{k!}<\frac{1}{n!n}$
+\end{itemize}
+
+\textbf{Proof} Use Bernoulli's inequality. The key step in the proofs is as follows.\\
+For the first inequality,
+\begin{align*}
+	\left(1-\frac{1}{(n+1)^2}\right)^{n+1} > \left(1-\frac{n+1}{(n+1)^2}\right)
+\end{align*}
+For the second inequality,
+\begin{align*}
+	\left(1+\frac{1}{n(n+2)}\right)^{n+1} > \left(1+\frac{n+1}{n(n+2)}\right) > \left(1-\frac{n+1}{(n+1)^2}\right)
+\end{align*}
+The key thing to understand here is that since Bernoulli's inequality states that $(1+x)^r\geq 1+rx$, if our working will produce an expression of the form  $(1+x)^r$, we can only go from bigger to smaller. Hence, we should start out with the expression that we wish to prove is larger.\\
+For example, to show $x_n=(1+\frac{1}{n})^n$ strictly increasing, we will want to show the expression $\frac{x_{n+1}}{x_n}>1$.\\
+To show $y_n=(1+\frac{1}{n})^{n+1}$ strictly decreasing, we will want to show the expression $\frac{y_{n+1}}{y_n}<1$. However, we will want to prove $\frac{y_{n}}{y_{n+1}}>1$ instead, due to the direction of Bernoulli's inequality.
+
+
 \section{Functions and Continuity}
 Check out this \href{https://math.stackexchange.com/questions/455296/can-a-function-with-just-one-point-in-its-domain-be-continuous}{math.stackexchange post} on some of the subtleties of defining limits of a function and continuity. 
 

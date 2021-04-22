@@ -88,28 +88,34 @@ Given a base $B$, positive integer $n$. The $n$-digit $B$'s complement represent
 
 We now denote $Bs$ as $n$-digit $B$'s complement representation.
 
-An interesting observation is that we can map the $Bs$ values, i.e. the \textbf{ordered} set $\{(b_{n-1}\dots b_0) : b_i\in \{0, 1, \dots, B-1\}\}$ to \textbf{any} translation + cyclic permutation of $\mathbb{Z}/B^{n}\mathbb{Z}$.
+There are 3 interpretations of complement number systems.
+\begin{enumerate}
+	\item The actual mathematical \textit{object} $O$
+	\item The 2's complement \textit{representation} $R$
+	\item The \textit{value} $N$ that we assign to the object 
+\end{enumerate}
+I will use $\mathbb{Z}/256\mathbb{Z}$ to illustrate.
+Denote $O_i=[i]=\{256k + i: k\in \mathbb{Z}\}$ for each $i\in \{0,\dots, 255\}$.\\
+Then fix any $i\in \{0,\dots, 255\}$.\\
+If $i\in \{0,\dots, 127\}$, then value of $O_i$, $N(O_i)=i$.\\
+If $i\in \{128,\dots, 255\}$, then $N(O_i)=i-256$.\\
+Regardless of whether $i\in \{0,\dots, 127\}$ or $i\in \{128,\dots, 255\}$, the representation of $O_i$, $R(O_i)$ is just $i$.
 
-We now arbitrarily fix the integer $10$, so as to demonstrate the meaning of translation and cyclic permutation.
-An example of translation of $\mathbb{Z}/10\mathbb{Z}$ is $\{2,3,4,\dots, 11\}$. In this case, this is a translation of $+2$. An example of cyclic permutation of $\mathbb{Z}/10\mathbb{Z}$ is $\{2,3,4,\dots, 9, 0, 1\}$.
+From here onwards, if I use $R$, or $N$, it should be understood to mean $R(O_i)$, $N(O_i)$ respectively, where $O_i$ is the relevant mathematical object. Note that a rigorous way to view $R,N$ would be that they are mappings with domain $\mathbb{Z}/n\mathbb{Z}$.
 
-In the case of the regular $8$-bit $2s$ complement representation, we have a combination of translation and cyclic permutation of $\mathbb{Z}/256\mathbb{Z}$ .
-
-\textbf{Example} To show the completely arbitrary nature of such a map from $\{(b_{n-1}\dots b_0) : b_i\in \{0, 1, \dots, B-1\}\}$ to any translation + cyclic permutation of $\mathbb{Z}/B^{n}\mathbb{Z}$, consider the map of $5$-bits to $\mathbb{Z}/32\mathbb{Z}$. Call this representation $R$. Note that under $2s$ complement, the $5$-bits would have been mapped to the ordered set $\{0, 1, \dots, 15, -16, -15, \dots, -1\}$
-
-Then, $31 = (11111)_R$, $-31 \equiv 32 - 31 (\mod 32) = 1 = (00001)_R$.\\
-Hence, $31 - 31 = 32 + (-31) = (11111)_R + (00001)_R = (00000)_R = 0$, which is indeed the expected result.
+In our previous example, $R: \mathbb{Z}/256\mathbb{Z}\rightarrow \{0,\dots, 255\}$ and $N: \mathbb{Z}/256\mathbb{Z}\rightarrow \{0,\dots, 127,-128,\dots, -1\}$.
 
 \subsection{Fractional complements}
 \subsubsection{(B-1)'s complement}
-Suppose a fractional number $N$ has $n$ integer digits and $m$ fractional digits, then $(B-1)$'s complement of $N$ is given by $B^n-B^{-m}-N$.
+Suppose a fractional number $N$ has $n$ integer digits and $m$ fractional digits, then $(B-1)$'s complement of $N$ is given by $B^n-B^{-m}-R$.
 
-To see why, simply remove the decimal point by multiplying $N$ by $B^m$ (and then dividing $B^m$).
+To see why, simply remove the decimal point by multiplying $R$ by $B^m$ (and then dividing $B^m$).
 Hence, \begin{align*}
-	B^{-m}(B^{n+m} - 1 - B^mN) = B^n - B^{-m} - N
+	B^{-m}(B^{n+m} - 1 - B^mR) = B^n - B^{-m} - R
 \end{align*}
 
-
+Suppose the \textit{representation} of $N$ is $R=(b_{n-1}\dots b_0b_{-1}\dots b_{-m})$.
+If $b_{n-1}=1$, then the \textit{value} is $R - (B^{n} - B^{-m})$.
 
 \subsection{Sign extension to the left}
 \subsubsection{Binary case}
@@ -155,16 +161,20 @@ The correspondence with $\mathbb{Z}/255\mathbb{Z}$ are as follows:\\
 -127 ... 0 1 ... 128 (excess-127)\\
 -128 ... -1 0 ... 127 (excess-128)
 
-\section{High level code to MIPS Assembly}
-\subsection{if-elseif-else}
+\section{MIPS Assembly reminders}
+\begin{verbatim}
+add (most R-type) $rd, $rs, $rt
 
-\subsection{switch-case}
+sll $rd, $rt, shamt
 
-\subsection{while}
+addi (most I-type) $rt, $rs, immed
 
-\subsection{do-while}
+beq/bne $rs, $rt, immed # immed uses relative *word* addressing. 
+# Hence new PC = PC + 4 + immed * 4 if branch taken (PC uses *byte* addressing)
 
-\subsection{for}
+lw $rt, immed($rs) # loading Mem($rs + immed) into $rt
+sw $rt, immed($rs) # storing $rt into Mem($rs + immed)
+\end{verbatim}
 
 
 \subsection{Encoding space problem}
