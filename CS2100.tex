@@ -161,7 +161,7 @@ The correspondence with $\mathbb{Z}/255\mathbb{Z}$ are as follows:\\
 -127 ... 0 1 ... 128 (excess-127)\\
 -128 ... -1 0 ... 127 (excess-128)
 
-\section{MIPS Assembly reminders}
+\section{MIPS Assembly}
 \begin{verbatim}
 add (most R-type) $rd, $rs, $rt
 
@@ -175,6 +175,26 @@ beq/bne $rs, $rt, immed # immed uses relative *word* addressing.
 lw $rt, immed($rs) # loading Mem($rs + immed) into $rt
 sw $rt, immed($rs) # storing $rt into Mem($rs + immed)
 \end{verbatim}
+
+\subsection{Uses of logical operators}
+With respect to manipulating (32-bit) binary sequences, there are some usual uses of logical operators.
+\begin{enumerate}
+	\item \texttt{and} is used to force bits to 0. 
+	\begin{itemize}
+		\item Suppose bitmask is 00001101, then bits 1,4,5,6,7 are forced to 0. Another way of viewing this is that bits 0,2,3 are "extracted".
+	\end{itemize} 
+	\item \texttt{or} is used to force bits to 1. 
+	\begin{itemize}
+		\item Suppose bitmask is 00001101, then bits 0, 2, 3 are forced to 1.
+	\end{itemize}
+	\item \texttt{xor}
+	\begin{itemize}
+		\item Observe that $x\oplus 1=x'$ and $x\oplus 0=x$.
+		\item Hence, if bitmask is 00001101, then bits 0,2,3 are inverted and the other bits (1,4,5,6,7) remain the same.
+		\item Another application is this: If we know that bits 0,2,3 are of value 1 in a binary sequence $B$ and we want to force those bits to 0, then we can xor $B$ with bitmask 00001101. Of course, this can also be done with \texttt{and}.
+	\end{itemize}
+\end{enumerate}
+
 
 
 \subsection{Encoding space problem}
