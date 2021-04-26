@@ -251,6 +251,40 @@ If we are to view the LHS and RHS as functions of $x$, then consider cases:
 
 \textbf{Note} In general, we cannot write $l(5)[x=5] = l(5)$, since RHS here is identically $l(5)$, whereas LHS is only $l(5)$ when $x=5$, and equals $0$ for all other values of $x$.
 
+\section{Summary/Cheatsheet}
+\paragraph{Common bounds}
+\begin{itemize}
+	\item AM-GM: $x^2+y^2+z^2\leq 3(xyz)^{2/3}$
+	\item $x\leq \sqrt{x^2} \leq  \sqrt{x^2+y^2+z^2} = |(x,y,z)|$
+	\begin{itemize}
+		\item $\frac{x^2}{x^2+y^2+z^2}\leq 1$
+	\end{itemize}
+	\item If $|x|,|y|\leq 1$, then $|xy|\leq |x|$
+\end{itemize}
+\paragraph{Continuity}
+\begin{itemize}
+	\item To prove non-continuity at a point, consider paths. Suppose we are considering $(x,y)\rightarrow (0,0)$, here are some common paths:
+	\begin{itemize}
+		\item $x=0$
+		\item $y=0$
+		\item $y=kx$ (linear function), e.g. $y=x, y=-x$
+		\item $y=x^n$
+	\end{itemize}
+\end{itemize}
+\paragraph{Derivatives}
+\subparagraph{Characterisation of continuous differentiability} Given a multivariable function $f:\mathbb{R}^m\rightarrow \mathbb{R}^n$, $f$ is of class $C^1$ iff  $\forall 1\leq i\leq n, 1\leq j\leq m,\, \frac{\partial f_i}{\partial x_j}$ is of class $C^1$.
+\subparagraph{Relationship between total and directional derivatives} If a function $f:\mathbb{R}^m\rightarrow \mathbb{R}^n$ is differentiable, then $\forall u\in \mathbb{R}^m$, 
+\begin{align*}
+	(D_uf)(p)=(Df)(p)\cdot u
+\end{align*}
+
+\textbf{Corollary} For each $1\leq j\leq m$,  
+\begin{align*}
+	\frac{\partial f}{\partial x_j}=(D_{e_j}f)(p)=(Df)(p)\cdot e_j =j\text{th column of } f'(p)
+\end{align*}
+In other words, if $f$ differentiable, we can express the total derivative of $f$ in terms of the partial derivatives $\frac{\partial f_i}{\partial x_j}$.
+
+
 \end{document}
 
 

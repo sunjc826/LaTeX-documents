@@ -457,6 +457,100 @@ Consider $S=A\cup B$, where
 	B &= \{(0,y):-1\leq y\leq 1\}
 \end{align*}
 Claim: $S$ is connected, but not path-connected.
+
+\section{Final Exam Cheatsheet}
+\paragraph{Countability} Suppose $f:X\rightarrow Y$ is an injection and $Y$ countable. Then $X$ is at most countable. (Note that an injection is equivalent to a bijection from $X$ to $f(X)\subset Y$ via $f$, and $f(X)$ is at most countable.)
+
+	\paragraph{Sets and Functions} Given $f: X\rightarrow Y$. Let $A\subseteq X, B\subseteq Y$.
+	\begin{itemize}
+		\item $A\subseteq f^{-1}(f(A))$
+		\item $f(f^{-1}(B))\subseteq B$
+		\item $f^{-1}(B_1 \cup B_2) = f^{-1}(B_1)\cup f^{-1}(B_2)$ 
+		\item $f^{-1}(B_1 \cap B_2) = f^{-1}(B_1)\cap f^{-1}(B_2)$ 
+		\item $f^{-1}(B^C)=f^{-1}(B)^C$
+		\item If $f$ bijective, $f(A^C)=f(A)^C$
+	\end{itemize}
+	\paragraph{Topology}
+	\begin{itemize}
+		\item Metric: $d(p,p)=0,\, p\neq q\implies d(p,q)>0,\quad d(p,q)=d(q,p),\quad d(p,q)\leq d(p,r)+d(r,q)$ 
+		\item Set $E$ is perfect if $E$ closed and every point of $E$ is a limit point of $E$.
+		\item Heine-Borel: $E$ compact $\iff$ Every infinite subset of $E$ has a limit point in $E$.
+		\item Every open set in $\mathbb{R}^1$ can be expressed as the union of at most countable disjoint open intervals.
+	\end{itemize}
+	\paragraph{Properties of Iverson bracket}
+	\begin{itemize}
+		\item Suppose $A, B$ disjoint. Then $[x\in A] + [x\in B] = [x\in A\cup B]$
+		\item Suppose $A\subset B$. Then $[x\in B] - [x\in A] = [x\in B-A]$
+	\end{itemize}
+	Application: Suppose $f(x)=\sum_n c_n[x_n\leq x]$. Given $y > x$, 
+	\begin{align*}
+	f(y)-f(x)=\sum_n c_n([x_n\leq y]-[x_n\leq x])=\sum_n c_n([x_n\in (-\infty, y]]-[x_n\in (-\infty, x]])=\sum_n c_n([x_n\in (x, y]]
+	\end{align*}
+	\paragraph{Properties of closure}
+	\begin{itemize}
+		\item $\overline{A}$ is the smallest closed set containing $A$. i.e. If $A\subseteq B$, $B$ closed, then $\overline{A}\subseteq B$.
+	\end{itemize}
+	\paragraph{Intersection of compact sets (Theorem 3.10)} If $K_n$ is a decreasing sequence of compact sets ($K_{n+1}\subseteq K_n$) and if $\lim_{n\rightarrow \infty} diam(K_n) = 0$, then $\cap_1^\infty K_n$ consists of precisely one point.
+	\paragraph{Equivalence of Cauchy property and Convergence (3.11)} (1) All compact metric spaces are complete. (2) Euclidean space is complete. (3) Every closed subset of a compact metric space is complete.
+	\paragraph{Summation by parts}
+		$\sum_{n=p}^qa_nb_n=\sum_{n=p}^{q-1}A_n(b_n-b_{n+1})+A_qb_q-A_{p-1}b_p$
+	\paragraph{Characterisation of continuity (Theorem 4.8)} $f: X\rightarrow Y$. Then $f$ continuous on $X$ iff for all open sets $V$ in $Y$, preimage $f^{-1}(V)$ open in $X$.
+	\paragraph{Inverse of continuous bijective function (Theorem 4.17)} $f:X\rightarrow Y$, $X$ compact. If $f$ is continuous on $X$ and invertible, then $f^{-1}$ is continuous on $Y$.
+	\paragraph{Root Test} Given $\sum a_n$, let $\alpha=\limsup_{n\rightarrow \infty}\sqrt[n]{|a_n|}$.
+	\begin{enumerate}
+		\item If $\alpha<1$, $\sum a_n$ converges
+		\item If $\alpha>1$, $\sum a_n$ diverges
+		\item If $\alpha=1$, inconclusive
+	\end{enumerate}
+	\paragraph{Dirichlet's Test} $\sum_n a_nb_n$ converges if
+	\begin{enumerate}
+		\item Partial sums $A_n$ bounded
+		\item $b_n$ monotonically decreasing
+		\item $\lim_{n\rightarrow \infty}b_n = 0$
+	\end{enumerate}
+	\paragraph{Abel's Test} $\sum_n a_nb_n$ converges if
+	\begin{enumerate}
+		\item Partial sums $A_n$ converges
+		\item $b_n$ monotone and bounded
+	\end{enumerate}
+	\paragraph*{Uniform Convergence Tests}
+	\subparagraph{Equivalence between uniformly Cauchy and uniform convergence} Suppose $f_n$ is a sequence of real functions and $\forall \epsilon>0, \exists N>0, n>m>N\implies ||f_n-f_m||_{\infty}<\epsilon$ (where $||\cdot||_{\infty}$ is the sup norm). Then this is a sufficient and necessary condition for $f_n$ to uniformly converge on $\mathbb{R}$.\\
+	This can be easily restated in terms of series $\sum_n f_n(x)$.
+	\subparagraph{M-test (Comparison test)} Given $\sum_n f_n(x)$, suppose there exists sequence $(M_n), M_n>0$ such that $\forall x, |f_n(x)|<M_n$. If $\sum_n M_n$ converges, then $\sum_n f_n(x)$ uniformly converges to some $f$.
+	\subparagraph{Dirichlet's Test} $\sum_n a_n(x)b_n(x)$ converges uniformly if
+	\begin{enumerate}
+		\item Partial sums $A_n(x)$ uniformly bounded
+		\item $b_n(x)$ monotonically decreasing
+		\item $\lim_{n\rightarrow \infty}b_n(x) = 0$ (uniform convergence to 0)
+	\end{enumerate}
+	\subparagraph{Abel's Test} $\sum_n a_n(x)b_n(x)$ converges if
+	\begin{enumerate}
+		\item Partial sums $A_n(x)$ converges uniformly
+		\item $b_n(x)$ monotone for each $x$ (monotonicity need not be uniform) and uniformly bounded
+	\end{enumerate}
+	\paragraph{Identities related to $e$}
+\begin{itemize}
+	\item $(1+\frac{1}{n})^n$ is a strictly increasing sequence; $(1+\frac{1}{n})^{n+1}$ is a strictly decreasing sequence. Proof by Bernoulli's inequality.
+	\item Hence, $(1+\frac{1}{n})^n < e < (1+\frac{1}{n})^{n+1}\implies n\ln(1+\frac{1}{n}) < 1 < (n+1)\ln(1+\frac{1}{n})\implies \frac{1}{n+1}<\ln(1+\frac{1}{n})<\frac{1}{n}$
+	\item The tail sum $e-\sum_{0\leq k\leq n}\frac{1}{k!}=\sum_{n<k}\frac{1}{k!}<\frac{1}{n!n}$
+\end{itemize}
+\paragraph{Convex function} Suppose $f$ is a convex function, with $f(\lambda x+(1-\lambda y)\leq \lambda f(x)+(1-\lambda)f(y)$. If $s<t<u$, then 
+	$\frac{f(t)-f(s)}{t-s}\leq \frac{f(u)-f(s)}{u-s}\leq \frac{f(u)-f(t)}{u-t}$
+The proof is by letting $t=\lambda s+(1-\lambda)u$.
+\paragraph{Inequalities}
+\begin{itemize}
+	\item If $a+b=c+d$ and $0 < a < c\leq d < b$, then $cd>ab$. Proof by considering $cd=\frac{1}{4}((d+c)^2-(d-c)^2)$ and likewise for $ab$.
+	\item Bernoulli's inequality: $(1+x)^r\geq 1+rx,\, r\geq 1, x\geq -1$ and $(1+x)^r\leq 1+rx,\, 0\leq r\leq 1, x\geq -1$
+	\item When $\forall k, 0< a_k < 1, \prod_k (1-a_k)\geq 1-\sum_k a_k$
+	\item Suppose $a_n + b_n\rightarrow c_n+L$, then we can write $a_n + b_n = c_n + L + \epsilon_n$, where $\epsilon_n\rightarrow 0$
+	\item If $f$ uniformly continuous on $\mathbb{R}$, then $f(x)=\Theta(x)$.
+\end{itemize}
+\textbf{Techniques}\\
+\textbf{1} Uniform convergence of $x^n(1-x)$ on $[0,1]$. The idea is to split $[0,1]$ into $[0,a],[a,1]$ and show convergence on both intervals.\\
+\textbf{2} If a sequence of continuous functions $f_n$ converges uniformly to $f$, then $f$ is also continuous. Usually, the \textbf{converse} of this is used. \textbf{3} Attempt to look for closed form if possible. \textbf{4} For Dirichlet's and Abel's test, $b_n$ does not have to be monotonic from the first term. We just need to show monotonicity for all but finitely many terms.\\
+\textbf{Binomial series} $(1+x)^\alpha=\sum_{k=0}^\infty \binom{\alpha}{k}x^k$\\
+\textbf{Logarithm series} $\ln(1+x)=x-\frac{x^2}{2}+\frac{x^3}{3}-\dots=\sum_{n=1}^\infty (-1)^{n+1}\frac{x^n}{n}$
+
 \end{document}
 
 

@@ -29,10 +29,6 @@ QR Framework
 	\item Communicate
 \end{enumerate}
 
-\section{Misc}
-TP-SR5
-Seat number 12
-
 \section{Associations}
 \subsection{Rates}
 Essentially conditional probability.
@@ -58,21 +54,6 @@ To reduce confounding, use slicing, so as to compare smaller groups with are rel
 
 \subsection{Simpson's Paradox}
 See Brilliant.com
-
-\subsection{Tutorial 1}
-Imagine	that you are an intern	at	a	large	tuition	centre catered	to	students	of	age	11	and	12	years. Your	 employer wants to know	 if	 it	 is	 worthwhile	 to	 invest in iPads to improve students’ proficiency in English. He gives you authority and	resources,	and asks you to design an experiment	on	the	thousands	of	customers.
-
-(a)	How	would	you	enrol	subjects	and	assign	them	into	two	groups?
-
-Ask for parental consent, then randomly assign consenting students to control and "treatment" groups.
-
-
-(b)	How	feasible is	it	to	use	a placebo, or to implement double-blinding?
-
-Placebo is not possible, since you can't just fake an ipad.
-
-Blinding students is difficult, since knowledge of having/not having ipad in lesson is easily known by students and by parents.\\
-Single blinding is possible however. For e.g. when testing the students at the end of the trial, do not inform the accessors about which group they belong to.
 
 \section{Association}
 QR Framework: \textbf{Analyze, Communicate}
@@ -117,7 +98,7 @@ Outlier
 \end{itemize}
 
 \subsection{Ecological Correlation}
-\textbf{Def:} Correlation computed based on aggregate data\\
+\textbf{Definition} Correlation computed based on aggregate data\\
 Used when individual data is more difficult to obtain
 
 When association for both individuals and aggregates are in the same direction, ecological correlation based on aggregates will typically overstate strength of association in individuals.
@@ -129,45 +110,94 @@ Fallacies
 \end{itemize}
 
 \subsection{Attenuation Effect/Data Removal}
-Tends to understate strength of correlation
-
-\subsection{Chocolate Consumption}
-Confounding factors; Said factors are positively associated with both the dependent and independent variables.
-
-He brushed them under the carpet lol.
-If I were to collect aggregate data, I would get those from similar socioeconomic backgrounds and make use of table-splitting.
-
-The present data are based on country averages,
-and the specific chocolate intake of individual
-Nobel laureates of the past and present remains
-unknown. The cumulative dose of chocolate that
-is needed to sufficiently increase the odds of being asked to travel to Stockholm is uncertain.
-This research is evolving, since both the number
-of Nobel laureates and chocolate consumption
-are time-dependent variables and change from
-year to year.
-
-Instead of collecting aggregate data (of which Nobel laureates only make up a exceedingly tiny proportion of), I would collect data directly from the Nobel Laureates. Ecological fallacy. Population data may not apply to individuals. Even if it does apply to a certain proportion of individuals, Nobel laureates are so few and far between.
-Population may like chocolate. Laureates themselves may not even consume chocolate.
-
-Change in population units with respect to time; Tastes and preferences, economic situation would all affect annual chocolate consumption. Considering how few Nobel Laureates are produced per year, even getting one more Laureate per country would lead to large changes in the population unit. 
-
-
+Data removal can cause the attenuation effect. Removal of data causes attenuation effect when it result in \textbf{under}stating strength of correlation.
 
 \section{Odds, Risk ratios}
 Given 2 groups, $A$ and $B$, we will abuse notation and let $A$, $B$ refer to the events that a person is in $A$ and $B$ respectively.
 \begin{align*}
-	\text{Odds, } O(A)&=\frac{P(D|A)}{P(D^c|A)}\\
-	\text{Risk, } R(A)&=P(D|A)\\
-	\text{Odds ratio, }OR(A/B)&=\frac{O(A)}{O(B)}=\frac{\frac{P(D|A)}{P(D^c|A)}}{\frac{P(D|B)}{P(D^c|B)}}=\frac{P(D|A)P(D^c|B)}{P(D|B)P(D^c|A)}\\
-	\text{Risk ratio, }RR(A/B)&=\frac{R(A)}{R(D)}=\frac{P(D|A)}{P(D|B)}
+	\text{Risk, } R(D|A)&=P(D|A)\\
+	\text{Odds, } O(D|A)&=\frac{P(D|A)}{P(D^c|A)}=\frac{P(D|A)}{1-P(D|A)}\\
+	\text{Risk ratio, }RR&=\frac{R(D|A)}{R(D|B)}=\frac{P(D|A)}{P(D|B)}\\
+	\text{Odds ratio, }OR&=\frac{O(D|A)}{O(D|B)}=\frac{\frac{P(D|A)}{P(D^c|A)}}{\frac{P(D|B)}{P(D^c|B)}}=RR\cdot \frac{1-P(D|B)}{1-P(D|A)}
+\end{align*}
+Note that the above assumes that $B$ is used as a baseline, such that $P(D|B)$ is the denominator in $RR$ and $OR$.
+
+\begin{align*}
+	RR>1\iff OR>1\\
+	RR<1\iff OR<1\\
+	RR=1\iff OR=1
 \end{align*}
 
-$RR(A/B)>1\iff P(D|A)>P(D|B) \iff P(D^c|A)<P(D^c|B) \iff \frac{P(D^c|A)}{P(D^c|B)}<1 \iff \frac{P(D^c|B)}{P(D^c|A)}>1$\\
-Hence, $RR(A/B)>1\implies OR(A/B)>1$\\
-Since $P(D|A)>P(D|A)\iff P(D^c|A)<P(D^c|B)$, the converse is clearly true as well.\\
-An analogous derivation shows that $RR(A/B)<1 \iff OR(A/B)<1$.\\
-Finally, $RR(A/B)=1\iff OR(A/B)=1$
+This is a standard contingency table
+\begin{center}
+	\begin{tabular}{c|c|c|}
+	& $D$ & $D^c$\\
+	\hline
+	$A$ & &\\
+	\hline
+	$B$ & &\\
+	\hline
+	\end{tabular}
+\end{center}
+where $A,B$ are exposure events (e.g. $A$ represents exposed, $B$ represents not exposed), and $D$ is disease event (and $D^C$ is the event representing no disease)
+
+\paragraph{Cohort study}
+\begin{center}
+	\begin{tabular}{c|c|c|c|}
+	& $D$ & $D^c$ & Sample size\\
+	\hline
+	$A$ & & & 100\\
+	\hline
+	$B$ & & & 100\\
+	\hline
+	\end{tabular}
+\end{center}
+
+\textbf{Proposition} Sample RR can be used to estimate population RR.
+
+\textbf{Intuition} Denote $P_s$ as the sample probability/rate function, $P_p$ as the population probability/rate function. Denote $n_s$ as the cardinality of an event with regards to the sample. Denote $n_p$ as the cardinality of an event with regards to the population.\\
+Then,
+\begin{align*}
+	\text{Sample RR}&=\frac{P_s(D|A)}{P_s(D|B)}\\
+	&=\frac{\frac{P_s(DA)}{P_s(A)}}{\frac{P_s(DB)}{P_s(B)}}\\
+	&=\frac{\frac{n_s(DA)}{n_s(A)}}{\frac{n_s(DB)}{n_s(B)}}\\
+	&\approx \frac{\frac{n_p(DA)}{n_p(A)}}{\frac{n_p(DB)}{n_p(B)}}\\
+	&=\frac{\frac{P_p(DA)}{P_p(A)}}{\frac{P_p(DB)}{P_p(B)}}\\
+	&=\frac{P_p(D|A)}{P_p(D|B)}=\text{Population RR}
+\end{align*}
+The above derivation relies on the idea that
+\begin{align*}
+	\frac{n_s(DA)}{n_s(A)}&\approx \frac{n_p(DA)}{n_p(A)} \text{ and}\\
+	\frac{n_s(DB)}{n_s(B)}&\approx \frac{n_p(DB)}{n_p(B)}
+\end{align*}
+Intuitively, the first $\approx$ is true since our first (exposure) sample of 100 was drawn directly from the exposure group $A$, hence it is natural to believe that the proportion of $n_p(DA)$ as a fraction of $n_p(A)$ would be approximately equal in our sample.\\
+The same argument for the non-exposure group $B$ gives the second $\approx$.
+
+\textbf{Proposition} Sample OR can be used to estimate population OR.
+
+\paragraph{Case control study}
+\begin{center}
+	\begin{tabular}{c|c|c|}
+	& $D$ & $D^c$\\
+	\hline
+	$A$ & & \\
+	\hline
+	$B$ & & \\
+	\hline
+	Sample size & 100 & 100\\
+	\hline
+	\end{tabular}
+\end{center}
+
+Sample RR \textbf{cannot} usually be used to estimate population RR. This is especially true if the disease $D$ is rare.
+
+\textbf{Intuition} To make things easier, let's first assume that the disease is extremely rare, such that we expect $P_p(D|A),P_p(D|B)$ to be very close to $0$, where $P_p$ is defined in the previous section on cohort study.
+
+Our samples are: 100 ppl from those having disease $D$, 100 from those without disease $D$.\\
+Note that in the derivation for cohort study, we assume that $\frac{n_s(DA)}{n_s(A)}\approx \frac{n_p(DA)}{n_p(A)}$ (likewise for $B$). In other words, we assumed that $P_s(D|A)\approx P_p(D|A)$.\\
+But this is clearly untrue in the case of a case control study of a very rare disease. Half of our total sample comes from those with the disease, so either of $P_s(D|A),P_s(D|B)$ must be quite close to $0.5$, much larger than $P_p(D|A),P_p(D|B)$!
+
+\textbf{Proposition} Like in cohort study, sample OR can be used to estimate population OR.
 
 
 \section{Testing}
@@ -184,8 +214,13 @@ Let $D$ be the event that the person has the disease.
 	\text{Specificity} &= P(A^c|D^c)
 \end{align*}
 
-
-
+In other words,\\
+\begin{align*}
+	&\text{P(true positive)} = P(AD) = P(A|D)P(D) = \text{Sensitivity}\cdot P(D)\\
+	&\text{P(true negative)} = P(A^cD^c)=P(A^c|D^c)P(D^c)=\text{Specificity}\cdot P(D)\\
+	&\text{P(false positive)} = P(AD^c) = (1-\text{Specificity})\cdot P(D^c)\\
+	&\text{P(false negative)} = P(A^cD) = (1-\text{Sensitivity})\cdot P(D)\\
+\end{align*}
 
 
 \end{document}
