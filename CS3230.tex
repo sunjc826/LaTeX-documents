@@ -53,6 +53,24 @@ Image from \texttt{https://stackoverflow.com/questions/63369552/depth-vs-level-o
 \paragraph{Asymptotic notation} From wikipedia\\
 \includegraphics[scale=0.5]{asymptotic_notation.png}
 
+
+\paragraph{Upper and lower bounds} In algorithmic analysis, when we speak of upper and lower bounds, we are usually referring to the worst case. Of course, we tend to use bounds because we cannot quantify precisely what is the running time of an algorithm over all inputs.
+
+For instance, if we know for a certain $n$, the runtime of algorithm $M$ over all inputs of size $n$ is $\{n,n+1,\dots,2n-1, 2n\}$, then $[2n, \infty)$ would all be valid upper bounds, and $[0, 2n]$ would be valid lower bounds. However, since we already know the worst case runtime: $2n$, there is no point talking about bounds.
+
+Upper bounds require universal quantification. That is, to say that $U(n)$ is an upper bound on the runtime, we need $\forall$ inputs of size $n$, runtime is $\leq U(n)$.
+
+In comparison, existential quantification is sufficient to justify a lower bound. To say that $\exists$ input of size $n$, runtime $\geq L(n)$, we simply need to provide an instance of an input that indeed results in $L(n)$ or more runtime.
+
+The above can be described in terms of order theory. Let $S(n)$ be a set (representing the runtimes of size $n$ inputs).\\
+The worst case runtime is analogous to $\sup S(n)$.
+
+For a $n$ dependent value $U(n)$, $\sup S(n)\leq U(n) \iff \forall s\in S(n), s\leq U(n)$.
+
+For a $n$ dependent value $L(n)$, $\sup S(n)\geq L(n) \iff \exists s\in S(n), s\geq L(n)$. This should be a very familiar statement in mathematical analysis. In particular, if $\exists s\in S(n), s=L(n)$, then indeed $L(n)\leq \sup S(n)$.
+
+In conclusion, this asymmetry in algorithmic analysis is due to the fact that we only care about supremums and not infimums.
+
 \section{Bounding Techniques}
 \paragraph{Integral Bound}
 For a monotonically increasing function $f$,
@@ -221,6 +239,45 @@ optimal solution
 \end{itemize}
 
 A (possibly loose) upper bound for the DP solution would then be the product of (1) and (2).
+
+\subsection{Network flow}
+\paragraph{Terminology}
+\begin{itemize}
+	\item Network Graph $G=(V,E)$ with capacity function $c=(u,v)\mapsto \mathbb{R}$
+	\begin{itemize}
+		\item Simplication: Antiparallel property, $(u,v)\in E\implies (v,u)\notin E$
+		\item $(u,v)\notin E\implies c(u,v) = 0$
+	\end{itemize}
+	\item Flow $f:V\times V\rightarrow \mathbb{R}$, $f=(u,v)\mapsto f(u,v)$ where $f(u,v)$ abides by 2 constraints
+	\begin{itemize}
+		\item Capacity upper bound: $0\leq f(u,v)\leq c(u,v)$
+		\item Conservation: $\sum_{v\in V}f(u,v) = \sum_{v\in V}f(v,u)$
+	\end{itemize}
+	\item Value of a flow, $|f|=\sum_{v\in V}f(s,v)-\sum_{v\in V}f(v,s)$. Note that in a graph without antiparallel edges, the second term is always $0$. However, we would also like to consider flow of residual graphs, which can have edges from vertices $v$ to source $s$. Furthermore, an augmenting flow $f'$ can have negative value since this does not go against the definition. (Of course, in practice, we do not make use of augmenting flows with non-positive value. In particular, this is always possible according to lemma 26.2 of CLRS.)
+	\item Residual graph augmented by flow $f$, $G_f$
+	\begin{itemize}
+		\item Residual capacity function $c_f$, given by
+		$c_f(u,v)=\begin{cases}c(u,v) - f(u,v) \text{ if } (u,v)\in E\\ f(v,u)\text{ if } (v,u)\in E\\ 0 \text{ otherwise} \end{cases}$\\
+		In particular $c_f(u,v)$ is the residual capacity of an edge $(u,v)$.
+		\item Edge set of residual graph $E_f=\{(u,v)\in V\times V : c_f(u,v)>0\}$
+		\item Augmenting path $p=s\leadsto t$ in $G_f$
+		\item Residual capacity of path $p$, $c_f(p)=\min \{c_f(u,v) : (u,v)\in p\}$
+		\item Augmentation of flow $f$ by $f'$, 
+		$(f\uparrow f')(u,v)=\begin{cases}
+			f(u,v) + f'(u,v) - f'(v,u) \text{ if } (u,v)\in E\\
+			0 \text{ otherwise}		
+		\end{cases}$
+	\end{itemize}
+\end{itemize}
+
+Note that lemma 26.2 states that for a path $p$ in $G_f$, the flow  $f_p$, defined by
+\begin{align*}
+	f_p(u,v)=\begin{cases}
+		c_f(p) \text{ if } (u,v)\in p\\
+		0 \text{ otherwise}
+	\end{cases}
+\end{align*}
+is such that $|f\uparrow f_p| = |f| + |f_p| > |f|$ since $c_f(p)>0$ (we only allow edges with positive weights in $E_f$).
 
 \end{document}
 

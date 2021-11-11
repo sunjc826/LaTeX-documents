@@ -115,6 +115,48 @@ Then in particular $\forall n\in \{0, 1\dots, |c|-1\}, c^n(i) = d^n(i)$, $d^n(i)
 
 Notice that the key part of this argument is to show that $d$ loops around, i.e. $d(c^{|c|-1}(i)) = i$.
 
+\subparagraph{Decompositions}
+\begin{itemize}
+	\item $(1,2,\dots,n) = (1,n)(1,n-1)\dots(1,3)(1,2)$
+	\item $(1,2,\dots,n) = (1,2)(2,3)\dots(n-2,n-1)(n-1,n)$
+\end{itemize}
+
+\subparagraph{Making transpositions}
+Suppose we have the transpositions $(i,i+1)$, for each $1\leq i\leq n-1$.\\
+Aim: Make $(1,i), 1\leq i\leq n$.\\
+Observe that $(1,2,\dots,i)=(1,i)(1,i-1)\dots(1,2)=(1,i)\dots(1,2,\dots,i-1)$ and that $(1,2,\dots,i-1)$ has the decomposition $(1,2)(2,3)\dots(i-2,i-1)$. Hence we have $(1,i) = (1,2)\dots(i-1,i)((1,2)(2,3)\dots(i-2,i-1))^{-1} = (1,2)\dots(i-1,i)(i-2,i-1)\dots(1,2)$.
+
+Suppose we have the transpositions $(1,i), 1\leq i\leq n$.\\
+Aim: Make $(i,j), 1\leq i,j\leq n, i\neq j$.\\
+Observe that $(1,i,j)$ has 2 decompositions, $(1,j)(1,i)$ and $(1,i)(i,j)$. Hence, $(i,j) = (1,i)^{-1}(1,j)(1,i) = (1,i)(1,j)(1,i)$.
+
+Note that having all transpositions trivially means being able to generate all n-permutations, since every permutation can be decomposed into a product of transpositions.
+
+\subparagraph{Conjugating permutations with cycle}
+If $c=(i_1,i_2,\dots,i_k)$ is a cycle in $S_n$ and $f\in S_n$,
+\begin{align*}
+	f\circ c\circ f^{-1} = (f(i_1),f(i_2),\dots,f(i_k))
+\end{align*}
+
+A direct corollary of this is that
+\begin{align*}
+	f^n\circ c\circ f^{-n} = (f^n(i_1),f^n(i_2),\dots,f^n(i_k))
+\end{align*}
+where $f^n$ denotes composing $f$ $n$ times.
+
+Two applications, both seen in a previous section.
+\begin{enumerate}
+	\item Let $\sigma = (1,2,3,\dots,n)$. Then $\sigma^n\circ (1,2)\sigma^{-n} = (\sigma^n(1),\sigma^n(2)) = (n+1,n+2)$. We can view $\sigma^n$ as a successor function.
+	\item $(i,n-1)(n-1,n)(i,n-1)=(c(n-1),c(n))=(i,n)$ where $c = (i,n-1)$. This application of the lemma is not as useful because it is easier to see the transitive equality $(i,n-1)(n-1,n) = (i,n-1,n) = (i,n)(i,n-1)$.
+\end{enumerate}
+
+
+\paragraph{Product groups}
+Given groups $G_1$, $G_2$ of finite order, the product group $G_1\times G_2$ has order $|G_1|\cdot |G_2|$.
+
+Application: Suppose we have natural numbers $p,q$ and we want to quickly find a group of order $pq$. One example we can consider is then the product group $\mathbb{Z}/p\mathbb{Z} \times \mathbb{Z}/q\mathbb{Z}$.
+
+
 \end{document}
 
 
