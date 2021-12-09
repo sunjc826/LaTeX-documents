@@ -78,10 +78,17 @@ For a monotonically increasing function $f$,
 	\int_{i-1}^j f(x)\,dx \leq \sum_{x=i}^jf(x)\leq \int_i^{j+1}f(x)\,dx
 \end{align*}
 
+For a monotonically decreasing function $f$.
+\begin{align*}
+	\int_{i}^{j+1}f \leq \sum_{x=i}^jf(x) \leq \int_{i-1}^jf 
+\end{align*}
+
 \textit{Applications}
 \begin{itemize}
-	\item Harmonic series $H_n=\sum_{1\leq i\leq n}\frac{1}{i}\leq \int_1^{n+1}\frac{1}{i}\,di=\ln(n+1)=O(\log n)$\\
-	$H_n\geq \int_1^{n}\frac{1}{i}\,di=\ln(n)=\Omega(\log n)$. Note that $\ln$ is unbounded below in $(0,1]$, so we are really using the function $g(x) = \frac{1}{x}, x\geq 1, g(x) = 0 < \frac{1}{1}, x \in [0,1]$
+	\item Harmonic series \\
+	$H_n=\sum_{1\leq i\leq n}\frac{1}{i} = 1 + \sum_{2\leq i\leq n}\leq 1 + \int_1^{n}\frac{1}{i}\,di=1+\ln(n)=O(\log n)$\\
+	$H_n\geq \int_1^{n+1}\frac{1}{i}\,di=\ln(n+1)=\Omega(\log n)$\\
+	such that $H_n=\Theta(\log n)$
 \end{itemize}
 
 \paragraph{Telescoping}\mbox{}
@@ -218,6 +225,37 @@ Themes
 
 
 \subsection{Dynamic Programming}
+First, we have a rigorous formulation of dynamic programming. A usual DP recursive formula takes the form of 
+\begin{align*}
+	dp(n) = C + \max \{dp(i) : i\in S\}
+\end{align*}
+where $S\subseteq \{1,2,\dots n-1\}$ is a set of subproblems to be considered and $C$ is some constant. $\max$ can be replaced by any aggregate function, but we only consider maximization problems here for simplicity.
+
+The usual proof of this equality involves the following conditions.
+\begin{enumerate}
+	\item $\exists i\in S, dp(n) = C + dp(i)$
+	\item $\forall i\in S, dp(n)\geq C + dp(i)$
+\end{enumerate}
+When we argue that "Given an optimal solution $S_n$ to the problem with input $n$, $S_n$ contains within it an optimal solution $S_i$, for some $i\in S$.", we are demonstrating condition (1).\\
+Condition (2) can be show using cut and paste. A way to justify (2) is to show that every solution to a subproblem $S_i$ can be built up to a solution $S'_n$ with value $dp(i) + C$, and by optimality of $S_n$, $S'_n$ must be inferior, such that $dp(i) + C\leq dp(n)$. Usually, cut and paste (in CS3230) is limited to showing optimality of a specific subproblem $S_i$ and not the full extent of condition (2).
+
+(1) implies that $dp(n)\leq C + \max \{dp(i) : i\in S\}$, since $dp(n)\leq C + dp(i)$.\\
+(2) implies that $dp(n)\geq C + \max \{dp(i) : i\in S\}$.
+Hence we have the two way bound
+\begin{align*}
+	C + \max \{dp(i) : i\in S\}\leq dp(n)\leq C + \max \{dp(i) : i\in S\}
+\end{align*}
+which proves the recursive relation.
+
+\subparagraph{Greedy} The greedy equivalent of the DP formula would be
+\begin{align*}
+	g(n) = C + g(f(n))
+\end{align*}
+where $f(n)\in \{1,2,\dots, n-1\}$ is a particular subproblem to be considered. $f$ is the greedy choice function.
+
+Greedy choice property: There exists an optimal solution making a particular choice, which can be understood as showing that we can define $f(n)$.\\
+Optimal substructure (for this particular choice): $C + g(f(n))\leq g(n)\leq C + g(f(n))$.
+
 \paragraph{Subproblem Graph} CLRS Pg 367, 380-381
 
 Looking at the graph, the runtime of a memoized algorithm is the number of directed edges. (Notice that each edge is "traversed" exactly once). Hence, by summing the outdegrees of each vertex, we can obtain the overall runtime.
@@ -278,6 +316,11 @@ Note that lemma 26.2 states that for a path $p$ in $G_f$, the flow  $f_p$, defin
 	\end{cases}
 \end{align*}
 is such that $|f\uparrow f_p| = |f| + |f_p| > |f|$ since $c_f(p)>0$ (we only allow edges with positive weights in $E_f$).
+
+\section{Reductions}
+Let $\Sigma, \Gamma$ be 2 alphabets. For 2 decision problems $A\subseteq \Sigma^*$, $B\subseteq \Gamma^*$, $A\leq_p B$ iff there exists a polynomial time computable function $f:\Sigma^*\rightarrow \Gamma^*$ such that $a\in A\iff b=f(a)\in B$.
+
+This is a particular case of a more general concept of many-to-one reduction $\leq_m$.
 
 \end{document}
 
