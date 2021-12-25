@@ -154,6 +154,49 @@ Hence,
 
 Going from even $k$ to odd $k+1$ is similar.
 
+\section{Distributions}
+\subsection{Poisson distribution}
+\paragraph{Applications of Poisson r.v.} The Poisson r.v. can be applied in the following situations.
+\begin{itemize}
+	\item When an experiment consists of $n$ independent trials, each trial $i$ with probability of success $p_i$, the number of successes is approximately $X\sim Poi(\lambda = \sum_{1\leq i\leq n} p_i)$
+	\item In particular, when $\forall i, p_i = p$, we have a binomial distribution, with $X\sim Poi(\lambda = np)$. The approximation is more valid when $n$ is large and $p$ is small.
+	\item When an experiment consists of trials that are weakly dependent. For e.g. let $E_i, E_j$ be events representing the success of trial $i, j$ respectively. Then we may have weak dependence if $P(E_i | E_j)\approx P(E_i)$ for all choices of $i, j$.
+\end{itemize}
+
+\subsection{Geometric distribution}
+\paragraph{Infinite series} We give an analytical justification for 2 derivations of expected values of a geometric r.v.
+
+Let $X\sim Geom(p)$.
+
+First derivation.
+\begin{align*}
+	E[X] = \sum_{1\leq i}i\cdot (1-p)^{i-1}p = \sum_{1\leq i}(i-1)\cdot (1-p)^{i-1}p + \sum_{1\leq i}(1-p)^{i-1}p = (1-p)E[X] + 1
+\end{align*}
+The second equality is justified since we can use the root test to show that $\sum_{1\leq i}(i-1)\cdot (1-p)^{i-1}p$ converges. Since both $\sum_{1\leq i}(i-1)\cdot (1-p)^{i-1}p$ and $\sum_{1\leq i}(1-p)^{i-1}p$ converges, we have the second equality.
+
+Second derivation.
+\begin{align*}
+	E[X] = \sum_{1\leq i}i\cdot (1-p)^{i-1}p = \sum_{1\leq i}\sum_{1\leq j\leq i}(1-p)^{i-1}p = \sum_{1\leq j}\sum_{j\leq i}(1-p)^{i-1}p
+\end{align*}
+The switching of summations is justified by the following lemma. For each $n,m \in \mathbb{Z}^+,$ let real numbers $a_{n,m}\geq 0$. Then $\sum_{m\geq 1}\sum_{n\geq 1}a_{n,m}$ converges iff $\sum_{n\geq 1}\sum_{m\geq 1}a_{n,m}$ converges, and when this is so, they are equal.\\
+Root test says that $\sum_{1\leq i}i\cdot (1-p)^{i-1}p$ converges, hence $\sum_{1\leq i}\sum_{1\leq j\leq i}(1-p)^{i-1}p$ converges. We can then apply the lemma and switch the order of summation.\\
+Alternatively, we can first compute $\sum_{1\leq j}\sum_{j\leq i}(1-p)^{i-1}p$ and show that it converges, and then use the lemma to show that $\sum_{1\leq i}\sum_{1\leq j\leq i}(1-p)^{i-1}p = \sum_{1\leq j}\sum_{j\leq i}(1-p)^{i-1}p$ holds.
+
+Similar arguments apply for the analytic derivation of $E[X^2]$.
+
+\subsection{Negative Binomial Distribution}
+\paragraph{Negative binomial is finite with probability $1$}
+Let $X\sim NB(r, p)$, then $X = \sum_{1\leq i\leq r}Y_i$, where each $Y_i\sim Geom(p)$ is the r.v. on the number of trials needed to attain the ith success after the $i-1$-th success.
+
+We use the "continuity" property of a probability function on a monotonic set sequence, i.e. if $(E_i)$ is a monotonic sequence of events, where either $\forall i, E_i\subseteq E_{i+1}$ or $\forall i, E_i\supseteq E_{i+1}$, then $\lim_{n\rightarrow \infty}P(E_i) = P(\lim_{n\rightarrow \infty}E_i)$, where in the case of a monotonically increasing sequence, $\lim_{n\rightarrow \infty}E_i:=\cup_{i\in \mathbb{N}} E_i$ and the case of a monotonically decreasing sequence, $\lim_{n\rightarrow \infty}E_i:=\cap_{i\in \mathbb{N}} E_i$.\\
+This property shows that $P(Y_i\in \mathbb{Z}^+) = 1$, by considering the monotonic sequence $E_i := \{Y_i\leq i\} = \{\omega \in S: Y_i(\omega) \leq i\}$.
+
+Now we prove the claim: $P(X\in \mathbb{Z}^+) = 1$. Since $Y_1 \in \mathbb{Z}^+\land Y_2\in \mathbb{Z}^+\land \dots \land Y_r\in \mathbb{Z}^+\implies X\in \mathbb{Z}^+$, we have $\{X\in \mathbb{Z}^+\}\supseteq \{Y_1 \in \mathbb{Z}^+\land \dots \land Y_r\in \mathbb{Z}^+\} = \cap_{1\leq i\leq r} \{Y_i\in \mathbb{Z}^+\}$. By axioms of probability, $1\geq P(X\in \mathbb{Z}^+)\geq P(\cap_{1\leq i\leq r} \{Y_i\in \mathbb{Z}^+\}) = \prod_{1\leq i\leq r}P(Y_i\in \mathbb{Z}^+)=1$, where the first equality follows by the independence of the events $\{Y_i\in \mathbb{Z}^+\}$. For example, $P(Y_2\in \mathbb{Z}^+ | Y_1\in \mathbb{Z}^+) = 1 = P(Y_2\in \mathbb{Z}^+)$.
+
+Hence $P(X\in \mathbb{Z}^+) = 1$.
+
+
+
 
 \section{Limit Theorems}
 Since measure theory has not been taught yet, it suffices to have intuitive notions of measure theory like "almost everywhere". For now, we can simply understand an event or a set having "measure 0"/"probability 0" as being negligible in "size" with respect to the probability space.
