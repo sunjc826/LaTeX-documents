@@ -33,7 +33,7 @@ Either $s\in S, \omega\in \Omega$ denotes an outcome.
 Elementary event $\{s\}$ (singleton)
 
 \section{Observations}
-\subsection{Ways of defining outcomes}
+\paragraph{Ways of defining outcomes}
 When defining outcomes regarding sequences or selections, it may be wise to specify 2 important properties.
 \begin{itemize}
 	\item Distinguishable/Indistinguishable
@@ -49,7 +49,7 @@ For e.g. we define an outcome to be an unordered selection of $r$ distinct eleme
 
 From now on, I will use the notion of an "equivalence class" to refer to an event or a collection of basic outcomes which may then be used to define new outcomes.
 
-\subsubsection{Ensuring outcomes are of equal probability}
+\paragraph{Ensuring outcomes are of equal probability}
 The above process may lead to mistakes if the equivalence classes are not actually of equal size.
 
 \begin{enumerate}
@@ -64,7 +64,7 @@ This is especially relevant when it comes to conditional probability, as we will
 
 
 
-\subsection{Conditional Probability}
+\section{Conditional Probability}
 Consider example 2e in the textbook.
 Suppose that an urn contains 8 red balls and 4 white balls. We draw 2 balls from the urn without replacement. \\
 (a) If we assume that at each draw, each ball in the urn is equally likely to be chosen, what is the probability that both balls drawn are red?
@@ -81,7 +81,7 @@ Out of these 11 outcomes, only 7 result in the 2nd ball chosen being red. Hence,
 In conclusion, when we make claims about conditional probability in such problems, we are actually implicitly redefining the underlying outcomes and then making use of the traditional method.
 
 
-\subsubsection{Taking advantage of symmetries}
+\paragraph{Taking advantage of symmetries}
 Suppose event $B$ is the disjoint union of sets, where $B=\cup_i B_i$ and that $P(B_i)$ is constant for all $i$. Suppose also that for event $A$, we have $P(A\cap B_i)$ constant for all $i$.
 
 Then, \begin{align*}
@@ -94,7 +94,7 @@ This can be the case when we see statements like these:
 Let $B$ be the event where the ace of spades and the ace of hearts are in different piles . Note that here, it is not specified exactly which pile the 2 aces are in. However, using the symmetrical nature of things, we can specify a special case $B_{1,2}$ and let ace of spades reside in pile 1, ace of hearts reside in pile 2.
 \end{itemize}
 
-\subsection{Defining the sample space/outcomes}
+\paragraph{Defining the sample space/outcomes}
 This uses example 3o from chapter 3 as an example.
 A crime has been committed by a solitary individual, who left some DNA at the
 scene of the crime. Forensic scientists who studied the recovered DNA noted
@@ -164,7 +164,18 @@ Hence,
 
 Going from even $k$ to odd $k+1$ is similar.
 
-\subsection{Expectation}
+\paragraph{$P(\cdot | E)$ is a probability function}
+Suppose $P: \mathcal{P}(S)\rightarrow [0,1]$ is a probability function on sample space $S$. Let $E\subseteq S$ such that $P(E) > 0$. Define function
+\begin{align*}
+	Q: \mathcal{P}(S)&\rightarrow [0,1]\\
+		F&\mapsto P(F|E)
+\end{align*}
+Then, we can check that $Q$ upholds all 3 probability axioms. Hence $Q$ is a probability function on the \textbf{same} sample space as $P$.
+
+Note that it is a misconception to say that $Q$ is a probability function on $E$. When we say reduced sample space $E$, we really mean that all probabilities associated with any outcomes in $S-E$ have be set to $0$ under $Q$.
+
+
+\section{Expectation}
 Proofs using Iverson's notation.
 
 For random variable $X: S\rightarrow \mathbb{R}$, define its range, $range(X) := \{r\in \mathbb{R} : P(X=r) > 0\}$. For a discrete r.v., the range is at most countable.
@@ -183,12 +194,12 @@ Note that $[s\in X^{-1}(x)] = [X(s) = x] = [x = X(s)]$. While for a discrete r.v
 
 The above formulation of expected values is useful in proving linearity of expectation (in the special case where sample space is at most countable).
 
-\paragraph{Lemma} For a discrete r.v. $X$ whose range is the natural numbers, we have
+\paragraph{Lemma} For a discrete r.v. $X$ whose range is a subset of the natural numbers, we have
 \begin{align*}
 	E[X] = \sum_{i\geq 0}P(X > i)
 \end{align*}
 
-\paragraph{Lemma} For a continuous r.v. $X$ whose range is the non-negative real numbers, we have
+\paragraph{Lemma} For a continuous r.v. $X$ whose range is a subset of the non-negative real numbers, we have
 \begin{align*}
 	E[X] = \int_0^{\infty} P(X > x) dx
 \end{align*}
@@ -257,6 +268,14 @@ We observe that for a monotonically increasing sequence $(a_n)$ such that $\lim_
 
 Note that for continuous r.v., we always have $P(X\leq b) = P(X < b)$.
 
+\paragraph{Expectation}
+\begin{itemize}
+	\item A binomial r.v. $X\sim B(n, p)$ can be viewed as the sum of $n$ independent Bernoulli r.v. $X_i, 1\leq i\leq n$, where $X_i$ is the indicator variable of the occurrence of the ith trial.
+	\item A negative binomial r.v. $X\sim NB(r, p)$ can be viewed as the sum of $r$ independent geometric r.v. $X_i, 1\leq i\leq r$, where $X_i$ is the number of trials needed since the $i-1$-th successful trial to achieve the $i$-th success.
+	\item  The coupon collection problem is similar to the negative binomial problem. If $X$ is the number of coupons needed to collect at least one of each time, then we can split $X$ into a sum of geometric r.v. $X_i$, where $X_i$ is the number of coupons needed since the $i-1$-th new coupon to obtain the $i$-th new coupon. The difference is that for different $i$, the value of $p$ changes.
+	\item A hypergeometric r.v. $X\sim HG(N \text{ total}, m \text{ special}, n \text{ sample size})$ can be viewed as the sum of $n$ indicator r.v. $X_i, 1\leq i\leq n$, where $X_i$ is the indicator variable of the "success" of the ith trial. While the trials are non-independent, linearity of expectation does not care about this, so the expected value of a HG r.v. is equal to the expected value of a binomial r.v. with $p=\frac{m}{N}$.
+\end{itemize}
+
 \section{Continuous distributions}
 \paragraph{cdf and pdf}\mbox{}\\
 At the level of this textbook (A First Course in Probability, Sheldon Ross), it is assumed that for a continuous r.v., a p.d.f. always exists such that the cdf can be evaluated by integrating using the pdf. It also seems that almost all instances of pdf encountered in the textbook are continuous, and by the fundamental theorem of calculus, the cdf is differentiable, with the derivative of the cdf = pdf.\\
@@ -322,7 +341,7 @@ Here, $F$ is the cumulative distribution function, $p$ is the probability mass f
 	\item $X\sim B(n_1,p), Y\sim B(n_2,p)\implies X+Y\sim B(n_1+n_2,p)$
 \end{itemize}
 
-\paragraph{Conditional r.v.} Let $X, Y$ be random variables. For some fixed $y\in \mathbb{R}$, consider the function $Q = S\rightarrow \mathbb{R}, E\mapsto P(E | Y=y)$, i.e. $Q$ is the probability function that gives the conditional probability of any event $E\subseteq S$ given $Y=y$. Note that $Q$ fulfils all 3 probability axioms and hence is a probability function.
+\paragraph{Conditional r.v.} Let $X, Y$ be random variables. For some fixed $y\in \mathbb{R}$, consider the function $Q = \mathcal{P}(S)\rightarrow [0,1], E\mapsto P(E | Y=y)$, i.e. $Q$ is the probability function that gives the conditional probability of any event $E\subseteq S$ given $Y=y$. Note that $Q$ fulfils all 3 probability axioms and hence is a probability function.
 
 Then the pmf $x\mapsto Q(X=x) = P(X=x | Y=y) = \frac{P(X=x\land Y=y)}{P(Y=y)}$ maps each $x$ to the probability of the conditionally distributed $X|Y=y$. Note that $X|Y=y$ is also a random variable using $Q$ as a probability function.
 
@@ -330,7 +349,59 @@ Then the pmf $x\mapsto Q(X=x) = P(X=x | Y=y) = \frac{P(X=x\land Y=y)}{P(Y=y)}$ m
 	\item On all outcomes $s\in S$, it is clear that $(X|Y=y)(s) = X(s)$, i.e. $X|Y=y$ and $X$ agree on all outcomes in the sample space.
 	\item However, what is different is in the probability. $Q(X=x) = P(X=x|Y=y)$ can be different from $P(X=x)$, since the probability associated with the event $X=x|Y=y$ only considers the reduced sample space of $\{s\in S : Y(s) = y\}$.
 	\item For example, for $s\in S$ where $Y(s)\neq y$, suppose $X(s) = x_0$. Then $s$ will contribute a non-zero probability to the set $\{X=x_0\}$ if $P(\{s\}) > 0$. However, $s$ will not contribute any probability to the set $\{X=x_0|Y=y\}$ (even though $(X|Y=y)(s) = x_0$) since $Q(\{s\}) = 0$. Therefore, viewing $X|Y=y$ as a random variable under probability function $Q$ is consistent with probability axiom 3.
+	\item Note that however, it is incorrect to view $X|Y=y$ as a random variable under probability function $P$ as in the previous example $s\in \{s\in S : (X|Y=y)(s) = x_0\} = \{X=x_0|Y=y\}$ and assuming $P(\{s\}) > 0$, $s$ contributes a positive probability, which shouldn't be the case.
 \end{itemize}
+
+\paragraph{Conditional mass and density functions} The following are some formula derived or defined in the text. It is important to note that some of these are consequences of existing definitions and axioms, whereas others are truly definitions.
+
+\subparagraph{Discrete $X$, discrete $Y$}
+\begin{align*}
+	p_{X|Y}(x|y) = \frac{p(x,y)}{p_Y(y)}
+\end{align*}
+This is trivially a result from the definition of conditional probability, where $p_{X|Y}(x|y) := P(X=x | Y=y)$.
+
+\subparagraph{Continuous $X$, continuous $Y$}
+\begin{align*}
+	f_{X|Y}(x|y) = \frac{f(x,y)}{f_Y(y)}
+\end{align*}
+This is a definition. The reason is that $P(Y=y) = 0$ and it cannot be a quotient using the usual definition of conditional probability.
+
+Motivation: By viewing $f_{X|Y}(x|y)dx = P(x<X<x+dx|y<Y<y+dy)=\frac{P(x<X<x+dx\land y<Y<y+dy)dxdy}{P(y<Y<y+dy)dy}=\frac{f(x,y)dxdy}{f_Y(y)dy}$ and cancelling $dx$ on both sides. Obviously, this is not anywhere rigorous and is meant for motivation purposes only.
+
+\subparagraph{Continuous $X$, discrete $N$}
+\begin{align*}
+	f_{X|N}(x|n) = \frac{P(N=n|X=x)}{P(N=n)}f(x)
+\end{align*}
+This is a definition.
+
+\section{Properties of expectation}
+This section introduces expectation of a multi-variable function of random variables. In the chapter on joint distributions, while cdf's and pdf's of a function on multiple r.v. have been studied (in particular sum $X+Y$), expected values were not discussed. Note that it is indeed possible to evaluate something like $E[g(X,Y)]$ using the pdf of $g(X,Y)$. (for e.g. in the previous chapter, it is derived that the pdf of $X+Y$ in the continuous case is $\int_{-\infty}^a f_X(a-y)f_Y(y)dy$)\\
+However, analogous to the one variable case, we see that we can find $E[g(X,Y)]$ only using the joint pmf/pdf of $X,Y$.
+
+Discrete case
+\begin{align*}
+	E[g(X, Y)] = \sum_{x,y}g(x,y)p(x,y)
+\end{align*}
+where $x,y$ run over the ranges of $X,Y$ respectively. The proof of this should be similar to the one variable case. For each element $z\in range(g)$, consider the preimage $g^{-1}(\{z\})=\{(x,y)\in \mathbb{R}^2 : g(x,y) = z\}$. We then partition $g^{-1}(\{z\})$ into distinct $(x,y)$ tuples. The value of $g(X(s),Y(s))$ evaluated when $X(s)=x,Y(s)=y$ is then $z=g(x,y)$.
+
+Linearity of expectation in the discrete case then follows from this formula. In the textbook, the earliest occurring proof of linearity of expectation made use of the summation $\sum_{s\in S}(X+Y)(s)P(\{s\})$, however, this requires $S$ to be at most countable, which may not even be true in the discrete case. Hence using $E[g(X, Y)] = \sum_{x,y}g(x,y)p(x,y)$ where $g(X,Y) = X+Y$ is the more general way to prove LoE.
+
+Continuous case
+\begin{align*}
+	E[g(X, Y)] = \int_{\mathbb{R}^2}g(x,y)f(x,y)d(x,y)
+\end{align*}
+
+With this, we can prove linearity of expectation for continuous r.v. as well. Then, we can evaluate $E[X+Y] = E[X] + E[Y]$ without having to evaluate $f_{X+Y}$.
+
+\paragraph{Expectation of moments} The text gives a useful formula for calculating moments of expectation of a certain type of r.v.
+
+Given a number of events $A_i, 1\leq i\leq n$, let $X$ be the random variable that counts the number of events that occur. Then 
+\begin{align*}
+	E\left[\binom{X}{k}\right] = \sum_{1\leq i_1<\dots<i_k\leq n}P(A_{i_1}A_{i_2}\dots A_{i_k})
+\end{align*}
+The proof is by indicator random variables.\\
+The expectation of moments $E[X^k]$ can be evaluated recursively, since $\binom{X}{k} = \frac{X^{\underline{k}}}{k!}$ can be expressed in terms of powers up to $k$.\\
+The value of this method is that we do not even need to evaluate the pmf of $X$.
 
 \section{Limit Theorems}
 Since measure theory has not been taught yet, it suffices to have intuitive notions of measure theory like "almost everywhere". For now, we can simply understand an event or a set having "measure 0"/"probability 0" as being negligible in "size" with respect to the probability space.
