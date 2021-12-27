@@ -4,6 +4,13 @@
 \usepackage{amsmath,amssymb}
 \usepackage{parskip}
 \usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
 
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 
@@ -20,7 +27,10 @@
 \maketitle
 
 \section{Definitions and Formula}
+Either symbol $S, \Omega$ denotes a sample space.
+Either $s\in S, \omega\in \Omega$ denotes an outcome.
 
+Elementary event $\{s\}$ (singleton)
 
 \section{Observations}
 \subsection{Ways of defining outcomes}
@@ -154,7 +164,36 @@ Hence,
 
 Going from even $k$ to odd $k+1$ is similar.
 
-\section{Distributions}
+\subsection{Expectation}
+Proofs using Iverson's notation.
+
+For random variable $X: S\rightarrow \mathbb{R}$, define its range, $range(X) := \{r\in \mathbb{R} : P(X=r) > 0\}$. For a discrete r.v., the range is at most countable.
+
+\paragraph{(Discrete r.v.) Breaking down into elementary events} Claim: $E[X] = \sum_{s\in S}X(s)P(\{s\})$. We denote $p(s):=P(\{s\})$.
+
+\begin{align*}
+	E[X] &= \sum_{x\in range(X)}x\cdot P(X=x)\\
+	&= \sum_{x\in range(X)}x\cdot \sum_{s\in X^{-1}(x)}p(s)\\
+	&= \sum_{x\in range(X)}x\cdot \sum_{s\in S}[s\in X^{-1}(x)]p(s)\\
+	&= \sum_{s\in S}p(s)\cdot \sum_{x\in range(X)}x[s\in X^{-1}(x)]\\
+	&= \sum_{s\in S}p(s)\cdot \sum_{x\in range(X)}x[x=X(s)]\\
+	&= \sum_{s\in S}p(x)X(s) = \sum_{s\in S}X(s)p(s)
+\end{align*}
+Note that $[s\in X^{-1}(x)] = [X(s) = x] = [x = X(s)]$. While for a discrete r.v., $range(X)$ is at most countable and hence can be summed over, the sample space $S$ may not be countable. \textit{Hence, this part assumes $S$ to be at most countable.}
+
+The above formulation of expected values is useful in proving linearity of expectation (in the special case where sample space is at most countable).
+
+\paragraph{Lemma} For a discrete r.v. $X$ whose range is the natural numbers, we have
+\begin{align*}
+	E[X] = \sum_{i\geq 0}P(X > i)
+\end{align*}
+
+\paragraph{Lemma} For a continuous r.v. $X$ whose range is the non-negative real numbers, we have
+\begin{align*}
+	E[X] = \int_0^{\infty} P(X > x) dx
+\end{align*}
+
+\section{Discrete Distributions}
 \subsection{Poisson distribution}
 \paragraph{Applications of Poisson r.v.} The Poisson r.v. can be applied in the following situations.
 \begin{itemize}
@@ -195,8 +234,103 @@ Now we prove the claim: $P(X\in \mathbb{Z}^+) = 1$. Since $Y_1 \in \mathbb{Z}^+\
 
 Hence $P(X\in \mathbb{Z}^+) = 1$.
 
+\subsection{Properties of c.d.f.} We claim that the cumulative distribution function of a discrete r.v., defined by $F = b\mapsto P(X\leq b)$ is right continuous but not left continuous in general.
+
+Similar to elsewhere in this document, for a predicate $Q$, we let $\{Q(X)\} = \{s\in S : Q(X(s))\}$.
+
+Let $(b_n)$ be a monotonically decreasing sequence s.t. $\lim_{n\rightarrow \infty}b_n = b$. Then,
+\begin{align*}
+	\lim_{n\rightarrow \infty}F(b_n) &= \lim_{n\rightarrow \infty}P(X\leq b_n)\\
+	&= P(\lim_{n\rightarrow \infty}\{X\leq b_n\})\\
+	&= P(\bigcap_{n\in \mathbb{N}}\{X\leq b_n\})\\
+	&= P(\{\land_{n\in \mathbb{N}}X\leq b_n\})\\
+	&= P(\{\land_{n\in \mathbb{N}}X\in (-\infty, b_n]\})\\
+	&= P(\{X\in \bigcap_{n\in \mathbb{N}}(-\infty, b_n]\})\\
+	&= P(\{X\in (-\infty, b]\})\\
+	&= P(X\leq b) = F(b)
+\end{align*}
+It is interesting to see how the intersection operation turns into a logical AND operation upon moving into a set, then the logical operation again turns into an intersection operation.
+
+We observe that for a monotonically increasing sequence $(a_n)$ such that $\lim_{n\rightarrow \infty}a_n = b$, in the event that $a$ is not in the range of the sequence (i.e. $\forall n, a_n < a$), then $\bigcup_{n\in \mathbb{N}}(-\infty, a_n] = (-\infty, b)$. Furthermore, if $P(X=b) > 0$, then we must have $\lim_{n\rightarrow \infty}F(a_n) = P(X < b) < P(X\leq b) = F(b)$. Hence, in general, $F$ is not left continuous.
+
+\textbf{Remark} It is interesting to see that in our proof of continuity, we did not need to use any epsilon-delta analysis common in mathematical analysis. Why is that so? I am guessing that this is due to probability axiom 3, that for countably many disjoint events $E_i$, $P(\cup_{i\in \mathbb{N}} E_i) = \sum_{i\in \mathbb{N}}P(E_i)$. This axiom is used to prove the continuity of probability functions over monotonic set sequences. So, this axiom subsumes the usual analytical part.
+
+Note that for continuous r.v., we always have $P(X\leq b) = P(X < b)$.
+
+\section{Continuous distributions}
+\paragraph{cdf and pdf}\mbox{}\\
+At the level of this textbook (A First Course in Probability, Sheldon Ross), it is assumed that for a continuous r.v., a p.d.f. always exists such that the cdf can be evaluated by integrating using the pdf. It also seems that almost all instances of pdf encountered in the textbook are continuous, and by the fundamental theorem of calculus, the cdf is differentiable, with the derivative of the cdf = pdf.\\
+However, see \href{math.stackexchange.com/questions/3379661/does-a-random-variable-always-have-a-cumulative-distribution-function/3379708}{math.stackexchange}, this is not always true. In general, cdf $b\mapsto F(b)$ is always well-defined as the probability function $P$ on the set $(-\infty, b]$, and the pdf is defined by the derivative of the cdf. When the cdf does not behave "nicely" enough to be almost everywhere differentiable, then the pdf does not exist.\\
+In particular, it is worth noting that the more general approach is to move from cdf to pdf, rather from pdf to cdf as in the textbook.
 
 
+
+\subsection{Normal distribution}
+\paragraph{Approximation to the binomial distribution} (This is a special case of the central limit theorem.)
+
+Let $X\sim B(n, p)$, where $\mu = np, \sigma = \sqrt{np(1-p)}$. Then
+\begin{align*}
+	\lim_{n\rightarrow \infty}P(a \leq \frac{X-\mu}{\sigma} \leq b) = \phi(b) - \phi(a)
+\end{align*}
+where $\phi$ is the p.d.f. of the standard normal variable.
+
+The approximation is good when $np(1-p)\geq 10$.
+
+\subsection{Exponential distribution}
+Let $X\sim Exp(\lambda)$.
+\paragraph{Recurrence relation of moments}
+\begin{align*}
+	E[X^n] = \frac{n}{\lambda}E[X^{n-1}]
+\end{align*}
+
+As mentioned below, the gamma distribution is a generalization of the exponential distribution. Using integration by parts, we can show that the nth moment of the gamma r.v. is $E[X^n] = \frac{\Gamma(\alpha + n)}{\lambda^n \Gamma(\alpha)} = \frac{(\alpha + n - 1)^{\underline{n}}}{\lambda^n}$. Specialized to the exponential r.v., we get $\frac{(1+n-1)^{\underline{n}}}{\lambda^n} = \frac{n!}{\lambda^n}$
+
+\paragraph{Relation between exponential and poisson r.v}
+Consider an event whose rate of occurrence is given by $\lambda$, i.e. over a period of time $t$, the number of occurrences $N(t)\sim Poi(\lambda t)$.
+
+The amount of time $T$ till the first event has the following formula. For $t > 0$, $P(T > t) = P(N(t) = 0) = e^{-\lambda t}$.\\
+Hence the cdf of $T$, $F_T(t) = P(T\leq t) = 1-e^{-\lambda t}$. Differentiating gives $f_T(t) = \lambda e^{-\lambda t}$, which is indeed the exponential pdf.
+
+The generalization to this is the Gamma r.v. Let $T_n$ be the amount of time till $n$ events occur. Note that $T = T_1$. Then $P(T_n\leq t) = P(N(t)\geq n) = \sum_{0\leq i\leq n}P(N(t) = i)$ and we can use this to derive the c.d.f. of $T_n$ and then differentiate to get the p.d.f.\\
+In particular, $Exp(\lambda) = Gamma(\alpha = 1, \lambda)$.
+
+
+\section{Joint distributions}
+\paragraph{Joint pdf} Given random variables $X_1,X_2,\dots, X_n$ and joint pdf $f$, and a "nice" set $C\subseteq \mathbb{R}^n$, $P((X_1,\dots,X_n) \in C) = \int_C f(x_1,\dots, x_n) d(x_1,\dots,x_n)$.
+
+In particular, if $Q$ is a predicate involving $X_1,\dots,X_n$, then $P(\{s\in S : Q(X_1(s),\dots,X_n(s))\}) = P(Q(X_1,\dots,X_n)) = P((X_1,\dots,X_n) \in C)$ where $C = \{(x_1,\dots,x_n)\in \mathbb{R}^n : Q(x_1,\dots,x_n)\}$. Hence,
+\begin{align*}
+	P(Q(X_1,\dots,X_n)) = \int_C f = \int_{\mathbb{R}^n}[Q]f
+\end{align*}
+We note that $Q$ is the characteristic function of region $C$.
+
+\paragraph{Characterization of independent random variables} Let $X, Y$ be 2 random variables. Then the following are equivalent. And when this is the case, the random variables are said to be independent.
+\begin{itemize}
+	\item $\forall A, B\subseteq \mathbb{R}, P(X\in A\land Y\in B) = P(X\in A)P(Y\in B)$
+	\item $\forall a, b\in \mathbb{R}, F_{X, Y}(a, b) = F_X(a)F_Y(b)$
+	\item If $X, Y$ are both discrete, $\forall a, b\in \mathbb{R}, p_{X,Y}(a, b) = p_X(a)p_Y(b)$
+	\item If $X, Y$ are both continuous, $\forall a, b\in \mathbb{R}, f_{X,Y}(a, b) = f_X(a)f_Y(b)$
+	\item If $X, Y$ are both continuous, $\exists$ functions $h,g$, $\forall a,b\in \mathbb{R}, f_{X, Y}(a, b) = h(a)g(b)$, i.e. the joint density function $f_{X,Y}$ is separable. 
+\end{itemize}
+Here, $F$ is the cumulative distribution function, $p$ is the probability mass function, $f$ is the probability density function.
+
+\paragraph{Sum of independent random variables}
+\begin{itemize}
+	\item $X\sim Gamma(\alpha_1, \lambda), Y\sim Gamma(\alpha_2, \lambda)\implies X+Y\sim Gamma(\alpha_1 + \alpha_2, \lambda)$
+	\item $X\sim Normal(\mu_1, \sigma_1^2), Y\sim Normal(\mu_2, \sigma_2^2)\implies X+Y\sim Normal(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$
+	\item $X\sim Poi(\lambda_1), Y\sim Poi(\lambda_2)\implies X+Y\sim Poi(\lambda_1+\lambda_2)$
+	\item $X\sim B(n_1,p), Y\sim B(n_2,p)\implies X+Y\sim B(n_1+n_2,p)$
+\end{itemize}
+
+\paragraph{Conditional r.v.} Let $X, Y$ be random variables. For some fixed $y\in \mathbb{R}$, consider the function $Q = S\rightarrow \mathbb{R}, E\mapsto P(E | Y=y)$, i.e. $Q$ is the probability function that gives the conditional probability of any event $E\subseteq S$ given $Y=y$. Note that $Q$ fulfils all 3 probability axioms and hence is a probability function.
+
+Then the pmf $x\mapsto Q(X=x) = P(X=x | Y=y) = \frac{P(X=x\land Y=y)}{P(Y=y)}$ maps each $x$ to the probability of the conditionally distributed $X|Y=y$. Note that $X|Y=y$ is also a random variable using $Q$ as a probability function.
+
+\begin{itemize}
+	\item On all outcomes $s\in S$, it is clear that $(X|Y=y)(s) = X(s)$, i.e. $X|Y=y$ and $X$ agree on all outcomes in the sample space.
+	\item However, what is different is in the probability. $Q(X=x) = P(X=x|Y=y)$ can be different from $P(X=x)$, since the probability associated with the event $X=x|Y=y$ only considers the reduced sample space of $\{s\in S : Y(s) = y\}$.
+	\item For example, for $s\in S$ where $Y(s)\neq y$, suppose $X(s) = x_0$. Then $s$ will contribute a non-zero probability to the set $\{X=x_0\}$ if $P(\{s\}) > 0$. However, $s$ will not contribute any probability to the set $\{X=x_0|Y=y\}$ (even though $(X|Y=y)(s) = x_0$) since $Q(\{s\}) = 0$. Therefore, viewing $X|Y=y$ as a random variable under probability function $Q$ is consistent with probability axiom 3.
+\end{itemize}
 
 \section{Limit Theorems}
 Since measure theory has not been taught yet, it suffices to have intuitive notions of measure theory like "almost everywhere". For now, we can simply understand an event or a set having "measure 0"/"probability 0" as being negligible in "size" with respect to the probability space.
@@ -234,7 +368,7 @@ In contrast, the strong law says that if we fix any outcome $\omega \in \Omega$,
 
 
 \section{Some Problems}
-\subsection{Maximums and minimums of dice throw}
+\paragraph{Maximums and minimums of dice throw}
 Suppose we have $N$ dice, for each $i\in \{1,\dots,N\}$, denote $D_i$ as the outcome of the $i$-th dice roll. Note that $D_i\in \{1,\dots, 6\}$.
 
 Define random variables $X=max\{D_i:1\leq i\leq N\}, Y=min\{D_i:1\leq i\leq N\}$.\\
@@ -264,7 +398,7 @@ Then
 \end{align*}
 
 
-\subsection{Intersection of 2 intervals}
+\paragraph{Intersection of 2 intervals}
 \textbf{Lemma} In general, given 2 intervals, $[a,b],[c,d]$, they intersect under the following 2 cases:
 $a \leq d, b \geq c$ and $c\leq b, d\geq b$.
 
@@ -284,6 +418,16 @@ This also implies $|X-Y|\leq s+t$.
 
 Hence, in either case, we have $|X-Y|\leq s+t$, proving the result.
 
+
+\paragraph{Separability of joint p.d.f.} Let $f(x,y) = xy[0<x<1][0<y<1][0<x+y<1]$. Claim: $f(x,y)$ cannot be separated into a product $h(x)g(y)$.
+
+We offer a more convincing proof of contradiction than what is shown in the text. Suppose not, such that there exists functions $h,g$ such that $\forall x,y, f(x,y) = h(x)g(y)$.
+
+\begin{itemize}
+	\item $h(0.1)g(0.8) = f(0.1,0.8) = 0.1\cdot 0.8\neq 0$, hence $h(0.1), g(0.8)\neq 0$. In particular, $g(0.8)\neq 0$.
+	\item $h(0.8)g(0.1) = f(0.8,0.1) = 0.8\cdot 0.1\neq 0$, hence $h(0.8), g(0.1)\neq 0$. In particular, $h(0.8)\neq 0$.
+	\item But $h(0.8)g(0.8) = f(0.8,0.8) = 0$ since $[0 < 0.8 + 0.8 < 1] = 0$, which says that $h(0.8) = 0\lor g(0.8) = 0$. This contradicts the above 2 statements.
+\end{itemize}
 
 \end{document}
 
