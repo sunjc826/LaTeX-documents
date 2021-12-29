@@ -6,10 +6,38 @@
 \usepackage{graphicx}
 
 \newcommand\tab[1][1cm]{\hspace*{#1}}
+%col mat in the sense that we decompose a matrix into its columns%
+%it may be a good idea to add mathbf into macros, but this means I need to add mathbf for all non-macro vectors as well... too troublesome%
+\newcommand{\colMat}[2]{\begin{bmatrix}
+	{#1}_1 & {#1}_2 & \dots & {#1}_{#2}
+\end{bmatrix}}
+%row mat in the sense that we decompose a matrix into its rows%
+\newcommand{\rowMat}[2]{\begin{bmatrix}
+	{#1}'_1 \\ {#1}'_2 \\ \vdots \\ {#1}'_{#2}
+\end{bmatrix}}
+
+%cellular decomposition of a matrix, i.e. just draw the whole matrix%
+\newcommand{\cellMat}[3]{\begin{bmatrix}
+	{#1}_{1,1} & {#1}_{1,2} & \dots & {#1}_{1,#3}\\
+	{#1}_{2,1} & {#1}_{2,2} & \dots & {#1}_{2,#3}\\
+	\vdots & \vdots & \ddots & \vdots\\
+	{#1}_{#2,1} & {#1}_{#2,2} & \dots & {#1}_{#2,#3}
+\end{bmatrix}}
+
+\newcommand*\colVector[1]{\begin{bmatrix}#1\end{bmatrix}}
+
+\newcommand{\indices}[1]{\{1,2,\dots,#1\}}
+\newcommand{\indexedSet}[2]{\{#1_1,#1_2,\dots,#1_#2\}}
 
 % Margins
 \usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
-
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
 
 \title{MA1101R}
 \author{Jia Cheng}
@@ -18,6 +46,8 @@
 \begin{document}
 
 \maketitle
+
+The textbook used is Linear Algebra, Concepts and Techniques on Euclidean Spaces 2nd Edition.
 
 \paragraph{Uniqueness of row-reduced echelon forms} We provide a proof for the uniqueness of RREFs.
 
@@ -38,5 +68,136 @@ Claim: The first row of these 2 matrices must be the same.
 We already know that cells in other pivot columns must be zero for both matrices, by definition of RREF. Now consider the cells corresponding to the non-pivot columns. We see that the variable corresponding to the pivot cell can be expressed in terms of the variables corresponding to the non-pivot cells. In other words, for both $R_1, R_2$, the coefficients w.r.t. those non-pivot variables must be the same. This says that all cells in the first row of $R_1, R_2$ must be the same.
 
 By repeating this argument for every row, we prove that all rows of $R_1, R_2$ are equal and hence $R_1 = R_2$.
+
+
+\paragraph{Matrix multiplication}
+Let $A\in \mathbb{R}^{m,p}, B\in \mathbb{R}^{p,n}$.
+
+We represent the columns of $A$ as $a_i, 1\leq i\leq p$ and the rows of $A$ as $a'_i, 1\leq i\leq m$. Similarly, we represent the columns of $B$ as $b_i$ and rows as $b'_i$.
+
+Then,
+$A = \begin{bmatrix}
+	a_1 & a_2 & \dots & a_p
+\end{bmatrix} = \begin{bmatrix}
+	a'_1\\ a'_2\\ \vdots \\ a'_m
+\end{bmatrix}, B = \begin{bmatrix}
+	b_1 & b_2 & \dots & b_n
+\end{bmatrix} = \begin{bmatrix}
+	b'_1\\ b'_2\\ \vdots \\ b'_p
+\end{bmatrix}$
+
+The following are 2 ways to view multiplying $AB$ as blocks.
+\begin{align*}
+	AB = A\cdot \colMat{b}{n} = \begin{bmatrix}
+	Ab_1 & Ab_2 & \dots & Ab_n
+	\end{bmatrix}
+\end{align*}
+We can let $n=1$ and observe that $AB = Ab_1$, hence the above is a simple generalization of this observation.
+
+\begin{align*}
+	AB = \rowMat{a}{m}\cdot B = \begin{bmatrix}
+	a'_1B\\ a'_2B\\ \vdots \\ a'_mB
+	\end{bmatrix}
+\end{align*}
+Similarly, we can let $m=1$ and see that $AB = a'_1B$, and generalize from there.
+
+Next, we let $n=1$, such that $b'_i$ are to be viewed as real numbers (strictly speaking they are vectors in $\mathbb{R}^1$, isomorphic to $\mathbb{R}$). Then,
+\begin{align*}
+	A\mathbf{b} = \colMat{a}{p} \cdot \rowMat{b}{p} = \sum_{1\leq i\leq p} b'_i\cdot \mathbf{a}_i
+\end{align*}
+
+Similarly, if we let $m=1$, we can multiply a row vector with a matrix as follows. Here $a_i$ are real numbers.
+\begin{align*}
+	\mathbf{a}B = \colMat{a}{p}\cdot \rowMat{b}{p} = \sum_{1\leq i\leq p} a_i\cdot \mathbf{b}'_i
+\end{align*}
+
+\paragraph{Transition matrices} We provide another derivation of the change of coordinate/basis matrix.
+
+Suppose $S = \{u_1, \dots, u_k\}, T = \{v_1, \dots, v_k\}$ are 2 bases of vsp $V$. Let $w\in V$. Let $[w]_S$ denote the coordinate vector of $w$ w.r.t basis $S$, and define $[w]_T$ similarly. Then
+\begin{align*}
+	w = \colMat{u}{k}[u]_S = \colMat{v}{k}[u]_T
+\end{align*}
+which implies
+\begin{align*}
+	[u]_T = \colMat{v}{k}^{-1}\colMat{u}{k}[u]_S
+\end{align*}
+Letting $A:=\colMat{u}{k}[u], B:=\colMat{v}{k}$, we see that
+\begin{align*}
+	[u]_T = B^{-1}\colMat{u}{k}[u]_S = \colMat{B^{-1}u}{k}[u]_S
+\end{align*}
+Since for all vectors $w'$, $w'=B[w']_T$, we see that $[w']_T = B^{-1}w'$, hence for each $i$, we have $B^{-1}u_i = [u_i]_T$.
+
+\paragraph{Alternative proof of thm 4.2.8} Claim: Given $A\in \mathbb{R}^{m,n}, B\in \mathbb{R}^{n,p}, rank(AB) \leq \min \{rank(A), rank(B)\}$.
+
+By considering column space, $rank(AB) = \dim \{ABx : x\in \mathbb{R}^{p,1}\}\leq \dim \{Ax : x\in \mathbb{R}^{n,1}\} = rank(A)$ since for each $x\in \mathbb{R}^{p,1}$, $Bx\in \mathbb{R}^{n,1}$.
+
+Similarly, by considering row space, $rank(AB) = \dim \{xAB : x\in \mathbb{R}^{1,m}\}\leq \dim \{xB : x\in \mathbb{R}^{1,n}\} = rank(B)$
+
+\paragraph{Proof of Gram-Schmidt Process} 
+Claim: The Gram-Schmidt Process is correct and produces from a basis $\{u_i : 1\leq i\leq n\}$ of vsp $V$ an orthogonal basis $\{v_i : 1\leq i\leq n\}$.
+
+In the proof we will make use of this lemma. Given a set of vectors $S$ and subset $A\subseteq S$. Suppose there is a set $B$ for which $span(A) = span(B)$, then we can do the replacement $S-A\cup B$ such that $span(S-A\cup B) = span(S)$.
+
+We do induction on $i$, where $P(i)$ states that $span \{v_1,\dots,v_i\} = span \{u_1,\dots,u_i\}$. Since $v_1 = u_1$, the base case is true.
+
+Suppose $P(k)$ is true. We note that the $k+1$-th vector, $v_{k+1} = u_{k+1} - \sum_{1\leq i\leq k}\frac{u_{k+1}\cdot v_i}{||v_i||^2}v_i$. While not necessary for the proof, we note that $u_{k+1}\notin span(\{u_1,\dots,u_k\}) = span(\{v_1,\dots,v_k\})$ so that $v_{k+1}\neq 0$.
+
+We see that $v_{k+1}$ can be expressed as a linear combination of $u_{k+1}$ and $v_i, 1\leq i\leq k$. Also, $u_{k+1}$ can be expressed a linear combination of $v_i, 1\leq i\leq k+1$. Hence $span(\{v_1,\dots,v_k,v_{k+1}\}) = span(\{v_1,\dots,v_k,u_{k+1}\})$. Finally, by induction hypothesis $P(k)$, we replace $v_i, 1\leq i\leq k$ by $u_i, 1\leq i\leq k$ such that $span(\{v_1,\dots,v_k,u_{k+1}\})=span(\{u_1,\dots,u_{k+1}\})$. Hence the induction holds.
+
+At termination, $span(\{v_1,\dots,v_n\}) = span(\{u_1,\dots,u_n\})$ which means $v_i, 1\leq i\leq n$ spans vector space $V$. Since there are $n=\dim(V)$ vectors, it is a basis.
+
+If $n=1$, the new basis is trivially orthogonal. If $n>1$, we take any two distinct indices $i, j$ in $\{1,\dots,n\}$. WLOG, $i < j$, by the Gram-Schmidt process, $v_j$ is the orthogonal component of $u_j$ w.r.t. $span(\{v_1,\dots, v_{j-1}\})$, hence in particular, $v_j\perp v_i$.
+
+\paragraph{Use of CAS (Sagemath)} Suppose we wish to compute the solution to $A^TAx = b$, where $A = \begin{bmatrix}
+	1 & 1 & 2\\
+	-1 & 2 & 1\\
+	1 & 0 & 2\\
+	-1 & 1 & 0
+\end{bmatrix}, b = \colVector{1\\1\\1\\1}$. This is based on example 5.3.11.3 of the text.
+
+\begin{itemize}
+	\item \texttt{A = matrix([[1,1,2],[-1,2,1],[1,0,1],[-1,1,0]])}
+	\item \texttt{b = vector([1,1,1,1])}
+	\item To obtain RREF of the augmented matrix $[A^TA A^Tb]$, \texttt{block\_matrix([[A.transpose()*A, (A.transpose()*b).column()]]).rref()}
+	\item After solving manually for a particular solution $x$, we define \texttt{u = vector(QQ, [2/5, 4/5, 0])}
+	\item If we want to find $Au$, simply do \texttt{A*u}
+\end{itemize}
+
+Useful commands w.r.t. manipulating vectors and matrices.
+Suppose we define a vector \texttt{v = vector(...)}. Sagemath is intelligent enough to convert it to a column or row vector depending on how it is used, for e.g. premultiplying it to a matrix \texttt{v*A} causes it to be interpreted as a row vector.
+
+To convert a vector to a row matrix, do \texttt{v.row()}.\\
+To convert a vector to a column matrix, do \texttt{v.column()}.\\
+The following are how Sagemath prints the vector, row matrix, col matrix respectively:
+\begin{itemize}
+	\item \texttt{v}: $(v_1,v_2,\dots)$
+	\item \texttt{v.row()}: $[v_1,v_2,\dots]$
+	\item \texttt{v.column()}: $\colVector{v_1\\v_2\\ \vdots}$
+\end{itemize}
+
+
+See \url{wiki.sagemath.org/quickref?action=AttachFile&do=get&target=quickref-linalg.pdf} for complete reference.
+
+\paragraph{Alternative proof to Theorem 5.4.7} Claim: Let $S=\indexedSet{u}{n},T=\indexedSet{v}{n}$ be 2 orthonormal bases for vsp $V$. Then the transition matrix $P_{S\rightarrow T}$ is orthogonal.
+
+In the text, both $P_{S\rightarrow T}$ and $P_{T\rightarrow S}$ are explicitly evaluated and found to be transposes. Instead of this, we make the observation that $P_{S\rightarrow T} = B^{-1}A$, where $A = \colMat{u}{n}, B=\colMat{v}{n}$.
+
+Since $S, T$ are orthonormal, the columns of $A$ and $B$ are orthonormal, so $A, B$ are orthogonal. Since orthogonal matrices are closed under product and inverses, $P_{S\rightarrow T} = B^{-1}A$ is also orthogonal.
+
+We remark that this proof says that the transition matrix being orthogonal is just a simple consequence of closure properties of the product of orthogonal matrices (in particular the orthogonal group of $n\times n$ real matrices $O(n, \mathbb{R})$).
+
+\paragraph{Uniqueness of standard matrix} In the text, a linear map $T\in L(\mathbb{R}^n, \mathbb{R}^m)$ is defined as a function of the form $v\mapsto Av$, where $A\in \mathbb{R}^{m,n}$ is known as the standard matrix of $T$.
+
+A trivial but natural question would be the well-definition of $A$. And we can indeed see that this is the case. Suppose $A_1, A_2$ are 2 matrices that are both standard matrices of the same linear map $T$. Then $T=v\mapsto A_1v\land T=v\mapsto A_2v$, which says $T-T = v\mapsto (A_1-A_2)v$ is the zero function. In particular, for canonical basis vectors $e_j, 1\leq j\leq n$, $(v\mapsto (A_1-A_2)v)(e_j) = (A_1-A_2)e_j = \mathbf{0}$. Letting $\epsilon_i, 1\leq i\leq m$ be the ith projection function, we have $(A_1-A_2)_{i,j} = \epsilon_i((A_1-A_2)e_j) = \epsilon_i(\mathbf{0}) = 0$, hence $A_1-A_2$ is the zero matrix, which says $A_1=A_2$. Hence the standard matrix is unique.
+
+\paragraph{Geometrical transformations} A linear map $T$'s action on a vector space $V$ is completely determined by $T$'s action on any basis of $V$ due to linearity property.
+
+Hence, to determine the transformation matrix of a certain geometrical LT in $\mathbb{R}^2$ or $\mathbb{R}^3$, it suffices to consider how the LT acts on the standard basis. i.e. the transformation matrix is $[T(e_1) T(e_2)]$ (for 2-space).
+
+\paragraph{Homogeneous coordinates} This topic belongs to the last subsection of the text, which is not covered in the module. However, the part about homogeneous coordinates is worth the read.
+
+Amongst the elementary geometrical transformations (scaling, translations, rotations, shearing), all are linear maps except translations. Translations are handled by increasing the dimension by 1 and making use of a shearing in the extra coordinate.
+
+The "true" coordinates of a point ignores the extra coordinate (for e.g. $(x,y,w)$ in 2-space really refers to the point $(x,y)$ and $(x,y,z,w)$ in 3-space refers to the point $(x,y,z)$), as it is only there for the purposes of conducting transformations.
 
 \end{document}
