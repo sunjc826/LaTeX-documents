@@ -17,6 +17,8 @@
 % Margins
 \usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
 
+%identically distributed%
+\newcommand{\eqdis}[0]{\stackrel{d}{=}}
 
 \title{ST2131 (Probability)}
 \author{Jia Cheng}
@@ -402,6 +404,73 @@ Given a number of events $A_i, 1\leq i\leq n$, let $X$ be the random variable th
 The proof is by indicator random variables.\\
 The expectation of moments $E[X^k]$ can be evaluated recursively, since $\binom{X}{k} = \frac{X^{\underline{k}}}{k!}$ can be expressed in terms of powers up to $k$.\\
 The value of this method is that we do not even need to evaluate the pmf of $X$.
+
+\paragraph{Correlation coefficient} The correlation coefficient between 2 variables $X,Y$ is defined as 
+\[\rho(X,Y)=\frac{Cov(X,Y)}{\sqrt{Var(X)Var(Y)}}\]
+
+Covariance can be seen as a measure of how positively related or negatively related 2 variables are. Correlation coefficient can be seen as a "normalized" form of covariance, scaled to the interval $[-1,1]$.
+
+As described in the text, in a multinomial distribution, letting $N_i$
+be the number of trials that result in outcome $i$, then if $i\neq j$, $Cov(N_i,N_j) < 0$, which is intuitively true as we expect larger $N_i$ to suggest smaller $N_j$ and vice versa.
+
+By considering $Var\left(\frac{X}{\sigma_X} + \frac{Y}{\sigma_Y}\right)$ (resp. $Var\left(\frac{X}{\sigma_X} - \frac{Y}{\sigma_Y}\right)$), we can show that when $\rho(X,Y) = -1$ (resp. $1$), then $Y = aX + b$ for some constants $a,b$.
+
+The converse is also true, if $Y=aX+b$ where $a\neq 0$, then $\rho(X,Y) = \frac{a}{|a|} = sgn(a) = \pm 1$.
+
+Given a finite population (or sample space) $\Omega$ enumerable by $\{1,\dots,n\}$, suppose the values of $X,Y$ applied to each outcome $i$ is $x_i = X(i)$ and $y_i = Y(i)$, then we can evaluate the population correlation coefficient as follows. Assume that the probability of the outcomes are uniform. Then,
+\begin{align*}
+	\rho(X,Y) = \frac{\sum_{1\leq i\leq n}\frac{1}{n}\cdot(x_i-E[X])(y_i-E[Y])}{\sqrt{\sum_{1\leq i\leq n}\frac{1}{n}\cdot (x_i-E[X])^2\sum_{1\leq i\leq n}\frac{1}{n}\cdot (y_i-E[Y])^2}} = \frac{\sum_{1\leq i\leq n}(x_i-\overline{x})(y_i-\overline{y})}{\sqrt{\sum_{1\leq i\leq n}(x_i-\overline{x})^2\sum_{1\leq i\leq n}(y_i-\overline{y})^2}}
+\end{align*}
+where $\overline{x} = E[X], \overline{y} = E[Y]$. This is exactly the formula used to determine the correlation coefficient of a set of data points. Of course, note that a set of data points is usually a proper subset of the sample space.
+
+\subsection{Equivalence of distributions}
+First, we define a new notation. Given random variables $X,Y$, where $X$ is associated with probability function $P$ and $Y$ is associated with probability function $Q$, $X\eqdis Y$ if for all sets $A\subseteq \mathbb{R}$, $P(X\in A) = Q(Y\in A)$.\\
+Furthermore, when this is the case, $E[X] = E[Y]$.
+
+See \url{https://math.stackexchange.com/questions/1306650/notation-for-two-random-variables-with-the-same-distribution}
+I am unsure if this definition is mathematically standard or even sound, however I am motivated to do this due to conditional expectation, which I will elaborate upon below.
+
+\paragraph{Equality case} Given a sample space $S$ equipped with probability function $P$. Let $X,Y$ be 2 random variables on $S$ using probability function $P$.
+
+Suppose that $\forall s\in S, X(s) = Y(s)$. Then we can write $X=Y$, i.e. $X$ and $Y$ are truly identical in the mapping sense. Furthermore, they use the same probability function $P$. This implies that $X\eqdis Y$.
+
+\paragraph{Non-equality, but i.i.d} This discussion uses an example. Given 2 independent random variables $X,Y$ both normally distributed with parameters $(0,1)$, we can say that $X\eqdis Y$.
+
+\paragraph{Different associated probability functions} This last case is the motivation for my definition. Given sample space $S$, let $X, Y$ be random variables on $S$, both using probability function $P$. Now, consider the conditional random variable $X|Y=y$, which uses the probability function $Q = E\mapsto \frac{P(E\land Y=y)}{P(Y=y)}$.
+
+Then for some function $g$, we say that $(X|Y=y) \eqdis g(X)$ if $Q(X=x) = P(X=x|Y=y) = P(g(X) = x)$.
+
+To make this more concrete, we use an example from the textbook.\\
+Q: A miner is trapped in a mine containing 3 doors. The first door leads to a tunnel that will take him to safety after 3 hours of travel. The second door leads to a tunnel that will return him to the mine after 5 hours of travel. The third door leads to a tunnel that will return him to the mine after 7 hours. If we assume that the miner is at all times equally likely to choose any one of the doors, what is the expected length of time until he reaches safety?
+
+We let $X$ be the amount of time the miner takes to reach safety. We let $E_i$ be the event that the miner proceeds through door $i$ and let the r.v. $Y$ be s.t. $\{Y=i\} = E_i$.
+
+Then conditioning on $Y$, we have $E[X] = E[E[X|Y]] = \sum_{1\leq i\leq 3}E[X|E_i]P(E_i) = \frac{1}{3}\sum_{1\leq i\leq 3}E[X|E_i]$.
+
+Now, we wish to express $(X|Y=i) = (X|E_i)$ purely in terms of $X$.
+
+
+Is it correct to write $(X|E_2) = X+5$? Formally speaking, no, consider an encoding $s=(2,3,2,1)$ of the outcome door 2, door 3, door 2, door 1 (i.e. the miner first goes through door 2, then door 3, then door 2, then door 1 when he finally escapes. Then $(X|E_2)(s) = 5 + 7 + 5 + 3$, whereas $(X+5)(s) = 5 + 7 + 5 + 3 + 5$, strictly greater.\\
+The correct (imo) way of writing is to say $(X|E_2)\eqdis X+5$. Similarly, $(X|E_3)\eqdis X+7$. Also, $(X|E_1) \eqdis 3$ (the constant function $3$).
+
+To justify $(X|E_2)\eqdis X+5$, we form a trivial bijection from the reduced sample space $S_R=\{(i_1,i_2,\dots,i_n): n\in \mathbb{Z}_{\geq 2} \land i_1 = 2 \land i_n = 1\}$ with $S=\{(i_1,i_2,\dots,i_n): n\in \mathbb{Z}^+ \land i_n = 1\}$. Note that we can ignore any outcome in $s\in S-S_R$, since $Q(\{s\})=P(\{s\}|E_2)=0$.
+
+Because they are distributed identically, their expectations are the same. Hence, $E[X] = \frac{1}{3}(3 + E[X] + 5 + E[X] + 7)$.
+
+\subsection{More applications of conditional expectation}
+\paragraph{Computing conditional probabilities} Let $A$ be an event, $X = [A]$. Let $Y$ be a r.v.
+
+If $Y$ is discrete, (this is nothing new)
+\begin{align*}
+	P(A) = \sum_y P(A|Y=y)p_Y(y)
+\end{align*}
+a simple consequence of the conditional probability.
+
+If $Y$ is continuous,
+\begin{align*}
+	P(A) = E[X] = E[E[X|Y]] = \int_\mathbb{R} E[X|Y=y]f_Y(y)dy = \int_\mathbb{R} P(A|Y=y)f_Y(y)dy
+\end{align*}
+(this is a new result.)
 
 \section{Limit Theorems}
 Since measure theory has not been taught yet, it suffices to have intuitive notions of measure theory like "almost everywhere". For now, we can simply understand an event or a set having "measure 0"/"probability 0" as being negligible in "size" with respect to the probability space.
