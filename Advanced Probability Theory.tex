@@ -1,0 +1,118 @@
+\documentclass[a4paper]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{gensymb}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{pgfplots}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\newcommand{\powerset}[1]{\mathcal{P}(#1)}
+\newcommand{\reals}[0]{\mathbb{R}} %real numbers%
+\newcommand{\alg}[0]{\mathcal{F}} %sigma algebra%
+\newcommand{\semialg}[0]{\mathcal{J}} %semi algebra%
+\newcommand{\triple}[0]{(\Omega, \alg, P)} %probability triple%
+
+% Margins
+% top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm
+\usepackage[a4paper, top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\title{Advanced Probability}
+\author{Jia Cheng}
+\date{December 2021}
+
+\begin{document}
+\maketitle
+
+Reference Text: A First Look at Rigorous Probability Theory
+
+Related modules: ST5214
+
+\paragraph{1.1}
+
+To see that $\exists z\in \mathbb{R}, P(Z=z) > 0$, we observe that
+\[P(Z=0)\geq P(Z=0\land X=0) = P(Z=0|X=0)\cdot P(X=0)\geq \frac{1}{2}\cdot P(X=0) > 0\]
+since $P(X=0) > 0$.
+
+
+\paragraph{1.2}
+
+\subparagraph{Uncountable summation} Given an uncountable non-negative set of numbers $\{r_a : a\in I\}$ indexed by $I$,
+
+\[\sum_{a\in I}r_a := \sup \{\sum_{a\in J}r_a : J\subseteq I\land J \text{ finite}\}\]
+
+\subparagraph{R-shift}
+(Equivalent definition) R-shift of $A\subseteq [0, 1]$. $A\oplus r = \{(a + r)\mod 1 : a\in A\}$
+
+
+\paragraph{2.1}
+
+Notice that countability is used by 2 constructs. One, probability measure is countably additive (and not uncountably so). Two, the $\sigma$-algebra is closed under countable union and intersection (and not uncountably so).
+
+Recall that the reason for disallowing uncountable operations in general is due to the fact that
+\[\bigcup_{x\in A}\{x\} = A\]
+for any set $A$, in particular $[0,1]$ when discussing the uniform distribution on the unit interval.
+
+\paragraph{Theorem 2.2.1} We provide a proof for this theorem.
+
+First, we show that $\mathcal{F}$ is a $\sigma$-algebra. By definition, $\mathcal{F} = \powerset{\Omega}$. Hence, the unary complement operation is a mapping $\mathcal{P}(\Omega)\rightarrow \mathcal{P}(\Omega)$ whose domain and codomain are just $\mathcal{F}$ as desired. Similarly, for the countable set operations of union and intersection, they are mappings with codomain as $\powerset{\Omega}$ and are also closed since $\mathcal{F} = \powerset{\Omega}$.\\
+We also note that both $\emptyset, \Omega$ reside in $\mathcal{F}$
+
+Next, we show that $P$ is a probability measure. By definition of $P$, $P$ is additive since $A\cap B=\emptyset \implies P(A\sqcup B) = \sum_{\omega \in A\sqcup B}p(\omega) = \sum_{\omega \in A}p(\omega) + \sum_{\omega \in B}p(\omega) = P(A) + P(B)$. 
+
+I am not quite sure about showing countable additivity however, perhaps using some form of diagonal summation argument it is possible to prove this.
+
+$P(\Omega) = \sum_{\omega \in \Omega}p(\omega) = 1$. Furthermore, $p$ is non-negative, hence $P$ is indeed bounded between $0$ and $1$.
+
+\paragraph{Ex 2.2.3} First, $\emptyset, \Omega = [0,1] \in \semialg$ by definition as they are intervals. Next, to show closure under finite intersection, it suffices to show closure under binary intersection. Consider cases: We only consider one endpoint, since we can "patch" together two endpoints.
+\begin{itemize}
+	\item $[a$ and $[b$ intersect to give $[\max\{a,b\}$
+	\item $(a$ and $(b$ intersect to give $(\max\{a,b\}$
+	\item $[a$ and $(b$ intersect to give $[a$ if $a > b$ and $(b$ otherwise
+\end{itemize}
+We can do a similar case analysis for right endpoints.
+Given a stringified left endpoint $l\in \{ "[a", "(a" \}$ and a stringified right endpoint $r\in \{ "b]", "b)" \}$ we can form an interval via concatenation $l,r$.
+Hence, $\semialg$ is closed under finite intersection.
+
+Consider the complement $J = [0, a)\cup (b, 1]$ of an interval $[a,b]\in \semialg$, where depending on whether the left/right endpoint is closed or open we adjust $J$ accordingly. Regardless, we see that $J$ is a disjoint union of at most 2 intervals in $\semialg$.
+
+Hence, $\semialg$ is a semialgebra of subsets of $\Omega$.
+
+\paragraph{Ex 2.2.5} 
+\subparagraph{a} $\mathcal{B}_0\subseteq \powerset{\Omega}$. Since $\mathcal{B}_0$ consists of all finite unions of elements of $\semialg$, in particular, $\semialg \subseteq \mathcal{B}_0$, so $\empty, \Omega = [0,1]\in \semialg \subseteq \mathcal{B}_0$.
+
+Next, the finite union and intersection of elements of $\mathcal{B}_0$ will give finite unions of elements of $semialg$, so that $\mathcal{B}_0$ is closed under finite union and intersection. (For intersection, we can argue using distributive law plus observe that the intersection of intervals gives another interval)
+
+Let $B\in \mathcal{B}_0$, so that $B$ is a finite union of the form $\bigcup_{1\leq i\leq n}I_i$ for some intervals $I_i$ in $[0,1]$. Then, $B^c = \bigcap_{1\leq i\leq n}I_i^c$ by DeMorgan's Law, and we have already proven in Ex 2.2.3 that $I_i^c$ is a disjoint union of intervals, i.e. $I_i^c\in \mathcal{B}_0$. Furthermore, we have proven that $\mathcal{B}_0$ is closed under finite intersection, so $B^c\in \mathcal{B}_0$.
+
+Hence, $\mathcal{B}_0$ is an algebra.
+
+\subparagraph{b} The difference between an algebra and a $\sigma$-algebra is that $\sigma$-algebras are closed under countable union and intersection but algebras are not necessarily so.
+
+We consider Cantor's set $C$, which is a countable intersection of $C_i$, where each $C_i$ is formed by removing from each interval in $C_{i-1}$ the middle one-third.
+
+Since each $C_i$ is a union of (disjoint) intervals, by definition, $C_i\in \mathcal{B}_0$. If $\mathcal{B}_0$ is to be a $\sigma$-algebra, then we must have $C\in \mathcal{B}_0$, i.e. $C$ can be formed from a finite union of intervals.
+
+First of all, $C$ does not contain any interval of non-zero length, so our options are reduced to forming $C$ from a finite union of singletons, i.e. intervals of the form $[a,a]=\{a\}$. But we also know $C$ to be uncountable, but a finite union of singletons is finite. Hence we have a contradiction.
+
+Since $C\notin \mathcal{B}_0$, $\mathcal{B}_0$ is not closed under countable intersection, so it is not a $\sigma$-algebra.
+
+
+We comment that $\mathcal{B}_1$ is similarly not a $\sigma$-algebra using the same counterexample. The countable union of singletons must be at most countable, so they cannot union to form an uncountable set like $C$.
+
+\paragraph{Ex 2.3.16} Suppose $A\in \mathcal{M}\land P^*(A) = 0$ and $B\subseteq A$. To show that $B\in \mathcal{M}$, we show equivalently that:
+
+For each $E\subseteq \Omega$, $P^*(E)\geq P^*(A\cap E) + P^*(A^c\cap E)$ (i.e. superadditivity. But by monotonicity, $P^*(A\cap E) = 0$, so that $P^*(E)\geq P^*(A^c\cap E)$ is automatically true by monotonicity. Hence, we have shown the completeness of the extension $(\Omega, \mathcal{M}, P^*)$.
+
+\end{document}
