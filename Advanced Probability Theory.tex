@@ -14,6 +14,8 @@
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
 \newcommand{\reals}[0]{\mathbb{R}} %real numbers%
 \newcommand{\alg}[0]{\mathcal{F}} %sigma algebra%
+\newcommand{\borel}[0]{\mathcal{B}} %Borel algebra%
+\newcommand{\measure}[0]{\mathcal{M}}
 \newcommand{\semialg}[0]{\mathcal{J}} %semi algebra%
 \newcommand{\triple}[0]{(\Omega, \alg, P)} %probability triple%
 
@@ -114,5 +116,91 @@ We comment that $\mathcal{B}_1$ is similarly not a $\sigma$-algebra using the sa
 \paragraph{Ex 2.3.16} Suppose $A\in \mathcal{M}\land P^*(A) = 0$ and $B\subseteq A$. To show that $B\in \mathcal{M}$, we show equivalently that:
 
 For each $E\subseteq \Omega$, $P^*(E)\geq P^*(A\cap E) + P^*(A^c\cap E)$ (i.e. superadditivity. But by monotonicity, $P^*(A\cap E) = 0$, so that $P^*(E)\geq P^*(A^c\cap E)$ is automatically true by monotonicity. Hence, we have shown the completeness of the extension $(\Omega, \mathcal{M}, P^*)$.
+
+
+See \url{https://mathoverflow.net/questions/11554/whats-the-use-of-a-complete-measure}\\
+\textbf{Remark} A complete measure is good in the sense that it gives us more measurable sets, the more things we can measure, the better. For instance, one consequence of a complete measure is that when $A$ is measurable, and $B$ differs from $A$ by a subset of a set of zero measure, then $B$ is measurable as well.
+
+\paragraph{Ex 2.4.3}
+\subparagraph{a} We make the following manipulations.
+\[
+	I\subseteq \bigcup_{1\leq j\leq n}I_j = \sqcup_{1\leq j\leq n}I'_j
+\]
+where $I'_j = I_j - \bigcup_{1\leq l < j}I_l$. Hence,
+\begin{align*}
+	I = I\cap \sqcup_{1\leq j\leq n} I'_j = \sqcup{1\leq j\leq n} (I\cap I'_j)
+\end{align*}
+such that
+\begin{align*}
+	P(I) &= P(\sqcup{1\leq j\leq n} (I\cap I'_j))\\
+	&=\sum_{1\leq j\leq n}|I\cap I'_j|\\
+	&\leq \sum_{1\leq j\leq n} |I'_j|\\
+	&\leq \sum_{1\leq j\leq n} |I_j|\\
+	&=\sum_{1\leq j\leq n} P(I_j)
+\end{align*}
+where the first equality is proven in proposition 2.4.2 (disjoint union of intervals to form a single larger interval), and the latter inequalities are given by monotonicity of the length function $|\cdot|$.
+
+\subparagraph{b}
+In $[0,1]\subseteq \mathbb{R}$, $I$ is a closed and bounded interval, hence compact (Heine-Borel Theorem). Given countable cover $I_i, i\in \mathbb{N}$, there exists a finite subcover of $I$, i.e. $I\subseteq \bigcup_{1\leq j\leq n}I_{i_j}$. By part (a), we know that $P(I)\leq \sum_{1\leq j\leq n}P(I_{i_j})\leq \sum_{j}P(I_j)$ since $P$ is non-negative.
+
+\subparagraph{c} We want to generalize our result in (b), i.e. $I$ can be any interval, not just closed, and $I_j$ can be any interval, not just open.
+
+We extend each $I_j, j\geq 1$ to form $I'_j := (a_j - \epsilon 2^{-j-1}, b_j + \epsilon 2^{-j-1})$, such that $|I'_j| = |I_j| + \epsilon2^{-j}$.
+
+We compress $I$ to form $I':=[a+\epsilon, b-\epsilon]$. This assumes $I\neq \emptyset$, since if $I$ is empty, we trivially have $P(I)=0\leq \sum_j P(I_j)$.
+
+We note that each $I'_j$ may very well exceed the boundaries of $[0,1]$, such that $P$ may not be defined for $I'_j$, but it doesn't matter, since the length function $|I'_j|$ is still well-defined.
+
+Hence, \begin{align*}
+	P(I) = |I| = |I'| + 2\epsilon
+\end{align*}
+and 
+\begin{align*}
+	|I'|\leq \sum_{j} |I'_j| = \sum_{j} |I_j| + \epsilon = \sum_{j} P(I_j) + \epsilon
+\end{align*}
+
+Combining gives
+\begin{align*}
+	P(I)\leq \sum_{j} P(I_j) + 3\epsilon
+\end{align*}
+which proves countable monotonicity in general for all sets $I, I_1, I_2,\dots \in \mathcal{J}$.
+
+
+An unsuccessful attempt: I tried to use closure $I' := \overline{I} = [a,b]$, but it doesn't seem possible to show that the endpoints lie in some open interval.
+
+\paragraph{Ex 2.4.5} Claim: $\sigma(\{(-\infty, b] : b\in \mathbb{R}\}) = \sigma(\{I\subseteq \mathbb{R}:I \text{ interval}\})$
+
+We first note that for collections $\mathcal{A_1}, \mathcal{A_2}$, $\mathcal{A_1}\subseteq \mathcal{A_2}\implies \sigma(\mathcal{A_1})\subseteq \sigma(\mathcal{A_2})$, since a Borel algebra that contains all elements of $\mathcal{A_2}$ also contains all elements of $\mathcal{A_1}$.
+
+Let $\mathcal{A_1} = \{(-\infty, b] : b\in \mathbb{R}\}$ and $\mathcal{A_2}$ be the set of all intervals in $\mathbb{R}$. Let $\sigma_1 = \sigma(\mathcal{A_1}), \sigma_2 = \sigma(\mathcal{A_2})$. Clearly, $\sigma_1\subseteq\sigma_2$.
+
+Next, we make the following 4 steps
+\begin{enumerate}
+	\item First, for each $b$, $(-\infty, b]\in \sigma_1$ by definition
+	\item By closure under complements, for each $a$, $(-\infty, a]^c = (a, \infty)\in\sigma_1$
+	\item By closure under countable union, $\bigcup_{n\in \mathbb{N}}(-\infty,b-\frac{1}{n}] = (-\infty, b)\in\sigma_1$
+	\item By closure under countable intersection $\bigcup_{n\in \mathbb{N}}(a-\frac{1}{n}, \infty) = [a, \infty)\in\sigma_1$
+\end{enumerate}
+Now we observe that $\forall a,b\in\mathbb{R},a\leq b,$
+\begin{itemize}
+	\item $[a,b] = [a, \infty)\cap (-\infty, b]$
+	\item $(a,b) = (a, \infty)\cap (-\infty, b)$
+	\item $[a,b) = [a, \infty)\cap (-\infty, b)$
+	\item $(a,b] = (a, \infty)\cap (-\infty, b]$
+\end{itemize}
+hence by closure, $\sigma_1$ contains all intervals, i.e. $A_2\subseteq \sigma_1$. By minimality of Borel algebra $\sigma_2$, we have $\sigma_2\subseteq\sigma_1$. Hence $\sigma_1=\sigma_2$.
+
+(We note that a Borel algebra of a set $A$ is a subset of any $\sigma$-algebra containing the same set $A$)
+
+A Borel algebra $\borel = \sigma(A)$ reminds me of the subgroup $\langle S\rangle$ generated by a subset $S$ of a group. $\langle S\rangle$ is equal to the set of all words formed by the (finite) product of elements of $S$, whereas $\borel$ is the set of all countable unions, countable intersections, complements of elements of $A$.
+
+\paragraph{Ex 2.4.7}
+\subparagraph{a} $K$ is the countable intersection of intervals remaining at each step, whereas $K^c$ is the countable union of the intervals removed at each step of the construction. Hence, by closure of $\sigma$-algebras under countable union and intersection, $K, K^c\in \borel$.
+\subparagraph{b} Since $\borel\subseteq\measure$, $K,K^c\in\measure$
+\subparagraph{c} Algebras are closed under countable union, so $K^c\in \mathcal{B}_1$
+\subparagraph{d} $K$ is an uncountable set. Furthermore, $K$ contains no interval of non-zero length. It is not possible to obtain $K$ with the countable union of singletons. Hence $K\notin \borel_1$.
+\subparagraph{e} Since $\borel_1$ is not closed under complement, $\borel_1$ is not a $\sigma$-algebra. (We can also say that $\borel_1$ is not closed under countable intersection.)
+
+
 
 \end{document}
