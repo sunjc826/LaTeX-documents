@@ -41,6 +41,8 @@ Reference Text: A First Look at Rigorous Probability Theory
 
 Related modules: ST5214
 
+\paragraph{Notation} Throughout this document, $\mathbb{N}$ can vary in usage, sometimes $\mathbb{N}=\mathbb{Z}^+$, other times $\mathbb{N}=\mathbb{Z}^+_0$, depending on which is more convenient.
+
 \paragraph{1.1}
 
 To see that $\exists z\in \mathbb{R}, P(Z=z) > 0$, we observe that
@@ -201,6 +203,53 @@ A Borel algebra $\borel = \sigma(A)$ reminds me of the subgroup $\langle S\rangl
 \subparagraph{d} $K$ is an uncountable set. Furthermore, $K$ contains no interval of non-zero length. It is not possible to obtain $K$ with the countable union of singletons. Hence $K\notin \borel_1$.
 \subparagraph{e} Since $\borel_1$ is not closed under complement, $\borel_1$ is not a $\sigma$-algebra. (We can also say that $\borel_1$ is not closed under countable intersection.)
 
+\paragraph{2.5.4} To explicitly show the claim that $D_n = B_n\cap \bigcap_{1\leq i\leq n-1}B_i^c$ is a disjoint union of elements of $\semialg$, we let each $B_n^c = \sqcup_{1\leq j\leq l_n}F_{n,j}$ where each $F_{n,j}\in \semialg$.
 
+Then
+\begin{align*}
+	B_n\cap \bigcap_{1\leq i\leq n-1}B_i^c = B_n\cap \bigcap_{1\leq i\leq n-1}\sqcup_{1\leq j\leq l_n}F_{n_j}
+\end{align*}
+By distributive law, this resolves to a union of terms of the form
+$B_n\cap F_{1, \lambda_1}cap F_{2, \lambda_2}\cap \dots \cap F_{n-1, \lambda_{n-1}}$ where for each $1\leq i\leq n-1$, $1\leq \lambda_i \leq l_i$. Since each term is a finite  intersection, it resides in $\semialg$.
+
+Any 2 distinct terms of the intersection, $B_n\cap F_{1, \lambda_1}\cap F_{2, \lambda_2}\cap \dots \cap F_{n-1, \lambda_{n-1}}$, and $B_n\cap F_{1, \mu_1}\cap F_{2, \mu_2}\cap \dots \cap F_{n-1, \mu_{n-1}}$ must have some $i$ for which $\lambda_i\neq\mu_i$. This implies that $F_{i, \lambda_i}\cap F_{i, \mu_i} = \emptyset$ so the 2 terms must also be disjoint.
+
+\paragraph{Ex 2.5.6} Suppose $P$ satisfies finite additivity, and that given a monontonically decreasing set sequence $(A_i)$, with each $A_i$ being a finite disjoint union of elements of $\semialg$ and $\cap_n A_n = \emptyset$, that $\lim_{n\rightarrow \infty}P(A_n) = 0$.
+
+Suppose we have a countably many pairwise disjoint sets $D_n, n\in \mathbb{N}$. Then, we note that we can write
+\begin{align*}
+	\sqcup_i D_i = D_1 \sqcup D_2 \sqcup \dots \sqcup D_n \sqcup \left(\sqcup_{i>n}D_i\right) 
+\end{align*}
+
+We now show some properties of the tail union $\sqcup_{i>n}D_i$.
+First, letting $A_n = \sqcup_{i>n}D_i = \sqcup_i D_i \cap D_1^c \cap D_2^c \cap \dots \cap D_n^c$. Similar to \textbf{2.5.4}, we can show that $A_n$ is a disjoint union of elements of $\semialg$.
+Furthermore, $A_n\supseteq A_{n+1}$ and $\cap_n A_n = \emptyset$ are easy to verify. Hence, by assumption, $\lim_{n\rightarrow \infty}P(A_n) = 0$.
+
+Hence, \begin{align*}
+	P(\sqcup_i D_i) = \lim_{n\rightarrow \infty}(P(D_1) + \dots + P(D_n) + P(A_n)) = \lim_{n\rightarrow \infty}\sum_{1\leq i\leq n}P(D_i) = \sum_i P(D_i)
+\end{align*}
+as desired.
+
+\paragraph{2.5.9} Let $S = \{(-\infty, x] : x\in\mathbb{R}\}$, $\semialg_1 = \{(-\infty, x] : x\in\mathbb{R}\}\cup\{(y,\infty):y\in\mathbb{R}\}\cup\{(y,x]:y,x\in\mathbb{R}\}\cup\{\emptyset,\mathbb{R}\}$, $\semialg_2$ be the set of all intervals on $\mathbb{R}$. Then $S\subseteq\semialg_1\subseteq\semialg_2$. (Note that $S$ is not a semialgebra but $\semialg_1$ is.)
+
+Then $\sigma(S)\subseteq\sigma(\semialg_1)\subseteq\sigma(\semialg_2)$. But we have proven in \textbf{Ex 2.4.5} that $\sigma(S)=\sigma(\semialg_2)$, hence $\sigma(\semialg_1)=\sigma(\semialg_2)$.
+
+
+\paragraph{Ex 2.6.1}
+\subparagraph{a} First, we check that indeed, $\emptyset, \Omega\in\semialg$.\\
+Next, we check that $\semialg$ is closed under finite intersection. 
+\begin{itemize}
+	\item If $\emptyset$ is part of an intersection, then we just get $\emptyset$.
+	\item If $\Omega$ is part of an intersection, then we can just ignore it.
+	\item Now consider $B_1\cap B_2$, where $B_1 = A_{a_1,a_2,\dots,a_m}, B_2 = A_{a'_1,a'_2,\dots,a'_n}$. We then consider cases. If WLOG, $a_1,\dots,a_m$ is a prefix of $a'_1,\dots,a'_n$, then $B_2\subseteq B_1$ and $B_1\cap B_2 = B_1\in\semialg$. If neither is a prefix of the other, then $B_1\cap B_2=\emptyset\in\semialg$.
+\end{itemize}
+
+Finally, consider any $B\in\semialg$. The case where $B=\emptyset\lor B=\Omega$ is trivial. So suppose $B = A_{a_1,\dots,a_n}$. Then $B^c$ is the finite disjoint union of $A_{a'_1,\dots,a'_n}$ where $\lor_{1\leq i\leq n} a'_i\neq a_i$. Hence, the complement of any sets of $\semialg$ can be formed by a finite disjoint union of sets in $\semialg$.
+
+Hence $\semialg$ is a semialgebra.
+
+\subparagraph{b} (TODO) Suppose we have $N$ disjoint sets $\{D_1,\dots,D_n\}$.
+
+Following the hint, letting $k\in \mathbb{N}$ be the number that the results of only coins $1$ to $k$ are specified by any $D_n, n \leq N$, we partition $\Omega$ into $2^k$ subsets $A_{a_1,\dots,a_k}$, $a_1,\dots,a_k\in\{0,1\}$.
 
 \end{document}
