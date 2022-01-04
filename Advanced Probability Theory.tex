@@ -30,7 +30,7 @@
     urlcolor=blue,
 }
 
-\title{Advanced Probability}
+\title{Advanced Probability Theory}
 \author{Jia Cheng}
 \date{December 2021}
 
@@ -214,7 +214,7 @@ $B_n\cap F_{1, \lambda_1}cap F_{2, \lambda_2}\cap \dots \cap F_{n-1, \lambda_{n-
 
 Any 2 distinct terms of the intersection, $B_n\cap F_{1, \lambda_1}\cap F_{2, \lambda_2}\cap \dots \cap F_{n-1, \lambda_{n-1}}$, and $B_n\cap F_{1, \mu_1}\cap F_{2, \mu_2}\cap \dots \cap F_{n-1, \mu_{n-1}}$ must have some $i$ for which $\lambda_i\neq\mu_i$. This implies that $F_{i, \lambda_i}\cap F_{i, \mu_i} = \emptyset$ so the 2 terms must also be disjoint.
 
-\paragraph{Ex 2.5.6} Suppose $P$ satisfies finite additivity, and that given a monontonically decreasing set sequence $(A_i)$, with each $A_i$ being a finite disjoint union of elements of $\semialg$ and $\cap_n A_n = \emptyset$, that $\lim_{n\rightarrow \infty}P(A_n) = 0$.
+\paragraph{Ex 2.5.6} Suppose $P$ satisfies finite additivity, and that given a monontonically decreasing set sequence $(A_i)$, with each $A_i$ being a finite disjoint union of elements of $\semialg$ and $\cap_n A_n = \emptyset$, that $\lim_{n\rightarrow \infty}P(A_n) = 0$. (Note that $P$ is extended to sets $A_n$ by finite additivity, mentioned in the errata document)
 
 Suppose we have a countably many pairwise disjoint sets $D_n, n\in \mathbb{N}$. Then, we note that we can write
 \begin{align*}
@@ -248,8 +248,53 @@ Finally, consider any $B\in\semialg$. The case where $B=\emptyset\lor B=\Omega$ 
 
 Hence $\semialg$ is a semialgebra.
 
-\subparagraph{b} (TODO) Suppose we have $N$ disjoint sets $\{D_1,\dots,D_n\}$.
+\subparagraph{b} Suppose we have $N$ disjoint sets $\{D_1,\dots,D_n\}$.
 
-Following the hint, letting $k\in \mathbb{N}$ be the number that the results of only coins $1$ to $k$ are specified by any $D_n, n \leq N$, we partition $\Omega$ into $2^k$ subsets $A_{a_1,\dots,a_k}$, $a_1,\dots,a_k\in\{0,1\}$.
+Following the hint, letting $k\in \mathbb{N}$ be the largest number such that $a_1,a_2,\dots,a_k$ is a shared prefix amongst all sets $D_1$ to $D_n$.
 
+Let $A=A_{a_1,\dots,a_k}$. Then, we clearly have $A\supseteq \bigcup_{1\leq i\leq n} D_i$. We claim that this is in fact an equality. Note that by assumption, the union of all $D_i$ is a set in the semialgebra $\semialg$, so the union must be of the form $A_{a_1,\dots,a_k,\dots,a_j}$ for some $j \geq k$. So we just want to show that $j=k$. Suppose not, such that $j>k$, then $a_1,\dots,a_j$ is a shared prefix, but this contradicts the largest-ness of $k$.
+
+Hence, we have proven $\sqcup_{1\leq i\leq n}D_i = A$.
+
+Next, we want to show finite additivity, i.e. $P(A) = \sum_{1\leq i\leq n}P(D_i)$. Let $K$ be the length of the longest sequence specified by $D_i, 1\leq i\leq n$. For e.g. if $D_1 = A_{1,0,1}, D_2 = A_{1,1}$, then the longest sequence is of length $K=3$ (and $k=1$).
+
+We shall prove this by (finite) induction.
+
+Define for each $m\in \{k,k+1,\dots,K\}$ the statement $Q(m)$:\\
+Given any finite collection of disjoint sets $D_i$ whose longest specified sequence is of length $K$ and whose longest disjoint union is $A^m:=A_{a_1,\dots,a_m}$ for some length $m$ sequence, then $\sqcup_{1\leq i\leq n}P(D_i) = P(A^m)$.
+
+The base case, $Q(K)$ is trivial since the finite collection can only consist of 1 set, $A^K$ itself. So we have $P(D_1) = P(A^K)$.
+
+Next, suppose $Q(j)$ holds for some $k<j\leq K$. Then, we want to show $Q(j-1)$. We partition the set $D_i, 1\leq i\leq n$ into 2 subcollections, $B_1,\dots,B_{n_1}$ and $C_1,\dots,C_{n_2}$, such that each $B_i\subseteq A_{a_1,\dots,a_j,0}$ and each $C_i\subseteq A_{a_1,\dots,a_j,1}$. It is not too hard to argue that $\sqcup_{1\leq i\leq n_1} B_i = A_{a_1,\dots,a_j,0}$ and $\sqcup_{1\leq i\leq n_2} C_i = A_{a_1,\dots,a_j,1}$. Then, applying inductive assumption $Q(j)$, we have $\sum_{1\leq i\leq n_1}P(B_i) = P(A_{a_1,\dots,a_j,0})$ and $\sum_{1\leq i\leq n_2}P(C_i) = P(A_{a_1,\dots,a_j,1})$. Hence,
+\begin{align*}
+	P(A^j) = \frac{1}{2^j} = \frac{1}{2^{j+1}} + \frac{1}{2^{j+1}} = P(A_{a_1,\dots,a_j,0}) + P(A_{a_1,\dots,a_j,1}) = \sum_{1\leq i\leq n}P(D_i)
+\end{align*}
+This proves $Q(j)$.
+
+By mathematical induction, we have $\forall m\in \{k,k+1,\dots,K\}, Q(m)$, in particular, $Q(k)$ is true. This completes the proof.
+
+
+\paragraph{Ex 2.6.4} Clearly $\Omega = \Omega_1\times\Omega_2\in\semialg$ and $\emptyset=\emptyset\times\emptyset\in\semialg$.\\
+Next, if $A_1\times B_1, A_2\times B_2\in\semialg$, then $(A_1\times B_1)\cap (A_2\times B_2) = (A_1\cap A_2)\times (B_1\cap B_2)\in \mathcal{F}_1\times\mathcal{F}_2 = \semialg$, so $\semialg$ is closed under finite intersection.\\
+Finally, if $A\times B\in\semialg$, then $(A\times B)^c = (A^c\times \Omega_2)\cup (\Omega_1\times B^c) = (A^c\times B^c)\sqcup (A^c\times B)\sqcup (A\times B^c)$.\\
+Note that $\mathcal{F}_1, \mathcal{F}_2$ are $\sigma$-algebra, so $A^c\in\mathcal{F}_1\land B^c\in\mathcal{F}_2$.
+Hence $\semialg$ is a semialgebra of $\Omega_1\times\Omega_2$.
+
+We also verify that $P(\emptyset) = P_1(\emptyset)P_2(\emptyset) = 0$ and $P(\Omega)=P_1(\Omega_1)P_2(\Omega_2) = 1$.
+
+\paragraph{Ex 3.1.4}\mbox{}\\
+Here, we use the property that $[a,b]\cap [c,d] = [\max\{a,c\},\min\{b,d\}]$.
+
+We write $\omega$ as $w$. $Z(w) > a \iff 3w + 4 > a\iff w > \frac{a-4}{3}$. Hence, $P(Z > a) = P(\{w\in [0,1]:w>\frac{a-4}{3}\}) = P([0,1]\cap (\frac{a-4}{3}, \infty)) = P([0,1]\cap [\frac{a-4}{3},\infty)) = P([\max\{0,\frac{a-4}{3}\},1])$.
+We note that $0 < \frac{a-4}{3} < 1\iff 4 < a < 7$, so
+\begin{align*}
+	P([\max\{0,\frac{a-4}{3}\},1]) = \begin{cases}
+		1\, \text{if }a\leq 4\\
+		1-\frac{a-4}{3}\, \text{if }4<a<7\\
+		0\, \text{if }a\geq 7	
+	\end{cases}
+\end{align*}
+
+Next, $\forall w\in \Omega = [0,1], X(w) < a\land Y(w) < b\iff w < a\land w < \frac{b}{2} \iff w < \min\{a,\frac{b}{2}\}$.
+Hence, $P(X<a\land Y<b) = P((-\infty,\min\{a,\frac{b}{2}\})\cap [0,1]) = P((-\infty,\min\{a,\frac{b}{2}\}]\cap [0,1]) = P([0,\min\{1,a,\frac{b}{2}\}])$
 \end{document}
