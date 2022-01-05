@@ -1,0 +1,60 @@
+\documentclass[a4paper]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{gensymb}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{pgfplots}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+% \rule{length}{thickness}
+\newcommand{\divider}[0]{\begin{center}
+\rule{15cm}{1pt}
+\end{center}}
+
+
+% Margins
+% top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm
+\usepackage[a4paper, top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\title{MA3238 (Stochastic Processes 1)}
+\author{Jia Cheng}
+\date{Jan 2022}
+
+\begin{document}
+\maketitle
+
+Reference: Introduction to Probability Models (9th edition)
+
+Note: The paragraphs in this document correspond to subsections in the textbook. For e.g. \textbf{4.2} corresponds to Chapman-Kolmogorov Equations.
+
+\paragraph{4.1}\mbox{}\\
+We have $P_{i,j} = P(X_{n+1} = j | X_n = i, X_{n-1} = i_{n-1},\dots,X_0=i_0)$ for all $i_0,\dots,i_{n-1}$ in the state space. Hence, $P(X_{n+1}=j|X_n=i)=\sum P(X_{n+1} = j | X_n = i, X_{n-1} = i_{n-1},\dots,X_0=i_0)P(X_{n-1}=i_{n-1},\dots,X_0=i_0) = P_{i,j}$.
+
+Hence, conditioning on $X_n=i$, the events $\{X_{n+1}=j\}$ and $\{X_{n-1}=i_{n-1},\dots,X_0=i_0\}$ are independent.
+
+\paragraph{4.2}\mbox{}\\
+Claim: Consider the case of a state space with absorbing states $A$. Suppose states $i,j\notin A, k\in A$. Then $P(X_{n+m} = j\cap X_{n}=k | X_0 = i) = 0$. i.e. once state $k$ is reached, the probability of reaching any other state distinct from $k$ is $0$.
+
+Since $P(X_{n+m} = j\cap X_n = k | X_0 = i) = P(X_{n+m}=j|X_n=k\land X_0=i)P(X_n=k|X_0=i)=P(X_m=j|X_0=k)P(X_n=k|X_0=i)$, it suffices to show that $P_{k,j}^m = 0$.\\
+This can be verified inductively. We shall only show the inductive step. Suppose $P_{k,j}^\lambda = 0$ (in fact we need to assume the same for all $j$ distinct from $k$). Then $P_{k,j}^{\lambda+1} = \sum_{l}P_{k,l}^\lambda\cdot P_{l,j} = P_{k,k}^\lambda\cdot P_{k,j} = 1\cdot 0=0$.
+
+\paragraph{4.3}\mbox{}\\
+Another way to interpret $P_{i,j}^n$ is the following. $P_{i,j}^n > 0$ iff there is a sequence $l_1,\dots,l_{n-1}$ such that $P_{i,l_1},P_{l_1,l_2},\dots,P_{l_{n-1},j}\neq 0$. This is equivalent to saying $i\rightarrow l_1\rightarrow l_2\rightarrow\dots\rightarrow l_{n-1}\rightarrow j$. We can also let $l_0 := i, l_n := j$ and obtain a sequence $l_0,\dots,l_n$.
+
+To take example 4.12 in this section as an example: Suppose we want to show that states $0,1$ cannot access state $2$. One possible argument to make is to consider the candidates for states $l:=l_{n-1}$ (for any $n$) such that $l_{n-1}\rightarrow 2$, or equivalently, $P_{l,2} > 0$. But looking at the 3rd column of the Markov matrix, we see that the only candidate for $l$ is $2$ itself. So it is impossible to have a series of state transition from $0$ or $1$ that ends up in $2$. (A formal proof can involve induction on the number of state transitions.)
+
+
+\end{document}

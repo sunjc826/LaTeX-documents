@@ -29,8 +29,9 @@
 \newcommand{\existsReal}[1][x]{\exists #1\in\real}
 \newcommand{\existsInteger}[1][n]{\exists #1\in\integer}
 \newcommand{\existsNat}[1][n]{\exists #1\in\nat}
-\newcommand{\seq}[2]{#1_1,#1_2,\dots,#1_{#2}} %sequence literal%
-\newcommand{\subseq}[3]{#1_{#2_1},#1_{#2_2},\dots,#1_{#2_{#3}}} %subsequence literal%
+\newcommand{\seq}[2]{#1_1,#1_2,\dots,#1_{#2}} %finite sequence literal%
+\newcommand{\infseq}[1]{#1_1,#1_2,\dots} %infinite sequence%
+\newcommand{\subseq}[3]{#1_{#2_1},#1_{#2_2},\dots,#1_{#2_{#3}}} %finite subsequence literal%
 \newcommand{\seqconn}[3]{#1_1 #3 #1_2 #3 \dots #3 #1_{#2}} %sequence delimited by argument 3%
 \newcommand{\subseqconn}[4]{#1_{#2_1} #4 #1_{#2_2} #4 \dots #4 #1_{#2_{#3}}} %subsequence literal%
 
@@ -354,6 +355,11 @@ So we have $P(A_{a_1}^c\cap A_{a_2}\cap\dots\cap A_{a_j}) = P(A_{a_2}\cap\dots\c
 
 \subparagraph{c} A direct consequence of part (b).
 
-
+\paragraph{3.2.4} 
+\begin{itemize} 
+	\item We make a note that if $X, Y$ are random variables, then their joint distribution is always defined, since for Borel set $A, B$, $\{X\in A, Y\in B\} = \{X\in A\}\cap \{Y\in B\}\in alg$, of which $X^{-1}(A), Y^{-1}(B)$ both reside in $\alg$, and $\alg$ is closed under countable intersection.
+	\item Another detail is that $P':\borel\rightarrow\real,S\mapsto P(Y\in S)$ is a probability measure sample space $\real$ and the borel algebra on $\real$, $\borel$. To prove this, we first verify that indeed, for each borel set $A\in\borel$, by definition of a r.v., $P'(S) = P(Y^{-1}(S))$ is defined. So, the domain of $P'$ is correct. Next, we show countable additivity. Given disjoint set $\infseq{S}$, we have $P'(\sqcup_i S_i) = P(Y\in \sqcup_i S_i) = P(\sqcup_i \{Y\in S_i\} = \sum_i P(Y\in S_i) = \sum_i P'(S_i)$, where the second last equality holds because $P$ is a probability measure.\\
+	Consequently, in the proof of \textbf{proposition 3.2.4}, $Q,P'$ are both probability measures defined on $\borel$, and $Q$ agrees with $P'$ on sets $(-\infty,y]$ and hence the semialgebra $\semialg$ defined in \textbf{2.5.9}, so $Q=P'$ on $\borel$.
+\end{itemize}
 
 \end{document}
