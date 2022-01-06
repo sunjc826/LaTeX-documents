@@ -35,6 +35,16 @@
 \newcommand{\seqconn}[3]{#1_1 #3 #1_2 #3 \dots #3 #1_{#2}} %sequence delimited by argument 3%
 \newcommand{\subseqconn}[4]{#1_{#2_1} #4 #1_{#2_2} #4 \dots #4 #1_{#2_{#3}}} %subsequence literal%
 
+\newcommand{\io}[1]{#1 \mathit{i.o.}} %infinitely often, same as limsup events%
+\newcommand{\alma}[1]{#1 \mathit{a.a.}} %almost always, same as liminf events%
+
+
+% \rule{length}{thickness}
+\newcommand{\divider}[0]{\begin{center}
+\rule{16cm}{0.5pt}
+\end{center}}
+
+
 % Margins
 % top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm
 \usepackage[a4paper, top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm]{geometry}
@@ -338,6 +348,28 @@ It is interesting to see the conversion from universal and existential quantifie
 
 \paragraph{Proposition} (Restating the paragraph right below \textbf{ex 3.1.7}.) If $X$ is a random variable, and $f: \real\rightarrow\real$ is a Borel-measurable function, then the composition $f\circ X$ is also a random variable.
 
+\paragraph{3.1.8}\mbox{}\\
+To understand the proof better we consider a few lemmas.
+
+\subparagraph{Lemma} Characterization of intervals. The following statements about a set $I$ are equivalent in $\real$.
+\begin{itemize}
+	\item $I$ is an interval, in particular, $I$ is of one of the following forms $(a,b), (a,b], [a,b), [a,b]$.
+	\item $I$ is a convex set.
+	\item $\forall a,b\in I$, with $a\leq b$, $a\leq c\leq b\implies c\in I$. 
+\end{itemize}
+
+\subparagraph{Lemma} Every open set $O$ in $\real$ is an at most countable union of disjoint open intervals.
+
+The proof involves considering the following equivalence relation: $\forall a,b\in\real, a\equiv b \iff (a,b)\subseteq O$. 
+\begin{itemize}
+	\item To show that each equivalence class $I_j$ (where $J$ is an arbitrary index set) is an interval, we claim that the left and right endpoints of $I_j$ are respectively $\inf I_j$ and $\sup I_j$.
+	\item To show that each $I_j$ is open, we use the fact that $O$ is open.
+	\item That the $\{I_j : j\in J\}$ are pairwise disjoint is a direct consequence of equivalence classes.
+	\item That there are at most countably many $I_j$ follows from the presence of an injection from index set $J$ to $\rational$ using the axiom of choice and the disjointedness of the $I_j$.
+\end{itemize}
+
+With this lemma in mind, we see why in the proof of \textbf{3.1.8}, $f^{-1}((x,\infty))\subseteq\real$ open implies $f^{-1}((x,\infty))\in\borel$.
+
 \paragraph{3.1.9} Suppose $\triple$ is complete. Let $X$ be a r.v. on $\Omega$. Let $Y: \Omega\rightarrow\real$ such that $P(X=Y)=1$. We claim that $Y$ is also a r.v. The proof is as follows.
 
 We denote the event $E=\{X=Y\}$. Note that $P(E) = 1, P(E^c) = 0$.
@@ -362,4 +394,55 @@ So we have $P(A_{a_1}^c\cap A_{a_2}\cap\dots\cap A_{a_j}) = P(A_{a_2}\cap\dots\c
 	Consequently, in the proof of \textbf{proposition 3.2.4}, $Q,P'$ are both probability measures defined on $\borel$, and $Q$ agrees with $P'$ on sets $(-\infty,y]$ and hence the semialgebra $\semialg$ defined in \textbf{2.5.9}, so $Q=P'$ on $\borel$.
 \end{itemize}
 
+\paragraph{3.3.1} Set theory exercise. We show that with $\{A_n : n\in 1,2,\dots\}\nearrow A, B_n := A_n-A_{n-1}$, we have the properties below. For convenience, we also define $A_0:=\emptyset$ so that $B_1$ is defined.
+\begin{enumerate}
+	\item $\cup_n B_n = \cup_n A_n$\\
+	To show this, $B_n\subseteq A_n$ implies LHS $\subseteq$ RHS. Furthermore, with $x\in$ RHS, let $n = \min \{n : x\in A_n\} > 0$, then $x\in A_n-A_{n-1} = B_n$, so RHS $\subseteq$ LHS. The minimum exists by well-ordering principle.
+	\item and $i\neq j\implies B_i\cap B_j = \emptyset$.\\
+	WLOG, $i < j$, so $B_iB_j = (A_iA_{i-1}^c)(A_jA_{j-1}^c)\subseteq A_iA_{j-1}^c\subseteq A_iA_i^c = \emptyset$, hence $B_iB_j=\emptyset$.
+\end{enumerate}
+
+\divider
+
+\subparagraph{Notation} Here, we introduce a notation from Ross's A First course in probability. Given a monotonic sequence of events, be it $\{A_n\}\nearrow A$ or $\{A_n\}\searrow A$, we denote $\limitinf A_n := A$.
+
+\paragraph{3.4.2} Let $(B_n)$ be a sequence of events, and $(B_{n_k})$ is a subsequence. Then $\{\io{B_n}\}\supseteq \{\io{B_{n-k}}\}$. In particular, if $P(\io{B_{n_k}}) = 1$, then $P(\io{B_n}) = 1$. Hence, with this proposition, to find $P(\io{B_n})$ we can attempt to find an independent subsequence and use the Borel-Cantelli lemma.
+
+\paragraph{3.5} It is defined that the tail field of a sequence of events $\infseq{A}$
+\begin{align*}
+	\tau = \bigcap_{n=1}^\infty\sigma(A_n,A_{n+1},\dots)
+\end{align*}
+
+In general, we $\{\io{A_n}\}\in \tau$ since for each $N\in\nat$, 
+\begin{align*}
+	\{\io{A_n}\} = \bigcap_{n=1}^\infty \bigcup_{k=n}^\infty A_k = \bigcap_{n=N}^\infty \bigcup_{k=n}^\infty A_k \in \sigma(A_N, A_{N+1},\dots)
+\end{align*}
+Hence $\{\io{A_n}\}\in \tau$.
+
+Similarly for any subsequence $(A_{n_k})$ of $(A_n)$, we have $\{\io{A_{n_k}}\}\in\tau$.
+
+In the special case of $A_n = H_n$, where $H_n$ is the event that in infinite fair coin tossing, the nth coin comes up heads. Then the event $B_n = \{r_n = r_{n+1} = r_{n+2}\} = H_nH_{n+1}H_{n+2} \cup H_n^cH_{n+1}^cH_{n+2}^c$ and $P(B_n) = \frac{1}{4}$. Additionally, $\{\io{B_n}\}\in\tau$ since each $B_n$ can be expressed in terms of $H_k, k\geq n$. To elaborate, we observe that for each $N\in\nat$
+\begin{align*}
+	\{\io{B_n}\}\in \sigma(B_N, B_{N+1},\dots)\subseteq \sigma(H_N, H_{N+1},\dots)
+\end{align*}
+
+\paragraph{3.5.1} Some notes on the proof of \textbf{theorem 3.5.1}.
+\begin{itemize}
+	\item By independence of $\infseq{A}$, for each $n$, $\sigma(\{\seq{A}{n-1}\}),\sigma(\{A_n,\dots\})$ are independent classes. Since $A\in \sigma(\{A_n,\dots\})$ and $A,\seq{A}{n-1}$ are independent.
+	\item For any finite subcollection $S$ of $A,\infseq{A}$, there is a largest $k$ such that $A_k\in S$. Hence, by independence of $A,\seq{A}{k}$, $S\subseteq \{A,\seq{A}{k}\}$ is also independent.
+\end{itemize}
+
+
+\paragraph{4.1.1} Alternatively, in Iverson's notation, for a simple r.v. $X$ with $range(X) = \{\seq{x}{n}\}$,
+\begin{align*}
+	X = \omega\mapsto\sum_{1\leq i\leq n}x_i[X(\omega) = x_i]
+\end{align*}
+
+\section*{Questions for further research}
+\paragraph{Borel algebra} How is a borel algrebra $\borel = \sigma(A)$ rigorously defined? Intuitively, I would say "countable combinations of elements of A" involving set operations. However, according to wikipedia, it appears some form of advanced induction (transfinite induction?) is needed.
+
+Follow up questions:
+\begin{itemize}
+	\item Prove rigorously that if $A'\subseteq \borel$, then $\sigma(A')\subseteq \borel$. This may require some form of advanced induction.
+\end{itemize}
 \end{document}
