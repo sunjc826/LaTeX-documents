@@ -56,5 +56,34 @@ Another way to interpret $P_{i,j}^n$ is the following. $P_{i,j}^n > 0$ iff there
 
 To take example 4.12 in this section as an example: Suppose we want to show that states $0,1$ cannot access state $2$. One possible argument to make is to consider the candidates for states $l:=l_{n-1}$ (for any $n$) such that $l_{n-1}\rightarrow 2$, or equivalently, $P_{l,2} > 0$. But looking at the 3rd column of the Markov matrix, we see that the only candidate for $l$ is $2$ itself. So it is impossible to have a series of state transition from $0$ or $1$ that ends up in $2$. (A formal proof can involve induction on the number of state transitions.)
 
+\divider
+
+\emph{Characterization of recurrent and transient states}
+For a state $i$, let $f_i$ be the probability that state $i$ is revisited, given that the current state is $i$.\\
+Let $Y_i\sim Geom(p=(1-f_i))$ be a r.v. counting the number of times state $i$ was entered, given that the starting state is $i$.
+Transient states:
+\begin{itemize}
+    \item Have a $f_i$ value $<1$
+    \item Have a finite expectation $E[Y_i]$ 
+\end{itemize}
+Recurrent states:
+\begin{itemize}
+    \item Have $f_i = 1$
+    \item Have an infinite expectation $E[Y_i]$
+\end{itemize}
+Hence to argue that in a finite state space, there must be at least 1 recurrent state, we argue that the sum of expectation of all $Y_i$ must be infinite, so there must be some $i$ for which $E[Y_i] > 0$.
+
+\divider
+
+\emph{Corollary 4.2} We provide a more succint derivation of this result.
+\begin{itemize}
+    \item State $i$ recurrent implies $\sum_n p_{i,i}^n=\infty$
+    \item $i\leftrightarrow j$ implies $\exists m_1,m_2$, $p_{i,j}^{m_1} > 0\land p_{j,i}^{m_2} > 0$
+\end{itemize}
+Hence,
+\begin{align*}
+    \sum_n p_{j,j}^n\geq \sum_{n\geq m_1 + m_2}p_{j,j}^n \geq \sum_{n\geq m_1 + m_2}p_{j,i}^{m_2}p_{i,i}^{n-m_1-m_2}p_{i,j}^{m_1} = p_{j_i}^{m_2}p_{i,j}^{m_1}\sum_n p_{i,i}^n
+\end{align*}
+The last sum is unbounded and we are done.
 
 \end{document}

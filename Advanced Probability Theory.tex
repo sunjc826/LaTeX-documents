@@ -29,6 +29,7 @@
 \newcommand{\existsReal}[1][x]{\exists #1\in\real}
 \newcommand{\existsInteger}[1][n]{\exists #1\in\integer}
 \newcommand{\existsNat}[1][n]{\exists #1\in\nat}
+\newcommand{\enum}[1]{1,2,\dots,#1}
 \newcommand{\seq}[2]{#1_1,#1_2,\dots,#1_{#2}} %finite sequence literal%
 \newcommand{\infseq}[1]{#1_1,#1_2,\dots} %infinite sequence%
 \newcommand{\subseq}[3]{#1_{#2_1},#1_{#2_2},\dots,#1_{#2_{#3}}} %finite subsequence literal%
@@ -38,6 +39,8 @@
 \newcommand{\io}[1]{#1 \mathit{i.o.}} %infinitely often, same as limsup events%
 \newcommand{\alma}[1]{#1 \mathit{a.a.}} %almost always, same as liminf events%
 
+
+\newcommand{\floor}[1]{\lfloor #1\rfloor}
 
 % \rule{length}{thickness}
 \newcommand{\divider}[0]{\begin{center}
@@ -379,7 +382,7 @@ The last equality is by manipulation of sets. The second last equality is by com
 
 \paragraph{3.2.2} Suppose for a collection of events indexed by $I$ is independent, such that for any finite choice $\seq{a}{j}\in I$, $P(\subseqconn{A}{a}{j}{\cap})=P(A_{a_1})\dots P(A_{a_j})$.
 
-\subparagraph{a} $P(A_{a_2}\cap\dots\cap A_{a_j}) = P(subseqconn{A}{a}{j}{\cap}) + P(A_{a_1}^c\cap A_{a_2}\cap\dots\cap A_{a_j})$ by additivity.
+\subparagraph{a} $P(A_{a_2}\cap\dots\cap A_{a_j}) = P(\subseqconn{A}{a}{j}{\cap}) + P(A_{a_1}^c\cap A_{a_2}\cap\dots\cap A_{a_j})$ by additivity.
 
 So we have $P(A_{a_1}^c\cap A_{a_2}\cap\dots\cap A_{a_j}) = P(A_{a_2}\cap\dots\cap A_{a_j}) - P(\subseqconn{A}{a}{j}{\cap}) = P(A_{a_2})\dots P(A_{a_j}) - P(A_{a_1})\dots P(A_{a_j}) = (1-P(A_{a_1})P(A_{a_2})\dots P(A_{a_j}) = P(A_{a_1}^c)P(A_{a_2})\dots P(A_{a_j})$.
 
@@ -437,6 +440,35 @@ In the special case of $A_n = H_n$, where $H_n$ is the event that in infinite fa
 \begin{align*}
 	X = \omega\mapsto\sum_{1\leq i\leq n}x_i[X(\omega) = x_i]
 \end{align*}
+
+\paragraph{Ex 4.1.3} WLOG, suppose $n\leq m$. For each $w\in \Omega$, we have $X(w) = x_i = y_j$ for some $1\leq i\leq n, 1\leq j\leq m$. We can show the following:
+\begin{itemize}
+	\item WLOG, we assume that all the $x_i$ are distinct, and all the $y_j$ are distinct. We can assume this due to additivity, e.g. if $x_{i_1} = x_{i_2} = x$, then $x_{i_1}P(A_{i_1}) + x_{i_2}P(A_{i_2}) = x(P(A_{i_1}) + P(A_{i_2})) = xP(A_{i_1}\sqcup A_{i_2})$. In other words, any partition of sets $\{A_i\}$ such that all elements in the same partition take the same value can be reduced to an equivalent partition of the form $\{X^{-1}(z) : z\in range(X)\}$ such that $\sum_i x_i A_i = \sum_z zX^{-1}(z)$ and $\sum_i x_iP(A_i) = \sum_z zP(X^{-1}(z))$.
+	\item $\forall 1\leq i\leq n, \exists 1\leq j\leq m, B_j = A_i\land y_j = x_i$. To show this, we can fix some $1\leq i\leq n$, and choose $w\in A_i$ such that $X(w) = x_i$. This $w$ falls in exactly one $B_j$ so that $x_i = y_j$ and the same goes for any other element of $A_i$. So $A_i\subseteq B_j$.
+	\item By symmetry, $A_i = B_j$, and $n = m$. By renumbering the partition $\{B_i\}$, we have $\forall i, A_i = B_i\land x_i = y_i$. Hence, the 2 expectations are the same.
+\end{itemize}
+
+Note that \textbf{ex 4.1.3.} directly shows that the expectation $E[f(X)] = \sum_i f(x_i)P(A_i)$, since on each set $A_i$, the r.v. $f(X)$ takes the value $f(x_i$).
+
+\paragraph{4.2} Notes:
+\begin{itemize}
+	\item This section studies non-negative random variables, so $\{E[Y] : Y \text{simple}, Y\leq X\}\neq \emptyset$, since the constant $\mathbf{0}$ r.v. is in the set.
+	\item The $\nearrow$ notation is used for both events and random variables.
+\end{itemize}
+
+
+\paragraph{4.2.3} We give an argument for the claim: Expected values are unchanged if we modify the random variable values on sets of probability $0$. (Reminder that the r.v. in consideration are non-negative).
+
+Suppose r.v. $X$ and $Y$ differ on some set $S\in \alg$ where $P(S) = 0$. We want to show that $E[X] = E[Y]$, i.e. $\sup \{E[Z] : Z\text{ simple}, Z\leq X\} = \sup \{E[Z] : Z\text{ simple}, Z\leq Y\}$. By symmetry, it suffices to show LHS $\leq$ RHS. Let any $E[Z]\in$ LHS. Let $Z'$ be the r.v. $Z[X=Y]\leq Y$. Then $E[Z'] = E[Z]$, so that $\forall E[Z]\in \text{ LHS}, E[Y]\geq E[Z'] = E[Z]$ (this can be proven with the help of \textbf{4.1.3}), and we are done.
+
+\paragraph{4.2.5} We need to show that $\phi_n$ is measurable.
+
+First, study the range of $\phi_n$. Write $2^{-n}\floor{2^nx} = k$, i.e. $\floor{2^nx} = 2^nk = z\in\integer$. Furthermore, $0\leq k\leq n\iff 0\leq z\leq n2^n$. So the only values $z$ can take are $\{0,\dots,n2^n\}$. Hence, the range of $phi_n$ is $\{\frac{z}{2^n} : z\in \{0,1,\dots,n2^n\}\}$, in particular, $n = \frac{n2^n}{2^n}$.
+
+To show that $\phi_n$ is measurable, it suffices to show that $\phi_n^{-1}(\{\frac{z}{2^n}\})\in \alg$, since the preimage of each interval is just the preimages of a finite union of these of singletons. This part is true since $\phi_n^{-1}(\{\frac{z}{2^n}\}) = [\frac{z}{2^n}, \frac{z+1}{2^n})\in \alg$.
+
+
+\paragraph{4.2.8} For this equation, note that if we let $S_n$ be the partial sum $\seqconn{X}{n}{+}$, then $\{S_n\}\nearrow S$.
 
 \section*{Questions for further research}
 \paragraph{Borel algebra} How is a borel algrebra $\borel = \sigma(A)$ rigorously defined? Intuitively, I would say "countable combinations of elements of A" involving set operations. However, according to wikipedia, it appears some form of advanced induction (transfinite induction?) is needed.
