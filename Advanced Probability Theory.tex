@@ -39,6 +39,7 @@
 \newcommand{\io}[1]{#1 \mathit{i.o.}} %infinitely often, same as limsup events%
 \newcommand{\alma}[1]{#1 \mathit{a.a.}} %almost always, same as liminf events%
 
+\newcommand{\qedsymbol}{\hfill\blacksquare}
 
 \newcommand{\floor}[1]{\lfloor #1\rfloor}
 
@@ -457,9 +458,34 @@ Note that \textbf{ex 4.1.3.} directly shows that the expectation $E[f(X)] = \sum
 \end{itemize}
 
 
-\paragraph{4.2.3} We give an argument for the claim: Expected values are unchanged if we modify the random variable values on sets of probability $0$. (Reminder that the r.v. in consideration are non-negative).
+\paragraph{4.2.3} 
 
-Suppose r.v. $X$ and $Y$ differ on some set $S\in \alg$ where $P(S) = 0$. We want to show that $E[X] = E[Y]$, i.e. $\sup \{E[Z] : Z\text{ simple}, Z\leq X\} = \sup \{E[Z] : Z\text{ simple}, Z\leq Y\}$. By symmetry, it suffices to show LHS $\leq$ RHS. Let any $E[Z]\in$ LHS. Let $Z'$ be the r.v. $Z[X=Y]\leq Y$. Then $E[Z'] = E[Z]$, so that $\forall E[Z]\in \text{ LHS}, E[Y]\geq E[Z'] = E[Z]$ (this can be proven with the help of \textbf{4.1.3}), and we are done.
+We give an argument for the claim: If $\{X_n\}\nearrow X$ almost surely, then $X$ is a random variable. Let $S = \{\omega : X_n(\omega)\not \rightarrow X(\omega)\}$. Then $P(S) = 0$. In particular, $S\in \alg$, i.e. $S$ is a measurable set.
+
+Here we define the function $Y = X[X\notin S]$ and $Y_n = X_n[X_n\notin S]$. Then $\{Y_n\}\nearrow Y$, where $Y_n$ are random variables, which we will prove next.
+
+\subparagraph{Lemma} For each $n$, $Y_n$ is a random variable.
+
+To see this, consider the preimage of any Borel set. If $B\in \borel$ and $0\notin B$, then $Y_n^{-1}(B) = X_n^{-1}(B)\cap S^c$. $X_n^{-1}(B)\in \alg$ since $X_n$ is a random variable and $S^c\in \alg$ since sigma algebras are closed under complement, so that $Y_n^{-1}(B)\in \alg$.\\
+Similarly, if $B\in \borel$ and $0\in B$, then $Y_n^{-1}(B) = X_n^{-1}(B)\cup S\in \alg$.
+
+Hence, $Y_n$ is shown to be a random variable.$\qedsymbol$
+
+\subparagraph{Corollary} $Y$ is a random variable.
+
+Immediately true by the above lemma and \textbf{Theorem 4.2.2}.$\qedsymbol$
+
+
+\subparagraph{Proposition} $X$ is a random variable.
+
+For $B\in \borel$, $X^{-1}(B) = Y^{-1}(B)\cup S'$ for some set $S\subseteq S$. Here, we need to assume completeness of the measure, so that $P(S')=0$ and in particular, $S'$ is measurable. By closure under union, $X^{-1}(B)\in \alg$.$\qedsymbol$
+
+\divider
+
+We give an argument for the claim: Expected values are unchanged if we modify the random variable values on sets of probability $0$. (Reminder that the r.v. in consideration are non-negative).
+
+Suppose r.v. $X$ and $Y$ differ on some set $S\in \alg$ where $P(S) = 0$. We want to show that $E[X] = E[Y]$, i.e. $\sup \{E[Z] : Z\text{ simple}, Z\leq X\} = \sup \{E[Z] : Z\text{ simple}, Z\leq Y\}$. By symmetry, it suffices to show LHS $\leq$ RHS.\\
+Let any $E[Z]\in$ LHS. Let $Z'$ be the r.v. $Z[X=Y]\leq Y$. In other words, we form $Z'$ by zeroing $Z$ at all places where $X\neq Y$. Then $E[Z'] = E[Z]$, so that $\forall E[Z]\in \text{ LHS}, E[Y]\geq E[Z'] = E[Z]$ (this can be proven with the help of \textbf{4.1.3}), and we are done. $\qedsymbol$
 
 \paragraph{4.2.5} We need to show that $\phi_n$ is measurable.
 
@@ -469,6 +495,23 @@ To show that $\phi_n$ is measurable, it suffices to show that $\phi_n^{-1}(\{\fr
 
 
 \paragraph{4.2.8} For this equation, note that if we let $S_n$ be the partial sum $\seqconn{X}{n}{+}$, then $\{S_n\}\nearrow S$.
+
+\paragraph{4.3.2} Easy.
+
+\paragraph{4.3.3} ???????? 
+
+\paragraph{4.3.4}
+\subparagraph{a} Independence follows since $X^+,X^-$ are functions of $X$, and $Y^+,Y^-$ are functions of $Y$, and $X, Y$ are independent.
+\subparagraph{b} $Z^+ = X^+Y^+ + X^-Y^-, -X^- = X^+Y^- + X^-Y^+$
+\subparagraph{c} 
+\begin{align*}
+	E[XY] &= E[Z^+-Z^-]\text{ by definition}\\
+	&= E[X^+Y^+ + X^-Y^- - X^+Y^- - X^-Y^+]\\
+	&= E[X^+Y^+] + E[X^-Y^-] - E[X^+Y^-] - E[X^-Y^+]\text{ by linearity}\\
+	&= E[X^+]E[Y^-] + \dots \text{ since these are non-negative r.v.}\\
+	&= (E[X^+]-E[X^-])\cdot(E[Y^+]-E[Y^-])\text{ factorize}\\
+	&= E[X]E[Y]\text{ by definition}
+\end{align*}
 
 \section*{Questions for further research}
 \paragraph{Borel algebra} How is a borel algrebra $\borel = \sigma(A)$ rigorously defined? Intuitively, I would say "countable combinations of elements of A" involving set operations. However, according to wikipedia, it appears some form of advanced induction (transfinite induction?) is needed.
