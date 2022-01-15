@@ -498,7 +498,16 @@ To show that $\phi_n$ is measurable, it suffices to show that $\phi_n^{-1}(\{\fr
 
 \paragraph{4.3.2} Easy.
 
-\paragraph{4.3.3} ???????? 
+\paragraph{4.3.3} (Thank you math.stackexchange i.e. Mike !)
+The steps are as follows.
+\begin{itemize}
+	\item $Z^+ - Z^- = Z = X + Y = X^+ - X^- + Y^+ - Y^-$
+	\item $Z^+ + X^- + Y^- = Z^- + X^+ + Y^+$
+	\item $E[Z^+] + E[X^-] + E[Y^-] = E[Z^-] + E[X^+] + E[Y^+]$
+	\item $E[Z^+] - E^[Z^-] = E[X^+] - E[X^-] + E[Y^+] - E[Y^-]$
+	\item $E[Z] = E[X] + E[Y]$
+\end{itemize}
+and we prove linearity of expectation in general.
 
 \paragraph{4.3.4}
 \subparagraph{a} Independence follows since $X^+,X^-$ are functions of $X$, and $Y^+,Y^-$ are functions of $Y$, and $X, Y$ are independent.
