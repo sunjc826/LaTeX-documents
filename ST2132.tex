@@ -12,6 +12,8 @@
 
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 \newcommand{\set}[1]{\{#1\}}
+\newcommand{\rbracket}[1]{\left(#1\right)}
+\newcommand{\sbracket}[1]{\left[#1\right]}
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
 \newcommand{\reals}[0]{\mathbb{R}} %real numbers%
 \newcommand{\real}[0]{\mathbb{R}} %real numbers%
@@ -81,5 +83,74 @@ For a fixed $\epsilon$, let $\delta > 0$ be such that $|x-\alpha|\leq\delta\impl
 	P(|g(X_n)-g(\alpha)| > \epsilon)\leq P(|X_n-\alpha| > \delta)\rightarrow 0
 \end{align*}
 Hence, $g(X_n)\weakconv g(\alpha)$.
+
+\section{Distributions derived from Normal distribution}
+
+\subparagraph{t-distribution pdf derivation}
+First, note that $T=\frac{Z}{\sqrt{\frac{U}{n}}}\sim t_n$.\\
+Let $Y = Z, X = \sqrt{\frac{U}{n}}$.
+
+\begin{align*}
+	F_{X}(u) = P(\sqrt{\frac{U}{n}}\leq u) = P(U\leq nu^2) = F_U(nu^2)
+\end{align*}
+Hence,
+\begin{align*}
+	f_{X}(u) = 2nu f_U(u) &= 2nu\cdot \frac{\rbracket{\frac{1}{2}}^{\frac{n}{2}}}{\Gamma\rbracket{\frac{n}{2}}} (nu^2)^{\frac{n}{2}-1}e^{-\frac{nu^2}{2}} [nu^2\geq 0]\\
+	&= \frac{n^{\frac{n}{2}}}{2^{\frac{n}{2}-1}\Gamma\rbracket{\frac{n}{2}}}u^{n-1}e^{-\frac{nu^2}{2}}[u\geq 0]
+\end{align*}
+Note the formula for the pdf of a quotient.
+\begin{align*}
+	f_{\frac{Y}{X}}(t) = \int_\real |x|f_X(x)f_Y(tx)dx
+\end{align*}
+Hence,
+\begin{align*}
+	f_T(t) &= \int_\real |x|\frac{n^{\frac{n}{2}}}{2^{\frac{n}{2}-1}\Gamma\rbracket{\frac{n}{2}}}x^{n-1}e^{-\frac{nt^2}{2}}[t\geq 0]\cdot \frac{1}{\sqrt{2\pi}}e^{-\frac{(tx)^2}{2}}dx\\
+	&= \frac{n^{\frac{n+1}{2}}}{2^{\frac{n-1}{2}}\sqrt{n\pi}\Gamma\rbracket{\frac{n}{2}}} \int_{\real^+} x^ne^{\frac{-(n+t^2)x^2}{2}}dx\\
+	&= \frac{n^{\frac{n+1}{2}}}{2^{\frac{n-1}{2}}\sqrt{n\pi}\Gamma\rbracket{\frac{n}{2}}} \int_{\real^+} \rbracket{\frac{2}{n+t^2}u}^{\frac{n}{2}}e^{-u}\frac{1}{\sqrt{n+t^2}\sqrt{2u}}du \text{ reverse substitution: } x=\sqrt{\frac{2}{n+t^2}u}\\
+	&=\frac{n^{\frac{n+1}{2}}}{2^{\frac{n-1}{2}}\sqrt{n\pi}\Gamma\rbracket{\frac{n}{2}}}\cdot \frac{2^{\frac{n-1}{2}}}{(n+t^2)^{\frac{n+1}{2}}}\int_{\real^+}u^{\frac{n-1}{2}}e^{-u}du\\
+	&=\frac{1}{\Gamma\rbracket{\frac{n}{2}}\sqrt{n\pi}}\rbracket{\frac{n+t^2}{n}}^{-\frac{n+1}{2}}\int_{\real^+}u^{\frac{n+1}{2}-1}e^{-u}du\\
+	&=\frac{\Gamma\rbracket{\frac{n+1}{2}}}{\Gamma\rbracket{\frac{n}{2}}\sqrt{n\pi}}\rbracket{\frac{n+t^2}{n}}^{-\frac{n+1}{2}}
+\end{align*}
+
+\paragraph{Square of t-distribution}
+\begin{align*}
+	T^2 = \frac{Z^2}{\frac{U}{n}}
+\end{align*}
+where $Z^2\sim \chi_1^2, U\sim \chi_n^2$, hence $T^2\sim F_{1,n}$
+
+\paragraph{F-distribution pdf derivation}
+Note that
+\begin{align*}
+	W = \frac{\frac{U}{m}}{\frac{V}{n}}
+\end{align*}
+where $U\sim \chi_m^2, V\sim \chi_n^2$.
+
+We can derive that
+\begin{align*}
+	F_{\frac{U}{m}}(x)=F_U(mx)\implies f_{\frac{U}{m}}(x) = mf_U(mx)\\
+	F_{\frac{V}{n}}(x)=F_V(nx)\implies f_{\frac{V}{n}}(x) = nf_V(nx)
+\end{align*}
+
+\begin{align*}
+	f_W(w) &= \int_\real |x|f_X(x)f_Y(wx)dx\\
+	&= \int_\real |x|\cdot nf_V(nx)\cdot mf_U(mwx)dx\\
+	&= \int_\real |x|\cdot mn\cdot [nx\geq 0]\frac{\rbracket{\frac{1}{2}}^{\frac{n}{2}}}{\Gamma\rbracket{\frac{n}{2}}}(nx)^{\frac{n}{2}-1}e^{-\frac{nx}{2}}\cdot [mwx\geq 0]\frac{\rbracket{\frac{1}{2}}^{\frac{m}{2}}}{\Gamma\rbracket{\frac{m}{2}}}(mwx)^{\frac{m}{2}-1}e^{-\frac{mwx}{2}}
+\end{align*}
+We consider cases. 
+\begin{itemize}
+	\item If $w\leq 0$, then $[nx\geq 0][mwx\geq 0] = [x\geq 0][x\leq 0] = [x=0]$, so the integral is over a single point, hence evaluates to $0$.
+	\item Otherwise, if $w>0$, then $[nx\geq 0][mwx\geq 0] = [x\geq 0]$, so the integral can then be restricted to $\mathbb{R}^+$.
+\end{itemize}
+Hence, in the case where $w > 0$, we need to evaluate
+\begin{align*}
+	f_W(w) &= \int_{\real^+} x\cdot mn\cdot \frac{\rbracket{\frac{1}{2}}^{\frac{n}{2}}}{\Gamma\rbracket{\frac{n}{2}}}(nx)^{\frac{n}{2}-1}e^{-\frac{nx}{2}}\cdot \frac{\rbracket{\frac{1}{2}}^{\frac{m}{2}}}{\Gamma\rbracket{\frac{m}{2}}}(mwx)^{\frac{m}{2}-1}e^{-\frac{mwx}{2}}\\
+	&= \frac{\rbracket{\frac{1}{2}}^{\frac{m+n}{2}}(m)^{\frac{m}{2}}w^{\frac{m}{2}-1}n^{\frac{n}{2}}}{\Gamma\rbracket{\frac{m}{2}}\Gamma\rbracket{\frac{n}{2}}}\int_{\real^+} x^{\frac{m+n}{2}-1}e^{-\frac{n+mw}{2}x}dx\\
+	&= \frac{\rbracket{\frac{1}{2}}^{\frac{m+n}{2}}\rbracket{\frac{m}{n}}^{\frac{m}{2}}w^{\frac{m}{2}-1}n^{\frac{m+n}{2}}}{\Gamma\rbracket{\frac{m}{2}}\Gamma\rbracket{\frac{n}{2}}}\int_{\real^+} x^{\frac{m+n}{2}-1}e^{-\frac{n+mw}{2}x}dx\\
+	&= \frac{\rbracket{\frac{1}{2}}^{\frac{m+n}{2}}\rbracket{\frac{m}{n}}^{\frac{m}{2}}w^{\frac{m}{2}-1}n^{\frac{m+n}{2}}}{\Gamma\rbracket{\frac{m}{2}}\Gamma\rbracket{\frac{n}{2}}}\int_{\real^+} \rbracket{\frac{2}{n+mw}u}^{\frac{m+n}{2}-1}e^{-u}\frac{2}{n+mw}dx \text{ Substitution: }u=\frac{n+mw}{2}x\\
+	&= \frac{\rbracket{\frac{1}{2}}^{\frac{m+n}{2}}\rbracket{\frac{m}{n}}^{\frac{m}{2}}w^{\frac{m}{2}-1}n^{\frac{m+n}{2}}}{\Gamma\rbracket{\frac{m}{2}}\Gamma\rbracket{\frac{n}{2}}}\int_{\real^+} \rbracket{\frac{2}{n+mw}u}^{\frac{m+n}{2}-1}e^{-u}\frac{2}{n+mw}dx\\
+	&= \frac{\rbracket{\frac{m}{n}}^{\frac{m}{2}}w^{\frac{m}{2}-1}n^{\frac{m+n}{2}}}{\Gamma\rbracket{\frac{m}{2}}\Gamma\rbracket{\frac{n}{2}}}\int_{\real^+} \rbracket{\frac{1}{n+mw}u}^{\frac{m+n}{2}-1}e^{-u}\frac{1}{n+mw}dx\\
+	&= \frac{\rbracket{\frac{m}{n}}^{\frac{m}{2}}w^{\frac{m}{2}-1}}{\Gamma\rbracket{\frac{m}{2}}\Gamma\rbracket{\frac{n}{2}}}\rbracket{\frac{n+mw}{n}}^{-\frac{m+n}{2}}\int_{\real^+} u^{\frac{m+n}{2}-1}e^{-u}dx\\
+	&= \frac{\Gamma\rbracket{\frac{m+n}{2}}}{\Gamma\rbracket{\frac{m}{2}}\Gamma\rbracket{\frac{n}{2}}}\rbracket{\frac{m}{n}}^{\frac{m}{2}}w^{\frac{m}{2}-1}\rbracket{1+\frac{m}{n}w}^{-\frac{m+n}{2}}
+\end{align*}
 
 \end{document}
