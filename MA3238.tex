@@ -11,10 +11,39 @@
 \usepackage{pgfplots}
 
 \newcommand\tab[1][1cm]{\hspace*{#1}}
+\newcommand{\set}[1]{\{#1\}} %braces%
+\newcommand{\rbracket}[1]{\left(#1\right)} %round brackets%
+\newcommand{\sbracket}[1]{\left[#1\right]} %square brackets%
+\newcommand{\floor}[1]{\lfloor #1\rfloor}
+\newcommand{\ceil}[1]{\lceil #1\rceil}
+\newcommand{\powerset}[1]{\mathcal{P}(#1)}
+\newcommand{\reals}[0]{\mathbb{R}} %real numbers%
+\newcommand{\real}[0]{\mathbb{R}} %real numbers%
+\newcommand{\rational}[0]{\mathbb{Q}} %rational numbers%
+\newcommand{\integer}[0]{\mathbb{Z}} %integers%
+\newcommand{\nat}[0]{\mathbb{N}} %natural numbers%
+\newcommand{\limitinf}[1][n]{\lim_{#1\rightarrow \infty}} %limit to infinity%
+\newcommand{\forallReal}[1][x]{\forall #1\in\real} 
+\newcommand{\forallInteger}[1][n]{\forall #1\in\integer}
+\newcommand{\forallNat}[1][n]{\forall #1\in\nat}
+\newcommand{\existsReal}[1][x]{\exists #1\in\real}
+\newcommand{\existsInteger}[1][n]{\exists #1\in\integer}
+\newcommand{\existsNat}[1][n]{\exists #1\in\nat}
+\newcommand{\enum}[1]{1,2,\dots,#1}
+\newcommand{\seq}[2]{#1_1,#1_2,\dots,#1_{#2}} %finite sequence literal%
+\newcommand{\infseq}[1]{#1_1,#1_2,\dots} %infinite sequence%
+\newcommand{\subseq}[3]{#1_{#2_1},#1_{#2_2},\dots,#1_{#2_{#3}}} %finite subsequence literal%
+\newcommand{\seqconn}[3]{#1_1 #3 #1_2 #3 \dots #3 #1_{#2}} %sequence delimited by argument 3%
+\newcommand{\subseqconn}[4]{#1_{#2_1} #4 #1_{#2_2} #4 \dots #4 #1_{#2_{#3}}} %subsequence literal%
+
+\newcommand{\io}[1]{#1 \mathit{i.o.}} %infinitely often%
+\newcommand{\alma}[1]{#1 \mathit{a.a.}} %almost always%
+
+\newcommand{\qedsymbol}{\hfill\blacksquare} %right aligned QED%
 
 % \rule{length}{thickness}
 \newcommand{\divider}[0]{\begin{center}
-\rule{15cm}{1pt}
+\rule{16cm}{0.5pt}
 \end{center}}
 
 
@@ -37,6 +66,38 @@
 \maketitle
 
 Reference: Introduction to Probability Models (9th edition)
+
+\section{Revision}
+
+\emph{Limit of the binomial distribution is the poisson distribution} Let $X_n\sim (n, p=\frac{\lambda}{n})$ and consider the distribution of $X_n$ as $n\rightarrow \infty$. \textbf{Note} that as we increase $n$, we also shrink $p$ since that $p=\frac{\lambda}{n}$.
+
+Observe that \begin{align*}
+	\binom{n}{k}p^k(1-p)^{n-k} &= \frac{n^{\underline{k}}}{k!} \rbracket{\frac{\lambda}{n}}^k \rbracket{1-\frac{\lambda}{n}}^{n-k}\\
+	&= \frac{\lambda^k}{k!}\cdot \frac{n^{\underline{k}}}{n^k}\rbracket{1-\frac{\lambda}{n}}^{n-k}
+\end{align*}
+Since $\frac{\lambda^k}{k!}$ is independent of $n$, it suffices to take the limit of the latter expression. We have
+\begin{align*}
+	\limitinf \frac{n^{\underline{k}}}{n^k}\rbracket{1-\frac{\lambda}{n}}^{n-k} &= \limitinf \frac{n^{\underline{k}}}{n^k}\rbracket{1-\frac{\lambda}{n}}^{n} \rbracket{1-\frac{\lambda}{n}}^{-k}\\
+	&= \limitinf \frac{n^{\underline{k}}}{n^k}\limitinf\rbracket{1-\frac{\lambda}{n}}^{n} \limitinf\rbracket{1-\frac{\lambda}{n}}^{-k}\\
+	&= 1\cdot e^{-\lambda}\cdot 1 = e^{-\lambda}
+\end{align*}
+
+\emph{A r.v. cannot be both continuous (not necessarily absolutely continuous) and discrete.}
+
+\begin{itemize}
+	\item A discrete r.v. takes probability 1 on a countable set $C$. Equivalently, there is a countable set $C$ such that $\sum_{c\in C}p(c) = 1$ for some function $p$, such that $P(X=c) := p(c)$.
+	\item A continuous r.v. has a continuous cdf.
+\end{itemize}
+
+Suppose $X$ is discrete. Let $C$ be a countable set for which $P(X\in C) = \sum_{c\in C} p(c) =  1$. Clearly, it is not possible for all $p(c) = 0$, so $\exists c\in C, p(c) > 0$. Let $F$ be the cdf of $X$. Then we claim that $F$ is left-discontinuous at $c$. Because $\forall \epsilon, F(c-\epsilon) < P(X < c) = F(c) - p(c)$. $\qedsymbol$
+
+
+\emph{Non-independent but covariance $0$.} Consider $Y = 1, -1$ with probability $1/2$ each. Then,
+\begin{itemize}
+	\item Given $Y = 1$, $X = 1$ with probability $1/2$ and $0$ otherwise
+	\item Given $Y = -1$, $X = 2$ with probability $1/4$ and $0$ otherwise
+\end{itemize}
+The idea of $Y$ is clear, the positive half and negative half cancel out. The idea of $X$ is to vary its behavior given differing value of $Y$, but not too much, so that the positive part of $XY$ cancels out the negative parts, with their respective probability weights.
 
 Note: The paragraphs in this document correspond to subsections in the textbook. For e.g. \textbf{4.2} corresponds to Chapman-Kolmogorov Equations.
 

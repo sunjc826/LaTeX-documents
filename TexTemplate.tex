@@ -11,7 +11,11 @@
 \usepackage{pgfplots}
 
 \newcommand\tab[1][1cm]{\hspace*{#1}}
-\newcommand{\set}[1]{\{#1\}}
+\newcommand{\set}[1]{\{#1\}} %braces%
+\newcommand{\rbracket}[1]{\left(#1\right)} %round brackets%
+\newcommand{\sbracket}[1]{\left[#1\right]} %square brackets%
+\newcommand{\floor}[1]{\lfloor #1\rfloor}
+\newcommand{\ceil}[1]{\lceil #1\rceil}
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
 \newcommand{\reals}[0]{\mathbb{R}} %real numbers%
 \newcommand{\real}[0]{\mathbb{R}} %real numbers%
@@ -35,9 +39,7 @@
 \newcommand{\io}[1]{#1 \mathit{i.o.}} %infinitely often%
 \newcommand{\alma}[1]{#1 \mathit{a.a.}} %almost always%
 
-\newcommand{\qedsymbol}{\hfill\blacksquare}
-
-\newcommand{\floor}[1]{\lfloor #1\rfloor}
+\newcommand{\qedsymbol}{\hfill\blacksquare} %right aligned QED%
 
 % \rule{length}{thickness}
 \newcommand{\divider}[0]{\begin{center}
