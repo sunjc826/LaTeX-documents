@@ -1,0 +1,191 @@
+\documentclass[a4paper]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{gensymb}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{pgfplots}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\newcommand{\set}[1]{\left\lbrace#1\right\rbrace} %braces%
+\newcommand{\rbracket}[1]{\left(#1\right)} %round brackets%
+\newcommand{\sbracket}[1]{\left[#1\right]} %square brackets%
+\newcommand{\floor}[1]{\lfloor #1\rfloor}
+\newcommand{\ceil}[1]{\lceil #1\rceil}
+\newcommand{\powerset}[1]{\mathcal{P}(#1)}
+\newcommand{\reals}[0]{\mathbb{R}} %real numbers%
+\newcommand{\real}[0]{\mathbb{R}} %real numbers%
+\newcommand{\rational}[0]{\mathbb{Q}} %rational numbers%
+\newcommand{\integer}[0]{\mathbb{Z}} %integers%
+\newcommand{\nat}[0]{\mathbb{N}} %natural numbers%
+\newcommand{\limitinf}[1][n]{\lim_{#1\rightarrow \infty}} %limit to infinity%
+\newcommand{\forallReal}[1][x]{\forall #1\in\real} 
+\newcommand{\forallInteger}[1][n]{\forall #1\in\integer}
+\newcommand{\forallNat}[1][n]{\forall #1\in\nat}
+\newcommand{\existsReal}[1][x]{\exists #1\in\real}
+\newcommand{\existsInteger}[1][n]{\exists #1\in\integer}
+\newcommand{\existsNat}[1][n]{\exists #1\in\nat}
+\newcommand{\enum}[1]{1,2,\dots,#1}
+\newcommand{\seq}[2]{#1_1,#1_2,\dots,#1_{#2}} %finite sequence literal%
+\newcommand{\infseq}[1]{#1_1,#1_2,\dots} %infinite sequence%
+\newcommand{\subseq}[3]{#1_{#2_1},#1_{#2_2},\dots,#1_{#2_{#3}}} %finite subsequence literal%
+\newcommand{\seqconn}[3]{#1_1 #3 #1_2 #3 \dots #3 #1_{#2}} %sequence delimited by argument 3%
+\newcommand{\subseqconn}[4]{#1_{#2_1} #4 #1_{#2_2} #4 \dots #4 #1_{#2_{#3}}} %subsequence literal%
+
+\newcommand{\io}[1]{#1 \mathit{i.o.}} %infinitely often%
+\newcommand{\alma}[1]{#1 \mathit{a.a.}} %almost always%
+
+\newcommand{\qedsymbol}{\hfill\blacksquare} %right aligned QED%
+
+% \rule{length}{thickness}
+\newcommand{\divider}[0]{\begin{center}
+\rule{16cm}{0.5pt}
+\end{center}}
+% Margins
+% top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm
+\usepackage[a4paper, top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\title{CS2105 (Introduction to Computer Networks)}
+\author{Jia Cheng}
+\date{Mar 2022}
+
+\begin{document}
+\maketitle
+
+\section{Transmission problems}
+Some variations of transmission problems.
+
+\paragraph{Notation}
+\begin{itemize}
+	\item Denote $A$ as the source node (sender), $B$ as the destination node (receiver).
+	\item Let $n\geq 1$ be the number of intermediate links, since $A, B$ are distinct. In other words, there are $n-1$ intermediate packet switches.
+	\item Let $m$ be the number of packets.
+	\item Let $L$ be the total size of the data to be sent, so that each packet has size $P := \frac{L}{m}$
+	\item $d_{trans}$ is the transmission time of a single node of a single packet, in the event where transmission times are uniform across all nodes. In the event where the transmission times differ, we can then denote $d_{trans, i}$ as the transmission time of node $i$. By default, we use 1-indexing, so that $d_{trans,1}$ refers to the transmission time of the sender.
+	\item $d_{prop}$ is the propagation time of a single link, in the event where propagation times are uniform across all nodes.
+\end{itemize}
+
+\paragraph{Transmission delay only}
+In other words, propagation delay, processing delay, queueing delay are ignored.
+
+Let the transmission rate be $R \text{bps}$
+
+For 1 packet, the total transmission time
+\begin{equation}
+	\text{delay} = n\cdot d_{trans} = n\cdot \frac{P}{R}
+\end{equation}
+
+For all $m$ packets, the total transmission time
+\begin{equation}
+	\text{delay} = (n-1+m)\cdot d_{trans} = (n - 1 + m)\cdot \frac{P}{R}
+\end{equation}
+To see this, the first $n-1$ is due the time taken for the first packet to finish reaching the $n-1$th packet switch. The remaining $m$ is due to the time taken for the packets to transmit across the last link.
+
+\paragraph{2 links, varying transmission rates} There is only 1 packet switch, and $A$ has transmission rate $R_1$, the packet switch has transmission rate $R_2$.
+
+For 1 packet, the total transmission time
+\begin{equation}
+	\text{delay} = d_{trans,1} + d_{trans,2} = \frac{P}{R_1} + \frac{P}{R_2}
+\end{equation}
+
+For all $m$ packets, we need to consider cases.
+
+If $R_1 > R_2$ (i.e. $R_2$ is the bottleneck), then
+\begin{equation}
+	\text{delay} = d_{trans,1} + m\cdot d_{trans,2} = \frac{P}{R_1} + m\cdot \frac{P}{R_2} = \frac{P}{R_1} + \frac{L}{R_2}
+\end{equation}
+We can account for the time it takes for the first packet to finish reaching the packet switch. Then, we can simply consider the transmission time of the entire data from the packet switch to $B$. Intuitively, this is due to the packet switch being slower than $A$, so we can imagine that when any packet of $A$ initially reaches the switch, they will queue up behind any prior packet. 
+
+If $R_1 < R_2$ (i.e. $R_1$ is the bottleneck), then
+\begin{equation}
+	\text{delay} = m\cdot d_{trans,1} + d_{trans,2} = m\cdot \frac{P}{R_1} + \frac{P}{R_2} = \frac{L}{R_1} + \frac{P}{R_2}
+\end{equation}
+The reason for this is that we can imagine that when the last packet reaches the packet switch, there is no queue since $R_2$ is faster. Hence, this last packet can transmit immediately with time $\frac{P}{R_2}$.
+
+\paragraph{Taking into account propagation delay} In some sense, both transmission and propagation are ways of moving signals/electrons/whatnot from one point to another. We can think of (processing and) transmission (heuristically) as moving a packet from one end of the packet switch to the other. Propagation is of course, moving stuff from one end of a link to the other end.
+
+Yet, propagation delay is treated rather differently from transmission delay. The reasons are:
+\begin{itemize}
+	\item When transmitting one packet, a packet switch cannot transmit other packets behind in the queue.
+	\item When propagating however, all packets/bits are essentially moving at the same speed. There is no blocking or anything (idealization).
+\end{itemize}
+
+As a result, the end-to-end delay when taking into account propagation delay is
+\begin{equation}
+	\text{delay} = n\cdot d_{prop} + (n - 1 + m)\cdot d_{trans}
+\end{equation}
+The derivation of this quantity is as follows:
+\begin{itemize}
+	\item Consider the time taken for the first bit of the data to reach the last packet switch. This takes $(n-1)\cdot d_{prop} + (n-1)\cdot d_{trans}$
+	\item At this point, this is actually equivalent to the case of transmitting the data across 1 link. The last bit of the data leaves the last packet switch at time $m\cdot d_{trans}$.
+	\item This last bit then takes $d_{prop}$ to travel across the last link to reach the destination.
+	\item Adding these together, we obtain the desired delay.
+\end{itemize}
+
+\subparagraph{Unproven Claim}
+In fact, as a general rule of thumb, the propagation component of the delay is always $\sum_i d_{prop, i}$. The reason is that regardless of how long or short propagation time is, it does not affect the relative "time"-gap between packets.
+
+\paragraph{General problem with varying $d_{trans,i}, d_{prop,i}$} This is also unproven, and I rely on intuition. Not sure how to do a formal proof on this.
+
+The idea is to find the overall bottleneck, i.e. the node with the smallest $d_{trans, i}$. As with the previous paragraph, we can generally ignore propagation delay as the relative time-gap between packets is not affected.
+
+The procedure is then to
+\begin{itemize}
+	\item Let $i\in \set{\enum{n}}$ be the smallest index that minimizes $d_{trans, i}$.
+	\item Find the time it takes for the first packet to traverse from the sender to node $i$. Account for propagation delays $\sum_{j < i}d_{prop, j}$.
+	\item Find the time it takes for all the data to be transmitted from node $i$. Also account for $d_{prop, i}$.
+	\item Find the time it takes for the last packet to traverse from node $i+1$ to the destination. Account for the propagation delays $\sum_{j > i}d_{prop, j}$
+\end{itemize}
+Adding all these quantities together gives us the total time. Dividing $\frac{\text{total data}}{\text{total time}}$ gives us the average throughput.
+
+Notice that we could have completely ignored the propagation delay, assuming that it is zero for all links and just add in the term $\sum_i d_{prop, i}$ at the end.
+
+\paragraph{Processing delay} This is quite complicated and I'm not too certain about this. We cannot just add processing delay to transmission delay and do something like $n\cdot d_{prop} + (n - 1 + m)\cdot \rbracket{d_{proc} + d_{trans}}$. The reason is that when a packet is being processed, another packet can be transmitted simultaneously.
+
+
+\section{Utilization problems}
+\paragraph{Notation}
+\begin{itemize}
+	\item $d_{trans}$ is the transmission time of a single packet.
+\end{itemize}
+
+\paragraph{Stop-and-wait protocol}
+
+\begin{equation}
+	\text{utilization} = \frac{d_{trans}}{d_{trans} + RTT} = \frac{d_{trans}}{d_{trans} + 2\cdot d_{prop}}
+\end{equation}
+It is true that for a single packet, by the time $d_{trans} + d_{prop}$ has passed, the entirety of the packet has finished reaching the destination. However, we still need to consider the entire $RTT$ since the next packet cannot transmit at this time $d_{trans} + \frac{RTT}{2}$.
+
+\paragraph{Finite number of pipelined packets} We disregard any window size, so that all packets can be sent continuously.
+
+Suppose there are $m$ packets.
+\begin{equation}
+	\text{utilization} = \frac{m\cdot d_{trans}}{m\cdot d_{trans} + d_{prop}}
+\end{equation}
+The last bit of the data gets out of the sender at time $m\cdot d_{trans}$, and reaches after $d_{prop}$ additional time. Note that at time $m\cdot d_{trans} + d_{prop}$, all the data has been received. Hence, unlike stop and wait, there is no need to consider the whole $RTT$.
+
+\paragraph{Infinite pipelined stream, finite window size} Let $n$ be the window size.
+\begin{equation}
+	\text{utilization} = \min\set{\frac{n\cdot d_{trans}}{d_{trans} + RTT}, 1} = \min\set{\frac{n\cdot d_{trans}}{d_{trans} + 2\cdot d_{prop}}, 1}
+\end{equation}
+
+The numerator is the time taken to transmit everything in the window.\\
+The denominator is the earliest time an ACK from the receiver can reach the sender. The $d_{trans}$ is due to the need to receive the entirety of the first packet before the receiver can process it and generate an ACK. This is also the earliest time the sender can move its window forward, so that the sender can start sending more (new) packets.
+
+Utilization is capped at one, since by definition utilization is the fraction of the time spent transmitting.
+
+\end{document}
