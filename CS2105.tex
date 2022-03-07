@@ -146,11 +146,15 @@ The idea is to find the overall bottleneck, i.e. the node with the smallest $d_{
 The procedure is then to
 \begin{itemize}
 	\item Let $i\in \set{\enum{n}}$ be the smallest index that minimizes $d_{trans, i}$.
-	\item Find the time it takes for the first packet to traverse from the sender to node $i$. Account for propagation delays $\sum_{j < i}d_{prop, j}$.
-	\item Find the time it takes for all the data to be transmitted from node $i$. Also account for $d_{prop, i}$.
-	\item Find the time it takes for the last packet to traverse from node $i+1$ to the destination. Account for the propagation delays $\sum_{j > i}d_{prop, j}$
+	\item Find the time it takes for the first packet to traverse from the sender to node $i$. Account for propagation delays as well. This gives $\sum_{j<i}d_{trans,j} + \sum_{j < i}d_{prop, j}$.
+	\item Find the time it takes for all the data to be transmitted from node $i$ to node $i+1$. Also account for propagation delay. This gives $m\cdot d_{trans,i} + d_{prop,i}$.
+	\item Find the time it takes for the last packet to traverse from node $i+1$ to the destination. Account for the propagation delays. This gives $\sum_{j > i}d_{trans, j} + \sum_{j > i}d_{prop, j}$.
 \end{itemize}
-Adding all these quantities together gives us the total time. Dividing $\frac{\text{total data}}{\text{total time}}$ gives us the average throughput.
+Adding all these quantities together gives us the total time of
+\begin{equation}
+	\sum_{j\neq i}d_{trans,j} + \sum_j d_{prop,j} + m\cdot d_{trans,i}
+\end{equation}
+Dividing $\frac{\text{total data}}{\text{total time}}$ gives us the average throughput.
 
 Notice that we could have completely ignored the propagation delay, assuming that it is zero for all links and just add in the term $\sum_i d_{prop, i}$ at the end.
 
