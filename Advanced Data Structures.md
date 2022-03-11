@@ -23,6 +23,7 @@ Evidently, there are some differences between the 2 definitions. By my understan
 In ADS, the number of operations and size of object are separated. However, note that ADS makes a slightly stronger statement, since the $g(n) + mCf(n)$ is not asymptotic. Consider the case when $m=1$. ADS then says that $S(1) \leq g(n) + Cf(n)$, where the $g(n)$ term accounts for a possibly larger initial object size.
 
 From the previous 2 segments, we see that ADS' complexity definitions does not rely so much on asymptotics, but rather universal quantification over the entirety of $\mathbb{N}$.
+ADS does use the usual aysmptotic definition for general functions however. The above only refers to the complexity of a data object.
 
 
 
