@@ -38,7 +38,7 @@
 \newcommand{\subseq}[3]{#1_{#2_1},#1_{#2_2},\dots,#1_{#2_{#3}}} %finite subsequence literal%
 \newcommand{\seqconn}[3]{#1_1 #3 #1_2 #3 \dots #3 #1_{#2}} %sequence delimited by argument 3%
 \newcommand{\subseqconn}[4]{#1_{#2_1} #4 #1_{#2_2} #4 \dots #4 #1_{#2_{#3}}} %subsequence literal%
-
+\newcommand{\cyclic}[1]{\mathbb{Z}/#1\mathbb{Z}}
 \newcommand{\io}[1]{#1 \mathit{i.o.}} %infinitely often%
 \newcommand{\alma}[1]{#1 \mathit{a.a.}} %almost always%
 
@@ -191,5 +191,42 @@ The numerator is the time taken to transmit everything in the window.\\
 The denominator is the earliest time an ACK from the receiver can reach the sender. The $d_{trans}$ is due to the need to receive the entirety of the first packet before the receiver can process it and generate an ACK. This is also the earliest time the sender can move its window forward, so that the sender can start sending more (new) packets.
 
 Utilization is capped at one, since by definition utilization is the fraction of the time spent transmitting.
+
+\section{Cyclic Redundancy Check}
+Without having taken more advanced algebra courses, I can only make some presumptions about the theory behind CRC32.
+
+Let $P(\mathbb{F})$ denote a polynomial over a field $\mathbb{F}$. Then $P(\cyclic{2})$ denotes the polynomials over $\cyclic{2}$.
+
+For a polynomial $p\in P(\cyclic{2})$, its bitwise representation can be denoted as $p_b$. Arithmetic then has the following properties.
+
+\paragraph{Addition and subtraction} For polynomials $p, q$,
+\begin{equation}
+	p + q = p - q
+\end{equation}
+since $\sum_{i\leq n}a_ix^i = \sum_{i\leq n}-a_ix_i$ for $a_i\in \cyclic{2}$. For instance $1 = -1$ and $0 = -0$.
+
+Also
+\begin{equation}
+	(p + q)_b = p_b \oplus q_b
+\end{equation}
+
+\paragraph{CRC} We now give a polynomial arithmetic based derivation for the "checksum" value, where
+\begin{itemize}
+	\item $D$ is a degree $d-1$ polynomial. The $d$-bit binary data is given by $D_b$.
+	\item Generator $G$ is a degree $r$ polynomial, i.e. $G_b$ is $r+1$-bits.
+	\item $R$ is a degree $r-1$ polynomial, where $R_b$ is the checksum value.
+\end{itemize}
+$D, G$ are known, and we wish to calculate $R$ such that $D\cdot x^r + R = P\cdot G$ for some polynomial $P$.
+
+We manipulate the expression to obtain $D\cdot x^r = P\cdot G - R = P\cdot G + R$, which implies $D\cdot x^r\equiv R (\mod G)$. Hence, $R$ is the remainder polynomial when $D\cdot x^r$ is divided by $G$.
+
+More explicitly, let's write $D(x), G(x), R(x)$ as the polynomials (instead of implicit function variables $D, G, R$). Then,
+\begin{equation}
+\begin{aligned}
+&D(x)x^r + R(x)\equiv 0(\mod G(x))\\
+&D(x)x^r\equiv -R(x)\equiv R(x)(\mod G(x))\\
+&R(x) = D(x)x^r\mod G(x)
+\end{aligned}
+\end{equation}
 
 \end{document}
