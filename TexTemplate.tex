@@ -8,17 +8,19 @@
 \usepackage{gensymb}
 \usepackage{listings}
 \usepackage{caption}
-\usepackage{pgfplots}
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage{multirow}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 \newcommand{\set}[1]{\left\lbrace #1 \right\rbrace} %braces%
 \newcommand{\rbracket}[1]{\left(#1\right)} %round brackets%
 \newcommand{\sbracket}[1]{\left[#1\right]} %square brackets%
-\newcommand{\floor}[1]{\lfloor #1\rfloor}
-\newcommand{\ceil}[1]{\lceil #1\rceil}
+\newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1\right\rceil}
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
 \newcommand{\reals}[0]{\mathbb{R}} %real numbers%
 \newcommand{\real}[0]{\mathbb{R}} %real numbers%
@@ -43,6 +45,10 @@
 \newcommand{\alma}[1]{#1 \mathit{a.a.}} %almost always%
 
 \newcommand{\qedsymbol}{\hfill\blacksquare} %right aligned QED%
+
+%algorithm specific%
+\newcommand*\Let[2]{\State #1 $\gets$ #2}
+
 
 % \rule{length}{thickness}
 \newcommand{\divider}[0]{\begin{center}
