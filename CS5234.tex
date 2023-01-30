@@ -1,0 +1,177 @@
+\documentclass[a4paper]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{gensymb}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\newcommand{\set}[1]{\left\lbrace #1 \right\rbrace} %braces%
+\newcommand{\rbracket}[1]{\left(#1\right)} %round brackets%
+\newcommand{\sbracket}[1]{\left[#1\right]} %square brackets%
+\newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1\right\rceil}
+\newcommand{\abs}[1]{\left | #1 \right |}
+\newcommand{\powerset}[1]{\mathcal{P}(#1)}
+\newcommand{\reals}[0]{\mathbb{R}} %real numbers%
+\newcommand{\real}[0]{\mathbb{R}} %real numbers%
+\newcommand{\rational}[0]{\mathbb{Q}} %rational numbers%
+\newcommand{\integer}[0]{\mathbb{Z}} %integers%
+\newcommand{\nat}[0]{\mathbb{N}} %natural numbers%
+\newcommand{\limitinf}[1][n]{\lim_{#1\rightarrow \infty}} %limit to infinity%
+\newcommand{\forallReal}[1][x]{\forall #1\in\real} 
+\newcommand{\forallInteger}[1][n]{\forall #1\in\integer}
+\newcommand{\forallNat}[1][n]{\forall #1\in\nat}
+\newcommand{\existsReal}[1][x]{\exists #1\in\real}
+\newcommand{\existsInteger}[1][n]{\exists #1\in\integer}
+\newcommand{\existsNat}[1][n]{\exists #1\in\nat}
+\newcommand{\enum}[1]{1,2,\dots,#1}
+\newcommand{\seq}[2]{#1_1,#1_2,\dots,#1_{#2}} %finite sequence literal%
+\newcommand{\infseq}[1]{#1_1,#1_2,\dots} %infinite sequence%
+\newcommand{\subseq}[3]{#1_{#2_1},#1_{#2_2},\dots,#1_{#2_{#3}}} %finite subsequence literal%
+\newcommand{\seqconn}[3]{#1_1 #3 #1_2 #3 \dots #3 #1_{#2}} %sequence delimited by argument 3%
+\newcommand{\subseqconn}[4]{#1_{#2_1} #4 #1_{#2_2} #4 \dots #4 #1_{#2_{#3}}} %subsequence literal%
+
+\newcommand{\io}[1]{#1 \mathit{i.o.}} %infinitely often%
+\newcommand{\alma}[1]{#1 \mathit{a.a.}} %almost always%
+
+\newcommand{\qedsymbol}{\hfill\blacksquare} %right aligned QED%
+
+%algorithm specific%
+\newcommand*\Let[2]{\State #1 $\gets$ #2}
+
+
+% \rule{length}{thickness}
+\newcommand{\divider}[0]{\begin{center}
+\rule{16cm}{0.5pt}
+\end{center}}
+% Margins
+% top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm
+\usepackage[a4paper, top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\title{CS5234}
+\author{Jia Cheng}
+\date{August 2022}
+
+\begin{document}
+\maketitle
+
+\paragraph{Lemma} Let $m$ be a variable. $o(f_1(m)) + o(f_2(m)) = o((f_1 + f_2)(m))$.
+
+\textit{Proof}. The variable $m$ is implicit for simplicity. Let $g_i = o(f_i), i\in \set{1, 2}$. Then
+\begin{equation}
+	\frac{g_1 + g_2}{f_1 + f_2} = \frac{g_1}{f_1 + f_2} + \frac{g_2}{f_1 + f_2} \leq \frac{g_1}{f_1} + \frac{g_2}{f_2} \rightarrow 0 \qquad \text{as }m\rightarrow\infty
+\end{equation}
+
+which proves the formula. As usual in algorithmic analysis, we assume that all functions are non-negative.
+
+\paragraph{Proposition} Let $m$ be the number of elements. There does not exist a deterministic algorithm that is $o(m)$ for finding the median.
+
+\textit{Proof}. Suppose there does exist such a comparison based algorithm $A$. We can then use $A$ as follows. Denote the input as $\texttt{input}$.
+\begin{enumerate}
+	\item Create empty array $\texttt{arr}$ of length $m$.
+	\item Set $\texttt{arr[rank(m/2)]}\gets \texttt{median(input[1..m])}$.
+	\item Repeat this for the subarrays $\texttt{input[1..rank(m/2)-1]}, \texttt{input[rank(m/2)+1..m]}$ and so on.
+\end{enumerate}
+The runtime will then be $T(m) = 2T(m/2) + o(m)$, which expands to $T(m) = o(m\log m)$, which is impossible for a comparison based algorithm.
+
+This doesn't reach a contradiction for a non-comparison based algorithm.
+
+\textit{Proof}. My second idea is to consider the idea that it is necessary for a deterministic algorithm to at least read every single input element before making a decision on the median, and this reading would in itself take $m$ steps. Suppose some deterministic algo $A$ attempts to choose the median in fewer than $m$ steps, then there exists some element that the algo has not read. We can then manipulate this unread element, without touching the other elements to obtain an indistinguishable input which has a different median.
+
+\paragraph{Proposition} Markov's inequality
+
+Let $X$ be a non-negative r.v. Then $\forall k$
+\begin{equation}
+	E[X]\geq kP(X\geq k)
+\end{equation}
+
+In particular, when $k > 0$
+\begin{equation}
+	P(X\geq k)\leq \frac{E[X]}{k}
+\end{equation}
+
+\paragraph{Proposition} Chebyshev's inequality
+
+Let $X$ be a r.v. Then $\forall k\geq 0$,
+\begin{equation}
+	P(\abs{X-E[X]} \geq k) \leq \frac{Var(X)}{k^2}
+\end{equation}
+
+One possible derivation is by applying Markov's inequality to $(X-E[X])^2$.
+
+
+\paragraph{Proposition} Chernoff Bound (Simplified)
+
+Let $X$ be a sum of independent r.v. $X_i\sim Bernoulli(p_i)$. (Note that this also implies $X$ is non-negative.) Then $\forall \epsilon \geq 0$,
+\begin{itemize}
+	\item $P(X\geq (1+\epsilon)E[X]) \leq e^{-\frac{\epsilon^2E[X]}{2 + \epsilon}}$
+	\item $P(X\leq (1-\epsilon)E[X]) \leq e^{-\frac{\epsilon^2E[X]}{2}} \leq e^{-\frac{\epsilon^2E[X]}{3}}$
+\end{itemize}
+
+In particular, when $\epsilon \leq 1$,
+\begin{equation}
+	P(X\geq (1+\epsilon)E[X]) \leq e^{-\frac{\epsilon^2E[X]}{3}}
+\end{equation}
+
+
+
+\paragraph{Discussion} Process 1 analysis.
+
+\paragraph{Discussion} Process 2 analysis.
+
+\paragraph{Discussion} Process 3 analysis.
+
+\paragraph{Discussion} We discuss the properties of Process 1, 2 and 3.
+
+All 3 processes involve sampling, but processes 1 and 2 do not provide an computational way to conduct sampling. When the dataset $m$ is large, we cannot store the entire thing. When the data is a stream, we don't know m.
+
+Process 3 has the advantage of being actually implementable, because it
+\begin{itemize}
+	\item Does not require more than $O(t\log n)$ bits storage (when $n$ is the numerical size of the stream data elements)
+	\item Can sample without knowing $m$ using reservoir sampling
+\end{itemize}
+
+\paragraph{Problem} Design an extension to the uniform sampling algorithm of 1 element that produces a sample of size $t$.
+
+\textit{Solution}. Denote $m$ (unknown) as the size of the stream. Denote the $i$-th stream element as $x_i$. Assume that $t \leq m$.
+\begin{enumerate}
+	\item Let $\texttt{arr[1..t]}$ be an array of size $t$.
+	\item Let $i$ be an iterator variable from $1$ to $m$.
+	\begin{enumerate}
+		\item If $1\leq i\leq t$, then $\texttt{arr[i]}\gets x_i$
+		\item If $i > t$, then with probability $\frac{t}{i}$, $x_i$ replaces a uniformly chosen element of the array. Otherwise, with remaining probability $1-\frac{t}{i}$, no replacement is done.
+	\end{enumerate}
+\end{enumerate}
+
+We claim that this sampling method produces a uniform sample of size $t$. We shall prove this by induction, using the statement $Q(i)$ for $i\geq t$: At the $i$-th step of the loop, the probability of $x_j, 1\leq j\leq i$ being in the array is $\frac{t}{i}$.
+
+The base case $Q(t)$ is clearly true since $x_j, j\leq t$ must be in the array.
+
+Suppose $Q(k)$, then $x_{k+1}$ will go into the array with probability $\frac{t}{k+1}$. Consider some element $x_j, j < k+1$. Then
+\begin{equation}
+	P(x_j\in arr \text{ at step k+1}) = P(x_j\in arr \text{ at step k+1}\mid x_j\in arr \text{ at step k})P(x_j\in arr \text{ at step k})
+\end{equation}
+
+The right term of the product is by induction hypothesis $\frac{t}{k}$, whereas the left term is given by $\rbracket{1 - \frac{t}{k}} + \frac{t}{k} \cdot \frac{1}{t}$, the product evaluates to $\frac{t}{k+1}$, as desired.
+
+We have completed our induction. $\square$
+
+\end{document}

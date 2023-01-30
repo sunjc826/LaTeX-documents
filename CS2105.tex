@@ -17,8 +17,8 @@
 \newcommand{\set}[1]{\left\lbrace#1\right\rbrace} %braces%
 \newcommand{\rbracket}[1]{\left(#1\right)} %round brackets%
 \newcommand{\sbracket}[1]{\left[#1\right]} %square brackets%
-\newcommand{\floor}[1]{\lfloor #1\rfloor}
-\newcommand{\ceil}[1]{\lceil #1\rceil}
+\newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1\right\rceil}
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
 \newcommand{\reals}[0]{\mathbb{R}} %real numbers%
 \newcommand{\real}[0]{\mathbb{R}} %real numbers%
@@ -191,6 +191,12 @@ The numerator is the time taken to transmit everything in the window.\\
 The denominator is the earliest time an ACK from the receiver can reach the sender. The $d_{trans}$ is due to the need to receive the entirety of the first packet before the receiver can process it and generate an ACK. This is also the earliest time the sender can move its window forward, so that the sender can start sending more (new) packets.
 
 Utilization is capped at one, since by definition utilization is the fraction of the time spent transmitting.
+
+Suppose we want to find the smallest $n$ that maximizes utilization for known $d_{trans}$ and $RTT$, i.e. $\frac{n\cdot d_{trans}}{d_{trans} + RTT}\geq 1$. Equivalently, $n\geq \frac{RTT}{d_{trans}} + 1 = \frac{2\cdot d_{prop}}{d_{trans}} + 1$.
+\begin{equation}
+	\text{minimum }n = \ceil{\frac{RTT}{d_{trans}}}+1 = \ceil{\frac{2\cdot d_{prop}}{d_{trans}}}+1
+\end{equation}
+ 
 
 \section{Cyclic Redundancy Check}
 Without having taken more advanced algebra courses, I can only make some presumptions about the theory behind CRC32.

@@ -2,6 +2,7 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb}
+\usepackage[shortlabels]{enumitem}
 \usepackage{parskip}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
@@ -14,6 +15,11 @@
 \usepackage{float}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
 
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 \newcommand{\set}[1]{\left\lbrace #1 \right\rbrace} %braces%
@@ -21,6 +27,7 @@
 \newcommand{\sbracket}[1]{\left[#1\right]} %square brackets%
 \newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}
 \newcommand{\ceil}[1]{\left\lceil #1\right\rceil}
+\newcommand{\abs}[1]{\left | #1 \right |}
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
 \newcommand{\reals}[0]{\mathbb{R}} %real numbers%
 \newcommand{\real}[0]{\mathbb{R}} %real numbers%
@@ -35,6 +42,7 @@
 \newcommand{\existsInteger}[1][n]{\exists #1\in\integer}
 \newcommand{\existsNat}[1][n]{\exists #1\in\nat}
 \newcommand{\enum}[1]{1,2,\dots,#1}
+\newcommand{\zenum}[1]{0,1,2,\dots,#1}
 \newcommand{\seq}[2]{#1_1,#1_2,\dots,#1_{#2}} %finite sequence literal%
 \newcommand{\infseq}[1]{#1_1,#1_2,\dots} %infinite sequence%
 \newcommand{\subseq}[3]{#1_{#2_1},#1_{#2_2},\dots,#1_{#2_{#3}}} %finite subsequence literal%

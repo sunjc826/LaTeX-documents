@@ -1,0 +1,170 @@
+\documentclass[a4paper]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[shortlabels]{enumitem}
+\usepackage{parskip}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{gensymb}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+\newcommand{\set}[1]{\left\lbrace #1 \right\rbrace} %braces%
+\newcommand{\rbracket}[1]{\left(#1\right)} %round brackets%
+\newcommand{\sbracket}[1]{\left[#1\right]} %square brackets%
+\newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1\right\rceil}
+\newcommand{\abs}[1]{\left | #1 \right |}
+\newcommand{\powerset}[1]{\mathcal{P}(#1)}
+\newcommand{\reals}[0]{\mathbb{R}} %real numbers%
+\newcommand{\real}[0]{\mathbb{R}} %real numbers%
+\newcommand{\rational}[0]{\mathbb{Q}} %rational numbers%
+\newcommand{\integer}[0]{\mathbb{Z}} %integers%
+\newcommand{\nat}[0]{\mathbb{N}} %natural numbers%
+\newcommand{\limitinf}[1][n]{\lim_{#1\rightarrow \infty}} %limit to infinity%
+\newcommand{\forallReal}[1][x]{\forall #1\in\real} 
+\newcommand{\forallInteger}[1][n]{\forall #1\in\integer}
+\newcommand{\forallNat}[1][n]{\forall #1\in\nat}
+\newcommand{\existsReal}[1][x]{\exists #1\in\real}
+\newcommand{\existsInteger}[1][n]{\exists #1\in\integer}
+\newcommand{\existsNat}[1][n]{\exists #1\in\nat}
+\newcommand{\enum}[1]{1,2,\dots,#1}
+\newcommand{\zenum}[1]{0,1,2,\dots,#1}
+\newcommand{\seq}[2]{#1_1,#1_2,\dots,#1_{#2}} %finite sequence literal%
+\newcommand{\infseq}[1]{#1_1,#1_2,\dots} %infinite sequence%
+\newcommand{\subseq}[3]{#1_{#2_1},#1_{#2_2},\dots,#1_{#2_{#3}}} %finite subsequence literal%
+\newcommand{\seqconn}[3]{#1_1 #3 #1_2 #3 \dots #3 #1_{#2}} %sequence delimited by argument 3%
+\newcommand{\subseqconn}[4]{#1_{#2_1} #4 #1_{#2_2} #4 \dots #4 #1_{#2_{#3}}} %subsequence literal%
+
+\newcommand{\io}[1]{#1 \mathit{i.o.}} %infinitely often%
+\newcommand{\alma}[1]{#1 \mathit{a.a.}} %almost always%
+
+\newcommand{\qedsymbol}{\hfill\blacksquare} %right aligned QED%
+
+%algorithm specific%
+\newcommand*\Let[2]{\State #1 $\gets$ #2}
+
+
+% \rule{length}{thickness}
+\newcommand{\divider}[0]{\begin{center}
+\rule{16cm}{0.5pt}
+\end{center}}
+% Margins
+% top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm
+\usepackage[a4paper, top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\title{CS3243}
+\author{Jia Cheng}
+\date{Jan 2023}
+
+\begin{document}
+\maketitle
+
+Formalizations.
+
+\paragraph{Modelling Notation}
+\begin{itemize}
+    \item State space $S$; state $s\in S$ ($n$ can also be used to denote state)
+    \item Paths from $s$ to $t$: $Paths(s, t)$; Path $p = (n_0 = a, a_1, n_1, a_2, n_2,\dots, n_k, a_k = b)$ (A sequence of states interleaved with actions)
+    \item Actions available at state $n$: $Actions(n)$
+    \item Transition function: $T: (n_1, a)\mapsto n_2$
+    \item Transition cost: $cost(n_1, a, n_2)$
+    \item Path cost: For $p\in Paths(a, b)$, $cost(p) = cost(a, p, b) = \sum_{i=1}^k cost(n_{i-1}, a_i, n_i)$
+    \item Goals set: $Goals$; goal test function: $\forall n\in S, isGoal(n)\iff n\in Goals$
+\end{itemize}
+
+\paragraph{Cost functions and estimates}
+\begin{itemize}
+    \item $f: \set{(n, p) : n\in S\land p\in Paths(s, n)}\rightarrow \reals_0^+$
+    \item Cost of path taken $g: \set{(n, p) : n\in S\land p\in Paths(s, n)}\rightarrow \reals_0^+$
+    \item Heuristic at state $h: S\rightarrow \reals_0^+$
+    \item $f = g + h$, to be more rigorous, we can overload $h$ by stating that $\forall p\in Paths(s, n), h(n, p) := h(n)$
+\end{itemize}
+In lecture, often it is written $g(n)$, note that the $p$ is implicit.
+
+\paragraph{Heuristic properties}
+\subparagraph{Optimal heuristic} An optimal heuristic $h^*$ satisfies $\forall n$,
+\begin{equation}
+    h^*(n) = \min\set{cost(n, p, G) : G\in Goals, p\in Paths(n, G)}
+\end{equation}
+
+\subparagraph{Admissible heuristic} A heuristic $h$ is admissible if $\forall n\in S$,
+\begin{equation}
+    h(n)\leq h^*(n)
+\end{equation}
+
+Equivalently, $f(n)\leq f(G)$, where $cost(n, p, G) = h^*(n)$.
+
+\subparagraph{Consistent heuristic} A heuristic $h$ is consistent if $\forall n, n'\in S, \forall a\in Actions(n), T(n, a) = n'\implies$ 
+\begin{equation}
+    h(n)\leq cost(n, a, n') + h(n')
+\end{equation}
+
+Each of the following statements are equivalent to consistency
+\begin{itemize}
+    \item $\forall a, b\in S, \forall p\in Paths(a, b), h(a)\leq cost(p) + h(b)$
+    \item $\forall a, b\in S, \forall p\in Paths(a, b), f(a, p)\leq f(b, p)$
+\end{itemize}
+
+\subparagraph{Lemma} Suppose a heuristic $h$ is consistent. Then for all $n\in S$, let us choose $G\in Goals, p\in Paths(n, G)$ that satisfies $cost(n, p, G) = h^*(n)$. Then, applying the definition of consistency we get $h(n)\leq cost(n, p, G) + h(G) = h^*(n) + 0 = h^*(n)$. This proves admissibility. $\square$
+
+\paragraph{Theorems on Search Algorithms}
+\subparagraph{Graph Search algorithm v2} The first property of this algorithm is that if we ignore the termination condition, then this algorithm will explore all non-redundant paths. To prove this, we consider the characterization of a path that was not fully explored. Then, there exists a node $n_2$ on this path, closest to the source, that was not explored. Let $n_1$ be its predecessor, and consider what happened after $n_1$ was popped off the priority queue. There are two cases.
+\begin{enumerate}
+    \item The first case, is where $n_2$ was not added to the priority queue. This can only occur if $n_2$ was visited via another path, and with a lower cost, this says that $p$ is indeed redundant.
+    \item The second case is where $n_2$ was added to the priority queue. If we ignore the termination condition of the loop, and assume that all edges have a cost $\geq \epsilon$, we can see that $n_2$ will eventually be popped of the PQ as well. The reason is that for each $k\in \mathbb{Z}^+$ there are finitely many nodes at most $k$ edges away from the source, which implies there are finitely many nodes of distance at most $k\epsilon$ from the source. This implies that finitely many nodes of distance $k\epsilon$ can be added to the PQ, and by the Archimedean property of real numbers, eventually $n_2$ will have the lowest cost in the PQ and be popped off.
+\end{enumerate}
+Hence, if we ignore termination, we know that any path left out by Algorithm 2 is necessarily redundant.
+
+Another way to interpret the above property is that this algorithm would not ignore any path that could be an improvement over the previous, even if the node has been visited.
+
+\textit{Corollary.} Algorithm 2 is complete. E.g. Suppose a solution exists, and we assume Algorithm 2 doesn't terminate, then eventually the optimal path towards the goal will be explored, which is a contradiction.
+
+\subparagraph{Optimality of Algorithm 2} If the heuristic is admissible, then Algorithm 2 is optimal.
+
+\textit{Proof.} We assume the admissibility of the heuristic $h$, so that $f$ satisfies $f(n)\leq f(G, p)$ where $p$ is an optimal path taken from $n$ to the closest goal (to $n$) $G$. To obtain a contradiction, let us suppose Algorithm 2 finds us a suboptimal tuple $(G', p')$ where $G'\in Goals, p'\in Paths(s, G')$. Note that we may very well have $G' = G$, but $p'$ is suboptimal compared to any optimal path $p$. In any case, $f(G, p) < f(G', p')$.
+
+Consider the last node $n_2$ alongst $p$ that was not explored, with $n_1$ being its predecessor on $p$. If $n_2$ was placed on the PQ, then we immediately have a contradiction, as admissibility implies $f(n_2) \leq f(G, p) < f(G', p')$. (We don't denote the subpath of $p$ from $s$ to $n_2$ for brevity.) Hence, it must be the case that $n_2$ was not placed on the PQ, but why would this happen? By our previous discussion, this means this subpath of $p$ is redundant, and another optimal subpath from $s$ to $n_2$ must have been previously explored. This is perfectly fine, as we can cut out the subpath of $p$ from $s$ to $n_2$ and replace it with this other optimal subpath.
+
+Regardless, this means that we must have explored $n_2$. If we keep repeating this argument, we will eventually arrive at the conclusion that $G$ itself must have been explored via some optimal path, which is a contradiction. $\square$ 
+
+Note: We can also rephrase our proof to say something like `Consider the last node $n_2$ alongst $p$ that was not explored by \textbf{any} optimal path.'
+
+Note: What make Algorithm 2 easy to reason about is that it does not have strict requirements on whether a node has been visited. As long as a path is an improvement, it will be considered on the PQ.
+
+\subparagraph{Consistent heuristics and PQs} If a consistent heuristic $h$ is used, then we can say the following about the behavior of the PQ. At any time point, let the value at the head of the PQ be $u$. Then $u$ is $\leq$ any element that \textit{is currently} or \textit{will ever be in the future} in the PQ.
+
+\textit{Proof.} Let $v$ be any value that is added later to the PQ. Then there exists a sequence $v_0, v_1, \dots, v_k = v$ such that $v_i$ was added to the PQ as a result of $v_{i-1}$ having been popped off, and $v_0$ was on the PQ when $u$ was at the head. ($v_0$ may very well be $u$ itself). Let $v_{i-1} = f(n_{i-1}, p)$ where $p$ is some path taken from $s$ to $n_{i-1}$. Let $v_{i} = f(n_i, p\cdot a\cdot n_i)$ (here $\cdot$ denotes concatenation). Then by consistency, $f(n_{i - 1})\leq f(n_i)$, which implies $v_{i-1}\leq v_i$. $\square$
+
+\textit{Corollary.} Any earlier value popped from a PQ cannot be strictly larger than a later value popped.
+
+\subparagraph{Optimality of Algorithm v3} If the heuristic $h$ is consistent, then Algorithm 3 is optimal. Our proof is shares similarities to the proof of Algorithm v2. 
+
+Define $n_1, n_2, p, p', G$ like in the proof of Algorithm v2. If $n_2$ was added to the PQ, then since $h$ is admissible, it will not be possible to see $f(G', p')$ before popping off $f(n_2)$. If $n_2$ was not added to the PQ, then $n_2$ must have been visited via some other path. Using our Corollary to the consistency property, since $n_2$ was popped off the PQ before $n_1$ (otherwise $n_2$ would have been added to the PQ), then $cost(s, \text{ some other path}, n_2) \leq cost(s, \text{ subpath of }p, n_1) \leq cost(s, \text{ subpath of }p, n_2)$. Which says that this other path is not worse than the subpath of $p$. And we can do a similar cut and paste as in our previous proof.
+
+Eventually, we reach the conclusion that $(G, p)$ must have been explored before $(G', p')$, a contradiction. $\square$
+
+\textit{Remark.} While the proofs are similar, also note their differences. Because Algorithm 3 is more strict on the `visited' state of a node, we cannot just say that an improvement will lead to $(n_2, \text{ subpath of }p)$ being added to the PQ. 
+
+
+\end{document}
